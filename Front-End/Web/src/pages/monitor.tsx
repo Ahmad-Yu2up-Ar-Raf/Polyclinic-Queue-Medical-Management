@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/fragments/shadcn-ui/button"
 import React from "react"
 
 const MonitorPage = () => {
