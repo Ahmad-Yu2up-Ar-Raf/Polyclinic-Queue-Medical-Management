@@ -30,7 +30,7 @@ class AntrianUpdateRequest extends FormRequest
         $id = $this->route('id');
         $poliDokterIds = Dokter::query()->where('poli_id', $this->poli_id)->pluck('id')->toArray();
 
-        
+
         return [
             //
             'poli_id' => ['integer', 'required', 'exists:polis,id'],

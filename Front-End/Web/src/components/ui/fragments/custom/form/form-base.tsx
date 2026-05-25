@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react"
 import type { InputProps } from "@/components/ui/fragments/shadcn-ui/input"
 import type { ReactNode } from "react"
 import { useFieldContext } from "@/hooks/form/use-form"
@@ -10,14 +9,14 @@ import {
   FieldLabel,
 } from "@/components/ui/fragments/shadcn-ui/field"
 import type { IconSvgElement } from "@hugeicons/react"
-
+import { useStore } from "@tanstack/react-store"
 export type FormControlProps = {
   label?: string
   description?: string
   type?: InputProps["type"]
   placeholder?: string
   className?: string
-  leftIcon?: IconSvgElement
+  LeftIcon: IconSvgElement
 }
 
 type FormBaseProps = FormControlProps & {
@@ -28,66 +27,33 @@ type FormBaseProps = FormControlProps & {
 
 export function FormBase({
   children,
-  className,
+
   label,
   description,
   controlFirst,
   horizontal,
 }: FormBaseProps) {
   const field = useFieldContext()
-  const fieldRef = useRef<HTMLDivElement>(null)
 
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+  const submissionAttempts = useStore(
+    field.form.baseStore,
+    (state) => state.submissionAttempts
+  )
+
   const hasErrors = field.state.meta.errors.length > 0
+  const isInvalid =
+    hasErrors && (field.state.meta.isTouched || submissionAttempts > 0)
 
-  // Auto-scroll to first error field only
-  useEffect(() => {
-    if (isInvalid && hasErrors) {
-      // Access form state through field.form
-      const formState = field.form.state
-      const fieldErrors = formState.fieldMeta
+  const labelElement = <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
 
-      // Find the first field with errors (based on field order in form)
-      const fieldNames = Object.keys(fieldErrors)
-      const firstErrorField = fieldNames.find((name) => {
-        const meta = fieldErrors[name]
-        return meta?.isTouched && meta?.errors && meta.errors.length > 0
-      })
-
-      // Only scroll if this is the first error field
-      if (firstErrorField === field.name) {
-        const timer = setTimeout(() => {
-          fieldRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          })
-          // Focus the first focusable element within the field
-          const focusable = fieldRef.current?.querySelector<HTMLElement>(
-            'input, textarea, button, select, [tabindex]:not([tabindex="-1"])'
-          )
-          focusable?.focus()
-        }, 100)
-
-        return () => clearTimeout(timer)
-      }
-    }
-  }, [isInvalid, hasErrors, field.name, field.form.state])
-
-  const labelElement = (
-    <>
-      <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-    </>
-  )
   const captionElem = isInvalid ? (
-    <FieldError errors={field.state.meta.errors} />
-  ) : (
-    !isInvalid &&
-    description && <FieldDescription>{description}</FieldDescription>
-  )
+    <FieldError className="mt-2 text-xs" errors={field.state.meta.errors} />
+  ) : !isInvalid && description ? (
+    <FieldDescription>{description}</FieldDescription>
+  ) : null
 
   return (
     <Field
-      ref={fieldRef}
       data-invalid={isInvalid}
       orientation={horizontal ? "horizontal" : undefined}
     >
@@ -103,7 +69,6 @@ export function FormBase({
         <>
           <FieldContent>{labelElement}</FieldContent>
           {children}
-
           {captionElem}
         </>
       )}

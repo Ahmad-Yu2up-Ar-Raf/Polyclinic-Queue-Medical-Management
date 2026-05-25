@@ -1,7 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { RouterProvider } from "react-router"
 import { router } from "./router"
+import { Toaster } from "./components/ui/fragments/shadcn-ui/sonner"
 
+import { TooltipProvider } from "./components/ui/fragments/shadcn-ui/tooltip"
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -14,7 +16,10 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <TooltipProvider>
+        <Toaster position="top-center" />
+        <RouterProvider router={router} />
+      </TooltipProvider>
     </QueryClientProvider>
   )
 }

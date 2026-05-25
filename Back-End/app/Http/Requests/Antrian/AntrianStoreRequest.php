@@ -30,6 +30,7 @@ class AntrianStoreRequest extends FormRequest
         return [
             //
             'poli_id' => ['integer', 'required', 'exists:polis,id'],
+            'nomor_urut' => ['sometimes', 'required'],
             'pasien_id' => ['sometimes', 'required', 'exists:pasiens,id'],
             'dokter_id' => ['integer', 'required', 'exists:dokters,id',  Rule::in($poliDokterIds)],
             'jadwal_id' => [

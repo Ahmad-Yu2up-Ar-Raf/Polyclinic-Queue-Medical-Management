@@ -1,9 +1,6 @@
-import type { User } from "@/types/auth-type"
+import type { AuthResponse, User } from "@/types/auth-type"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
-
-export { create } from "zustand"
-export { persist } from "zustand/middleware"
 
 interface authStoreType {
   token: string | null
@@ -13,7 +10,7 @@ interface authStoreType {
 
 export const useAuthStore = create<authStoreType>()(
   persist(
-    (state) => ({
+    (set) => ({
       token: null,
       user: null,
       isAuthenticated: false,
@@ -26,3 +23,9 @@ export const useAuthStore = create<authStoreType>()(
 
 export const setLogOut = () =>
   useAuthStore.setState(useAuthStore.getInitialState())
+
+export const setLogin = (data: AuthResponse) =>
+  useAuthStore.setState(() => ({
+    ...data,
+    isAuthenticated: true,
+  }))

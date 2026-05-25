@@ -26,7 +26,7 @@ class AntrianSeeder extends Seeder
         }
 
         foreach ($polis as $poli) {
-            // 2. Ubah $poli->dokters menjadi $poli->dokter bro!
+
             $dokter = $poli->dokter->first();
 
             // Jika poliklinik belum ada dokternya, skip biar gak error bawahnya
@@ -60,6 +60,7 @@ class AntrianSeeder extends Seeder
                 $jadwalIdTerpilih = $jadwalDokter->random()->id;
 
                 Antrian::factory()->create([
+                    'nomor_urut'     => $nomor_urut,
                     'nomor_antrian'     => "{$poli->kode}-{$nomorTigaDigit}",
                     'poli_id'           => $poli->id,
                     'dokter_id'         => $dokter->id,

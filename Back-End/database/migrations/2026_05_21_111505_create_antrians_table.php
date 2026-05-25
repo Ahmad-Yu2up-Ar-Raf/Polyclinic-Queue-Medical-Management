@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('jadwal_id')->constrained()->cascadeOnDelete();
 
             $table->string('nomor_antrian')->unique();
+            $table->integer('nomor_urut');
 
             $table->longText('deskripsi')->nullable();
             $table->enum("status", AntrianStatusEnum::cases())->nullable()->default(AntrianStatusEnum::MENUNGGU->value);

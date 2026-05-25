@@ -75,18 +75,18 @@ class AntrianController extends Controller
                 default => AntrianStatusEnum::MENUNGGU->value,
             };
 
-            $nomorAntrianTerbaru = $latestAntrian->nomor_antrian;
-            $nomorAntrianFinnal = (int) substr($nomorAntrianTerbaru, strpos($nomorAntrianTerbaru, '-') + 1) + 1;
+            $nomorAntrianTerbaru = $latestAntrian->nomor_urut;
+            $nomor_urut_finnal =   $nomorAntrianTerbaru + 1;
         } else {
             $status = AntrianStatusEnum::MENUNGGU->value;
-            $nomorAntrianFinnal = 1;
+            $nomor_urut_finnal = 1;
         }
 
+        $antrianKode = str_pad($nomor_urut_finnal, 3, "0", STR_PAD_LEFT);
+        $nomor_antrian = "{$kode}-{$antrianKode}";
 
-        $nomor_antrian = "{$kode}-{$nomorAntrianFinnal}";
 
-
-        return [$nomor_antrian, $status];
+        return [$nomor_antrian, $status, $nomor_urut_finnal];
     }
 
 
@@ -111,9 +111,10 @@ class AntrianController extends Controller
         }
 
 
-        [$nomor_antrian, $status] = $this->generateKodeAntrian($validated["poli_id"]);
+        [$nomor_antrian, $status, $nomor_urut_finnal] = $this->generateKodeAntrian($validated["poli_id"]);
 
         $validated['nomor_antrian'] = $nomor_antrian;
+        $validated['nomor_urut'] = $nomor_urut_finnal;
         $validated['status'] = $status;
 
         $antrian = Antrian::create($validated);
@@ -154,7 +155,7 @@ class AntrianController extends Controller
 
 
 
-            [$nomor_antrian, $status] = $this->generateKodeAntrian($validated["poli_id"]);
+            [$nomor_antrian, $status, $nomor_urut_finnal]  = $this->generateKodeAntrian($validated["poli_id"]);
 
             $dataAntrian = Arr::only($validated, [
                 'pasien_id',
@@ -163,6 +164,7 @@ class AntrianController extends Controller
                 'jadwal_id',
                 'metode_pembayaran',
                 'status',
+                'nomor_urut',
                 'deskripsi',
                 'nomor_antrian'
             ]);
@@ -170,6 +172,7 @@ class AntrianController extends Controller
 
             $dataAntrian['nomor_antrian'] = $nomor_antrian;
             $dataAntrian['status'] = $status;
+            $dataAntrian['nomor_urut'] = $nomor_urut_finnal;
 
             $antrian = Antrian::create($dataAntrian);
 

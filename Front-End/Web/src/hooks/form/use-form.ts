@@ -7,14 +7,6 @@ const { fieldContext, formContext, useFieldContext, useFormContext } =
 const { useAppForm } = createFormHook({
   fieldComponents: {
     Input: FormInput,
-    // Textarea: FormTextarea,
-    // Select: FormSelect,
-    // Combobox: FormCombobox,
-    // Checkbox: FormCheckbox,
-    // Rating: FormRating,
-    // FileUpload: FormFileUpload,
-    // MultiFileUpload: FormMultiFileUpload,
-    // ImagesUpload: FormImagesUpload,
   },
   formComponents: {},
   fieldContext,
