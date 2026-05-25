@@ -2,6 +2,7 @@ import { AppShell } from "@/components/ui/core/layout/dashboard/app-shell"
 import LoginPage from "@/pages/auth/login"
 import RegisterPage from "@/pages/auth/register"
 import DashboardPage from "@/pages/dashboard/dashboard"
+import PoliPage from "@/pages/dashboard/poli"
 import WelcomePage from "@/pages/welcome"
 import { useAuthStore } from "@/store/auth-store"
 import { createBrowserRouter, Outlet, Navigate } from "react-router"
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <DashboardPage />,
+          },
+          {
+            path: "/dashboard/poli",
+            element: <PoliPage />,
           },
         ],
       },

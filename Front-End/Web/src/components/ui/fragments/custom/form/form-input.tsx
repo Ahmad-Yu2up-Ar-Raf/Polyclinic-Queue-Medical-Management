@@ -69,7 +69,7 @@ export function FormInput(props: FormControlProps) {
             "transition-all duration-200",
             "focus-visible:ring-0 focus-visible:outline-none",
             isFocused
-              ? "border-b-primary placeholder:text-primary [&_svg]:text-primary"
+              ? "border-b-primary text-primary placeholder:text-primary [&_svg]:text-primary"
               : "border-b-border",
             isInvalid &&
               "border-b-destructive text-destructive placeholder:text-destructive",

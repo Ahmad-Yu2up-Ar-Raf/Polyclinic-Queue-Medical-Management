@@ -38,10 +38,11 @@ class AuthenticatedSessionController extends Controller
     {
 
 
-        $request->user()->currentAccessToken()->delete();
+        $request->user()->currentAccessToken()->delete(); // Jika pakai Sanctum
 
         return response()->json([
-            'succes' => true
-        ], 204);
+            'success' => true,
+            'message' => 'Successfully logged out'
+        ], 200);
     }
 }

@@ -41,7 +41,7 @@ export function AppSidebar() {
               <AppLogoIcon
                 className={cn(
                   "size-full fill-current text-white transition-all duration-300",
-                  sidebarOpen ? "scale-[2]" : "scale-[1.8]"
+                  sidebarOpen ? "scale-[2]" : "scale-[1.6]"
                 )}
               />
             </div>
@@ -81,7 +81,7 @@ export function AppSidebar() {
       <SidebarFooter>
         {/* <LatestChange /> */}
         <SidebarMenu className="mt-2">
-          {footerNavLinks.map((item) => (
+          {/* {footerNavLinks.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
                 asChild
@@ -95,7 +95,7 @@ export function AppSidebar() {
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          ))}
+          ))} */}
         </SidebarMenu>
         <NavUser />
       </SidebarFooter>

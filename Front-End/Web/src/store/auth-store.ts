@@ -21,11 +21,11 @@ export const useAuthStore = create<authStoreType>()(
   )
 )
 
-export const setLogOut = () =>
-  useAuthStore.setState(useAuthStore.getInitialState())
-
-export const setLogin = (data: AuthResponse) =>
-  useAuthStore.setState(() => ({
-    ...data,
+export const setLogin = (Data: AuthResponse) =>
+  useAuthStore.setState((set) => ({
+    ...Data,
     isAuthenticated: true,
   }))
+
+export const setLogout = () =>
+  useAuthStore.setState(useAuthStore.getInitialState())

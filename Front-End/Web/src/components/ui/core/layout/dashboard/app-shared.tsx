@@ -1,19 +1,14 @@
-import type { ReactNode } from "react"
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+import { type IconSvgElement } from "@hugeicons/react"
 import {
-  DashboardSquare01Icon,
-  CheckListIcon,
-  Analytics02Icon,
-  Message01Icon,
+  DashboardCircleIcon,
   UserMultipleIcon,
   Plug01Icon,
-  Settings01Icon,
   HelpCircleIcon,
   ActivityIcon,
   Tv01FreeIcons,
   Timer02FreeIcons,
   UserAccountFreeIcons,
-  DoorOpenIcon,
+  Home09Icon,
 } from "@hugeicons/core-free-icons"
 
 export type SidebarNavItem = {
@@ -28,14 +23,14 @@ export type SidebarNavGroup = {
   label?: string
   items: SidebarNavItem[]
 }
-DashboardSquare01Icon
+ 
 export const navGroups: SidebarNavGroup[] = [
   {
     items: [
       {
         title: "Overview",
         path: "/dashboard",
-        icon: DashboardSquare01Icon,
+        icon: DashboardCircleIcon,
       },
     ],
   },
@@ -70,7 +65,7 @@ export const navGroups: SidebarNavGroup[] = [
       {
         title: "Poliklinik",
         path: "/dashboard/poli",
-        icon: DoorOpenIcon,
+        icon: Home09Icon,
       },
     ],
   },

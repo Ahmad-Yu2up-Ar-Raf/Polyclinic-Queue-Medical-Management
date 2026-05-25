@@ -17,6 +17,7 @@ import type { SidebarNavGroup } from "./app-shared"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { Link, useLocation } from "react-router"
+import { cn } from "@/lib/utils"
 
 export function NavGroup({ label, items }: SidebarNavGroup) {
   const location = useLocation()
@@ -76,8 +77,8 @@ export function NavGroup({ label, items }: SidebarNavGroup) {
                   <Link to={item.path || "/"}>
                     {item.icon && (
                       <HugeiconsIcon
-                        strokeWidth={location.pathname == item.path ? 3.5 : 2}
-                        className=""
+                        strokeWidth={location.pathname == item.path ? 3 : 2}
+                        className={cn(location.pathname == item.path && 'fill-primary text-primary')}
                         icon={item.icon}
                       />
                     )}

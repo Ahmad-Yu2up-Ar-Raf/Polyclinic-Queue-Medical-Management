@@ -4,7 +4,7 @@ import { api } from "@/api/clien"
 import type { AuthResponse } from "@/types/auth-type"
 import { toast } from "sonner"
 import { useNavigate } from "react-router"
-import { setLogin, setLogOut } from "@/store/auth-store"
+import { setLogin, setLogout } from "@/store/auth-store"
 import { useQueryClient } from "@tanstack/react-query"
 
 export type useAuthType = ReturnType<typeof useAuth>
@@ -47,26 +47,27 @@ export const useAuth = () => {
   const handleLogout = () => {
     const logoutAction = async () => {
       queryClient.clear()
-      const result = await api.post("auth/logout").json<{ succes: boolean }>()
-      setLogOut()
 
-      if (!result) {
-        throw new Error("Gagal logout")
+      const response = await api.post("auth/logout")
+
+      setLogout()
+
+      if (!response.ok) {
+        throw new Error("Failed to logout")
       }
 
       navigate("/login")
-      return result
+      return response
     }
 
     return toast.promise(logoutAction(), {
       loading: "Log Out...",
-      success: "Logout berhasil!",
+      success: "Log Out Berhasil!",
       error: (err) => {
-        return err.message || "Gagal Log Out!"
+        return err.message || "Log Out Gagal!"
       },
     })
   }
-
   return {
     handleLogin,
     handleLogout,
