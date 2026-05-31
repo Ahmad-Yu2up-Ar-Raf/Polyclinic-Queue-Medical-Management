@@ -1,10 +1,6 @@
-import { View, Text } from 'react-native';
 import React from 'react';
+import RegisterForm from '@/components/ui/core/feauture/auth/register-form';
 
 export default function register() {
-  return (
-    <View>
-      <Text>register</Text>
-    </View>
-  );
+  return <RegisterForm />;
 }

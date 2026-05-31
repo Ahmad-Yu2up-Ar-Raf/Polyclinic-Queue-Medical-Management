@@ -128,4 +128,18 @@ class PoliController extends Controller
             'succes' => true
         ], 204);
     }
+
+
+
+    public function select()
+    {
+
+        $polis = Poli::select('id', 'nama')->get();
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Polis retrieved successfully',
+            'data'    => $polis, // Tidak perlu ->items() jika tidak pakai paginate
+        ]);
+    }
 }

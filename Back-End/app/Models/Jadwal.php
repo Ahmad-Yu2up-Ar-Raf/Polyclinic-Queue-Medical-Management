@@ -25,10 +25,10 @@ class Jadwal extends Model
         return $this->belongsToMany(Dokter::class, 'jadwal_dokter')->withTimestamps();
     }
 
-    public function antrian()
-    {
-        return $this->hasMany(Antrian::class, 'jadwal_id');
-    }
+    // public function antrian()
+    // {
+    //     return $this->hasMany(Antrian::class, 'jadwal_id');
+    // }
 
     public function scopeForWebsite(Builder $q): Builder
     {

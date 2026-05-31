@@ -18,8 +18,9 @@ class Antrian extends Model
     protected $fillable = [
         'poli_id',
         'dokter_id',
-        'jadwal_id',
+        // 'jadwal_id',
         'pasien_id',
+        'jadwal_kunjungan',
         'nomor_urut',
         'metode_pembayaran',
         'deskripsi',
@@ -28,10 +29,10 @@ class Antrian extends Model
     ];
 
 
-    public function jadwal()
-    {
-        return $this->belongsTo(Jadwal::class, 'jadwal_id');
-    }
+    // public function jadwal()
+    // {
+    //     return $this->belongsTo(Jadwal::class, 'jadwal_id');
+    // }
 
     public function poli()
     {
@@ -52,10 +53,9 @@ class Antrian extends Model
     public function scopeForWebsite(Builder $q): Builder
     {
         return  $q->with([
-            'dokter:nama,id,foto',
+            'dokter:nama,id,foto,spesialisasi',
             'poli:id,nama',
             'pasien:id,nama,nik',
-            'jadwal'
         ])->orderBy('updated_at', 'desc');
     }
     public function scopeForOperator(Builder $q): Builder
@@ -63,7 +63,7 @@ class Antrian extends Model
         return  $q->with([
             'dokter:nama,id,spesialisasi',
             'pasien:id,nama,jenis_kelamin',
-            'jadwal'
+
         ]);
     }
 }

@@ -7,6 +7,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ToastProviderWithViewport } from '../ui/fragments/custom-ui/toast';
 import { focusManager, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppState, AppStateStatus, Platform } from 'react-native';
+
 type ComponentProps = {
   children?: React.ReactNode;
 };

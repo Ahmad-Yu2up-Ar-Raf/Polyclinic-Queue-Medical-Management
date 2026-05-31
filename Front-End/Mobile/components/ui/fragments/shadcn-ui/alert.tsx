@@ -1,6 +1,7 @@
 import { Icon } from '@/components/ui/fragments/shadcn-ui/icon';
 import { Text, TextClassContext } from '@/components/ui/fragments/shadcn-ui/text';
 import { cn } from '@/lib/utils';
+import { IconSvgElement } from '@hugeicons/react-native';
 import { Loader2, type LucideIcon } from 'lucide-react-native';
 import * as React from 'react';
 import { View, type ViewProps } from 'react-native';
@@ -14,7 +15,7 @@ function Alert({
   ...props
 }: ViewProps &
   React.RefAttributes<View> & {
-    icon: LucideIcon;
+    icon: IconSvgElement;
     variant?: 'default' | 'destructive';
     iconClassName?: string;
   }) {
@@ -28,13 +29,13 @@ function Alert({
       <View
         role="alert"
         className={cn(
-          'relative w-full rounded-xl border border-border bg-card px-4 pb-2 pt-3.5',
+          'relative w-full rounded-2xl border border-border bg-card px-4 pb-2 pt-3.5',
           className
         )}
         {...props}>
         <View className="absolute left-3.5 top-3">
           <Icon
-            as={icon}
+            icon={icon}
             className={cn(
               'size-4',
               Icon == Loader2 && 'animate-spin',
@@ -55,7 +56,10 @@ function AlertTitle({
 }: React.ComponentProps<typeof Text> & React.RefAttributes<Text>) {
   return (
     <Text
-      className={cn('mb-1 ml-0.5 min-h-4 pl-6 font-medium leading-none tracking-tight', className)}
+      className={cn(
+        'mb-1 ml-0.5 min-h-4 pl-6 font-figtree_medium leading-none tracking-tight',
+        className
+      )}
       {...props}
     />
   );

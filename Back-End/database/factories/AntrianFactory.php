@@ -19,12 +19,13 @@ class AntrianFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = \Faker\Factory::create('id_ID');
 
-        $faker = Faker::create('id_ID');
         return [
-            //
             'metode_pembayaran' => $faker->randomElement(MetodePembayaranEnum::cases()),
-            'deskripsi' => $faker->sentence()
+
+            // Menghasilkan tanggal acak mulai dari hari ini sampai 30 hari ke depan
+            'jadwal_kunjungan' => $faker->dateTimeBetween('now', '+30 days')->format('Y-m-d'),
         ];
     }
 }

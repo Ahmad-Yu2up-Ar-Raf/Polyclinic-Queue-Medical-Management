@@ -25,7 +25,7 @@ const buttonVariants = cva(
           })
         ),
         outline: cn(
-          'border border-border bg-background shadow-sm shadow-black/5 active:bg-accent dark:border-input dark:bg-input/30 dark:active:bg-input/50',
+          '0 border border-border bg-background shadow-sm shadow-black/5 active:bg-accent dark:border-input',
           Platform.select({
             web: 'hover:bg-accent dark:hover:bg-input/50',
           })
@@ -35,15 +35,18 @@ const buttonVariants = cva(
           Platform.select({ web: 'hover:bg-secondary/80' })
         ),
         ghost: cn(
-          'active:bg-accent dark:active:bg-accent/50',
+          'active:bg-accent',
           Platform.select({ web: 'hover:bg-accent dark:hover:bg-accent/50' })
         ),
         link: '',
       },
       size: {
         default: cn('h-10 px-4 py-2 sm:h-9', Platform.select({ web: 'has-[>svg]:px-3' })),
-        sm: cn('h-9 gap-1.5 rounded-xl px-3 sm:h-8', Platform.select({ web: 'has-[>svg]:px-2.5' })),
-        lg: cn('h-11 rounded-xl px-6 sm:h-10', Platform.select({ web: 'has-[>svg]:px-4' })),
+        sm: cn(
+          'h-9 gap-1.5 rounded-2xl px-3 sm:h-8',
+          Platform.select({ web: 'has-[>svg]:px-2.5' })
+        ),
+        lg: cn('h-11 rounded-2xl px-6 sm:h-10', Platform.select({ web: 'has-[>svg]:px-4' })),
         icon: 'h-10 w-10 sm:h-9 sm:w-9',
       },
     },
@@ -56,7 +59,7 @@ const buttonVariants = cva(
 
 const buttonTextVariants = cva(
   cn(
-    'text-sm font-medium text-foreground',
+    'font-figtree_medium text-sm text-foreground',
     Platform.select({ web: 'pointer-events-none transition-colors' })
   ),
   {

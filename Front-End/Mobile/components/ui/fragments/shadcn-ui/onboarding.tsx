@@ -12,6 +12,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { THEME } from '@/lib/theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -46,7 +47,7 @@ export function Onboarding({
   showSkip = true,
   showProgress = true,
   swipeEnabled = true,
-  primaryButtonText = 'Get Started',
+  primaryButtonText = 'Ayo!',
   skipButtonText = 'Skip',
   nextButtonText = 'Next',
   backButtonText = 'Back',
@@ -95,7 +96,6 @@ export function Onboarding({
     }
   };
 
-  // Modern gesture handling with Gesture API
   const panGesture = Gesture.Pan()
     .enabled(swipeEnabled)
     .onUpdate((event) => {
@@ -162,8 +162,11 @@ export function Onboarding({
             {step.icon}
           </View>
 
-          <View className=" ">
-            <Text variant="h1" style={styles.title} className="line-clamp-1 text-3xl">
+          <View className="px-4">
+            <Text
+              variant="h1"
+              style={styles.title}
+              className="font-figtree_bold text-3xl tracking-tighter">
               {step.title}
             </Text>
             <Text
@@ -179,7 +182,7 @@ export function Onboarding({
       </Animated.View>
     );
   };
-
+  const insets = useSafeAreaInsets();
   return (
     <View style={[styles.container, { backgroundColor }, style]}>
       <GestureDetector gesture={panGesture}>
@@ -206,24 +209,27 @@ export function Onboarding({
       {showSkip && !isLastStep && (
         <View style={styles.skipContainer}>
           <Button variant="ghost" onPress={handleSkip}>
-            <Text>{skipButtonText}</Text>
+            <Text className="font-figtree_bold">{skipButtonText}</Text>
           </Button>
         </View>
       )}
 
       {/* Navigation Buttons */}
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer, { height: insets.bottom + 40 }]}>
         {!isFirstStep && (
-          <Button variant="outline" onPress={handleBack} className="flex-1">
-            <Text>{backButtonText}</Text>
+          <Button size={'lg'} variant="outline" onPress={handleBack} className="flex-1">
+            <Text className="font-figtree_bold text-base">{backButtonText}</Text>
           </Button>
         )}
 
         <Button
           variant="default"
+          size={'lg'}
           onPress={handleNext}
           className={cn(isFirstStep ? 'flex-1' : 'flex-[2]')}>
-          <Text>{isLastStep ? primaryButtonText : nextButtonText}</Text>
+          <Text className="font-figtree_bold text-base">
+            {isLastStep ? primaryButtonText : nextButtonText}
+          </Text>
         </Button>
       </View>
     </View>
@@ -288,7 +294,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
-    height: 100,
+
     flexDirection: 'row',
     paddingHorizontal: 24,
     paddingBottom: 50,
@@ -308,7 +314,6 @@ export function useOnboarding() {
     try {
       // In a real app, you'd save this to AsyncStorage or similar
       setHasCompletedOnboarding(true);
-      console.log('Onboarding completed and saved');
     } catch (error) {
       console.error('Failed to save onboarding completion:', error);
     }

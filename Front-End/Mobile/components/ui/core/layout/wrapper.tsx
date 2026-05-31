@@ -29,7 +29,7 @@ export function Wrapper({
   onScroll,
   className,
   containerClassName,
-  edges = ['bottom', 'right', 'left', 'top'],
+  edges = [],
   scrollViewStyle,
   contentContainerStyle,
   animatedScrollHandler,

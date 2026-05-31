@@ -1,20 +1,20 @@
 import React from 'react';
 import { useColorScheme } from 'nativewind';
-import {
-  CheckCircle2,
-  AlertCircle,
-  AlertTriangle,
-  Info,
-  Loader,
-  LucideIcon,
-  Loader2,
-} from 'lucide-react-native';
+
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/fragments/shadcn-ui/alert';
 import { THEME } from '@/lib/theme';
 import type { ToastType } from '@/types/Toast.types';
+import { IconSvgElement } from '@hugeicons/react-native';
+import {
+  Alert02FreeIcons,
+  AlertTriangle,
+  CheckCircle,
+  Info,
+  Loading03Icon,
+} from '@hugeicons/core-free-icons';
 
 export interface ToastConfig {
-  icon: LucideIcon;
+  icon: IconSvgElement;
   variant: 'default' | 'destructive';
   duration: number;
   position: 'top' | 'bottom';
@@ -37,13 +37,13 @@ export const TOAST_CONFIGS: Record<ToastType, ToastConfig> = {
     position: 'top',
   },
   success: {
-    icon: CheckCircle2,
+    icon: CheckCircle,
     variant: 'default',
     duration: 3000,
     position: 'top',
   },
   error: {
-    icon: AlertCircle,
+    icon: Alert02FreeIcons,
     variant: 'destructive',
     duration: 4000,
     position: 'top',
@@ -61,7 +61,7 @@ export const TOAST_CONFIGS: Record<ToastType, ToastConfig> = {
     position: 'top',
   },
   loading: {
-    icon: Loader2,
+    icon: Loading03Icon,
     variant: 'default',
     duration: 0, // Don't auto-dismiss loading toasts
     position: 'top',
@@ -91,7 +91,7 @@ export const TOAST_CONFIGS: Record<ToastType, ToastConfig> = {
 export const ToastContent: React.FC<{
   title?: string;
   message?: string;
-  icon: LucideIcon;
+  icon: IconSvgElement;
   variant: 'default' | 'destructive';
   isLoading?: boolean;
 }> = ({ title, message, icon: IconComponent, variant, isLoading = false }) => {

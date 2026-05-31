@@ -2,30 +2,33 @@
 import type { AuthResponse, User } from '@/types/auth-types';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // 👈 Pastikan sudah install ini ya bro
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface authStoreType {
   token: string | null;
   user: User | null;
   isAuthenticated: boolean;
-  _hasHydrated: boolean; // 👈 1. Tambahkan state pelacak ini
+  _hasHydrated: boolean;
   setHasHydrated: (state: boolean) => void;
 }
+
+const INITIAL_AUTH_STATE = {
+  token: null,
+  user: null,
+  isAuthenticated: false,
+};
 
 export const useAuthStore = create<authStoreType>()(
   persist(
     (set) => ({
-      token: null,
-      user: null,
-      isAuthenticated: false,
-      _hasHydrated: false, // Default awal pasti false sebelum selesai dimuat
+      ...INITIAL_AUTH_STATE,
+      _hasHydrated: false,
       setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
     {
       name: 'auth-store',
-      storage: createJSONStorage(() => AsyncStorage), // 👈 2. Gunakan AsyncStorage bawaan React Native
+      storage: createJSONStorage(() => AsyncStorage),
       onRehydrateStorage: (state) => {
-        // 3. Begitu proses pemuatan dari internal HP selesai, ubah status jadi true
         return () => state?.setHasHydrated(true);
       },
     }
@@ -33,9 +36,9 @@ export const useAuthStore = create<authStoreType>()(
 );
 
 export const setLogin = (Data: AuthResponse) =>
-  useAuthStore.setState((state) => ({
+  useAuthStore.setState({
     ...Data,
     isAuthenticated: true,
-  }));
+  });
 
-export const setLogout = () => useAuthStore.setState(useAuthStore.getInitialState());
+export const setLogout = () => useAuthStore.setState(INITIAL_AUTH_STATE);

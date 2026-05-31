@@ -1,67 +1,51 @@
 import { View } from 'react-native';
 import React from 'react';
-import { Href, router } from 'expo-router';
+
 import { Text } from '../../shadcn-ui/text';
-import { Button, buttonTextVariants, buttonVariants } from '../../shadcn-ui/button';
-import { Icon } from '../../shadcn-ui/icon';
+import { Separator } from '../../shadcn-ui/separator';
 import { cn } from '@/lib/utils';
-import { ChevronRight } from 'lucide-react-native';
+import { Icon } from '../../shadcn-ui/icon';
+import { Monitor } from '@hugeicons/core-free-icons';
+import { THEME } from '@/lib/theme';
+import { IconSvgElement } from '@hugeicons/react-native';
 
-type HeaderActionProps = {
-  title: string;
-
-  className?: string;
-  onPress?: () => void;
-};
 type HeaderProps = {
   title: string;
-
+  icon: IconSvgElement;
   className?: string;
 };
 
-export function Header({ title, className }: HeaderProps) {
-  return (
-    <Text
-      variant={'h2'}
-      className={cn(
-        'font-Termina_Bold w-fit border-0 border-none text-lg tracking-tighter',
-        className
-      )}>
-      {title}
-    </Text>
-  );
-}
+export function Header({ title, className, icon }: HeaderProps) {
+  // 1. Bersihkan spasi berlebih di awal/akhir, lalu pecah berdasarkan spasi
+  const words = title.trim().split(/\s+/);
 
-export function HeaderAction({ title, className, onPress }: HeaderActionProps) {
-  return (
-    <Button
-      onPress={onPress}
-      variant={'link'}
-      className={cn(
-        'h-fit w-full justify-start gap-2 bg-background p-0 active:bg-background',
-        className
-      )}>
-      <Text
-        variant={'h2'}
-        className="font-Termina_Bold w-fit border-0 border-none text-lg tracking-tighter group-active:text-muted-foreground">
-        {title}
-      </Text>
+  // 2. Ambil kata pertama dan kedua (kasih fallback string kosong kalau datanya nggak ada)
+  const firstWord = words[0] || '';
+  const secondWord = words[1] || '';
 
-      <View
-        className={cn(
-          buttonTextVariants({ variant: 'secondary', size: 'icon' }),
-          buttonVariants({ variant: 'secondary', size: 'icon' }),
-          'mb-2 h-fit w-fit rounded-full p-0.5 group-active:opacity-45'
-        )}>
-        <Icon
-          as={ChevronRight}
-          className={cn(
-            // buttonVariants({ variant: 'secondary', size: 'icon' }),
-            'font-Termina_Bold rounded-full'
-          )}
-          size={15}
-        />
+  return (
+    <View className={cn('w-full', className)}>
+      <View className={`w-full gap-6 pr-16`}>
+        <View className="flex size-14 content-center items-center justify-center rounded-2xl bg-primary/10">
+          <Icon icon={icon} color={THEME.light.primary} size={30} />
+        </View>
+
+        {/* <Text variant={'small'} className="uppercase tracking-widest">
+          {subTitle}
+        </Text> */}
+        <View>
+          <Text
+            variant={'h2'}
+            className="m-0 border-0 p-0 text-left font-figtree_semibold text-[2.5rem] uppercase leading-tight tracking-tighter text-accent-foreground">
+            {firstWord}
+          </Text>
+          <Text
+            variant={'h2'}
+            className="m-0 border-0 p-0 text-left font-figtree_semibold text-[2.5rem] uppercase leading-tight tracking-tighter text-primary">
+            {secondWord}
+          </Text>
+        </View>
       </View>
-    </Button>
+    </View>
   );
 }

@@ -6,6 +6,7 @@ use App\Enums\RoleEnum;
 use App\Http\Requests\Dokter\DokterStoreRequest;
 use App\Http\Requests\Dokter\DokterUpdateRequest;
 use App\Models\Dokter;
+use App\Models\Poli;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -89,17 +90,69 @@ class DokterController extends Controller
         ], 201);
     }
 
+    public function getDokterByPoli(Request $request)
+    {
+        $search = $request->input('search');
+        $searchLower = strtolower($search);
+
+        $polis = Poli::query()
+            // 1. Filter Poli: Cari Poli yang namanya cocok ATAU yang punya dokter yang cocok
+            ->when($search, function ($query) use ($searchLower) {
+                $query->where(function ($q) use ($searchLower) {
+                    $q->whereRaw("LOWER(nama) LIKE ?", ["%{$searchLower}%"])
+                        ->orWhereHas('dokter', function ($qDokter) use ($searchLower) {
+                            $qDokter->whereRaw("LOWER(nama) LIKE ?", ["%{$searchLower}%"])
+                                ->orWhereRaw("LOWER(spesialisasi) LIKE ?", ["%{$searchLower}%"]);
+                        });
+                });
+            })
+            // 2. Load Dokter: Terapkan filter yang sama pada relasi dokter
+            ->with(['dokter' => function ($query) use ($search, $searchLower) {
+                $query->forWebsite();
+
+                if ($search) {
+                    $query->where(function ($q) use ($searchLower) {
+                        $q->whereRaw("LOWER(nama) LIKE ?", ["%{$searchLower}%"])
+                            ->orWhereRaw("LOWER(spesialisasi) LIKE ?", ["%{$searchLower}%"])
+                            ->orWhereRaw("LOWER(deskripsi) LIKE ?", ["%{$searchLower}%"]);
+                    });
+                }
+            }])
+            ->get();
+
+        // Opsional: Hapus Poli yang dokter-nya kosong setelah di-filter
+        if ($search) {
+            $polis = $polis->filter(function ($poli) {
+                return $poli->dokter->isNotEmpty();
+            })->values();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data dokter berhasil dikelompokkan berdasarkan poli',
+            'data' => $polis
+        ], 200);
+    }
+
 
     public function show(Dokter $dokter)
     {
+        $hariIni = \Carbon\Carbon::now()->locale('id')->dayName;
+
         $dokter->load(['poli:id,nama', 'jadwal:hari,jam_mulai,jam_selesai']);
         $dokter->loadCount(['jadwal', 'antrian']);
+
+
+        $dokter->loadExists(['jadwal as tersedia' => function ($query) use ($hariIni) {
+            $query->where('hari', $hariIni);
+        }]);
+
         $dokter->jadwal->makeHidden('pivot');
+
         return response()->json([
             'data' => $dokter
         ], 200);
     }
-
 
 
     public function update(DokterUpdateRequest $request, Dokter $dokter)

@@ -35,7 +35,7 @@ export function SocialConnections() {
             <Image
               className={cn('size-5', strategy.useTint && Platform.select({ web: 'dark:invert' }))}
               tintColor={Platform.select({
-                native: strategy.useTint ? (colorScheme === 'dark' ? 'white' : 'black') : undefined,
+                native: undefined,
               })}
               source={strategy.source}
             />

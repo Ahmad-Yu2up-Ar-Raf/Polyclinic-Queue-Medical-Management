@@ -7,16 +7,49 @@ use App\Enums\RoleEnum;
 use App\Http\Requests\Antrian\AntrianStorePendaftaranBaruRequest;
 use App\Http\Requests\Antrian\AntrianStoreRequest;
 use App\Http\Requests\Antrian\AntrianUpdateRequest;
+use App\Http\Requests\Antrian\OnboardingStoreRequest;
 use App\Models\Antrian;
-
+use App\Models\Dokter;
 use App\Models\Pasien;
 use App\Models\Poli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AntrianController extends Controller
 {
+
+
+    public function overview(Request $request)
+    {
+        $userId = $request->user()->id;
+
+
+        $pasienIds = Pasien::where('user_id', $userId)->pluck('id');
+
+
+
+        $userAntrian = Antrian::query()
+            ->forWebsite()
+            ->whereIn('pasien_id', $pasienIds)
+            ->take(3)
+            ->get();
+
+        $dokter = Dokter::query()->forWebsite()->take(4)->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data retrieved successfully',
+            'data' =>  [
+
+                'antrianUser' =>  $userAntrian ?? [],
+                'dokter' =>  $dokter ?? []
+            ],
+
+        ], 200);
+    }
 
     public function index(Request $request)
     {
@@ -60,6 +93,108 @@ class AntrianController extends Controller
         ], 200);
     }
 
+
+
+
+    public function antrianSaya(Request $request)
+    {
+        $user = $request->user();
+
+        // Pengecekan safety jika user null (mencegah error "Attempt to read property 'id' on null")
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized.',
+            ], 401);
+        }
+
+        $userId = $user->id;
+        $pasienIds = Pasien::where('user_id', $userId)->pluck('id');
+        $search = $request->input('search');
+
+        $query = Antrian::query()->whereIn('pasien_id', $pasienIds)->forWebsite();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $searchLower = strtolower($search);
+                $q->whereRaw("LOWER(nomor_antrian) LIKE ?", ["%{$searchLower}%"]);
+                $q->orWhereHas('pasien', function ($pasienQuery) use ($searchLower) {
+                    $pasienQuery->whereRaw("LOWER(nama) LIKE ?", ["%{$searchLower}%"])
+                        ->orWhereRaw("LOWER(nik) LIKE ?", ["%{$searchLower}%"]);
+                });
+                $q->orWhereHas('dokter', function ($dokterQuery) use ($searchLower) {
+                    $dokterQuery->whereRaw("LOWER(nama) LIKE ?", ["%{$searchLower}%"])
+                        ->orWhereRaw("LOWER(spesialisasi) LIKE ?", ["%{$searchLower}%"]);
+                });
+                $q->orWhereHas('poli', function ($poliQuery) use ($searchLower) {
+                    $poliQuery->whereRaw("LOWER(nama) LIKE ?", ["%{$searchLower}%"])
+                        ->orWhereRaw("LOWER(kode) LIKE ?", ["%{$searchLower}%"]);
+                });
+            });
+        }
+
+        // Ambil semua data (menjadi bentuk Collection)
+        $antrianRaw = $query->get();
+
+        // Mengelompokkan data berdasarkan kolom 'status'
+        $groupedAntrian = $antrianRaw->groupBy('status');
+
+        // BEST PRACTICE: Memastikan semua status dari Enum selalu ada di response
+        $dataFormatted = [];
+        foreach (AntrianStatusEnum::cases() as $statusEnum) {
+            $dataFormatted[$statusEnum->value] = $groupedAntrian->get($statusEnum->value, []);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Antrian retrieved successfully',
+            'data' => $dataFormatted,
+        ], 200);
+    }
+
+
+
+    public function monitor(Request $request)
+    {
+        $search = $request->input('search');
+
+        // Ini cuma nyiapin "Kerangka" query-nya aja (belum dieksekusi)
+        $baseQuery = Antrian::query()->forWebsite();
+
+        if ($search) {
+            $baseQuery->where(function ($q) use ($search) {
+                $searchLower = strtolower($search);
+                $q->whereRaw("LOWER(nomor_antrian) LIKE ?", ["%{$searchLower}%"]);
+                $q->orWhereHas('pasien', function ($pasienQuery) use ($searchLower) {
+                    $pasienQuery->whereRaw("LOWER(nama) LIKE ?", ["%{$searchLower}%"])
+                        ->orWhereRaw("LOWER(nik) LIKE ?", ["%{$searchLower}%"]);
+                });
+            });
+        }
+
+        $dataFormatted = [];
+
+        // BEST PRACTICE: Kita looping enum-nya, dan tembak ke database
+        // ngambil MAKSIMAL 5 data per status. Ini jauh lebih ringan!
+        foreach (AntrianStatusEnum::cases() as $statusEnum) {
+
+            // Kita pakai '(clone $baseQuery)' agar kondisi pencarian (search)
+            // di atas tetap ikut kebawa, tapi kita nggak merusak $baseQuery aslinya.
+            $dataFormatted[$statusEnum->value] = (clone $baseQuery)
+                ->where('status', $statusEnum->value)
+                ->limit(5)
+                ->get();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Antrian retrieved successfully',
+            'data' => $dataFormatted,
+        ], 200);
+    }
+
+
+
     private function generateKodeAntrian(string $id)
     {
         $poli = Poli::findOrFail($id);
@@ -90,6 +225,7 @@ class AntrianController extends Controller
     }
 
 
+
     public function store(AntrianStoreRequest $request)
     {
 
@@ -111,16 +247,12 @@ class AntrianController extends Controller
         }
 
 
-        [$nomor_antrian, $status, $nomor_urut_finnal] = $this->generateKodeAntrian($validated["poli_id"]);
-
-        $validated['nomor_antrian'] = $nomor_antrian;
-        $validated['nomor_urut'] = $nomor_urut_finnal;
-        $validated['status'] = $status;
 
         $antrian = Antrian::create($validated);
 
         return response()->json([
-            'succes' => true
+            'succes' => true,
+            'data' => $antrian
         ], 200);
     }
 
@@ -155,29 +287,28 @@ class AntrianController extends Controller
 
 
 
-            [$nomor_antrian, $status, $nomor_urut_finnal]  = $this->generateKodeAntrian($validated["poli_id"]);
+
 
             $dataAntrian = Arr::only($validated, [
                 'pasien_id',
                 'poli_id',
                 'dokter_id',
-                'jadwal_id',
                 'metode_pembayaran',
                 'status',
                 'nomor_urut',
                 'deskripsi',
-                'nomor_antrian'
+                'nomor_antrian',
+                'jadwal_kunjungan' // <--- LU KELUPAAN NAMBAHIN INI BRO! 🔥
             ]);
 
 
-            $dataAntrian['nomor_antrian'] = $nomor_antrian;
-            $dataAntrian['status'] = $status;
-            $dataAntrian['nomor_urut'] = $nomor_urut_finnal;
+
 
             $antrian = Antrian::create($dataAntrian);
 
             return response()->json([
-                'succes' => true
+                'succes' => true,
+                'data' => $antrian
             ], 200);
         });
     }
@@ -185,7 +316,7 @@ class AntrianController extends Controller
     public function show(Antrian $antrian)
     {
 
-        $antrian->load(['jadwal:hari,id', 'poli:nama,id', 'dokter:id,nama', 'pasien:id,nama']);
+        $antrian->load(['poli:nama,id', 'dokter:id,nama', 'pasien:id,nama']);
 
         return response()->json([
             'data' => $antrian
@@ -219,5 +350,65 @@ class AntrianController extends Controller
         return response()->json([
             'succes' => true
         ], 204);
+    }
+
+
+
+
+    private function pemilihanDokter(int $poli_id, string $jadwal_kunjungan)
+    {
+        // 1. Ubah format Y-m-d menjadi nama hari (Senin, Selasa, dst)
+        $namaHari = Carbon::parse($jadwal_kunjungan)->locale('id')->dayName;
+
+        // 2. Cari dokter di poli tersebut yang punya jadwal di hari tersebut
+
+        $dokter = Dokter::query()
+            ->forWebsite()
+            ->where('poli_id', $poli_id)
+            ->whereHas('jadwal', function ($query) use ($namaHari) {
+                $query->where('hari', $namaHari);
+            })
+            ->first(); // Mengambil hanya 1 data pertama
+        return $dokter;
+    }
+    public function cek(OnboardingStoreRequest $request)
+    {
+
+        $validated = $request->validated();
+        // Panggil helper function
+        $poli_id = $validated['poli_id'];
+        $poli = Poli::select('nama')->findOrFail($poli_id);
+        $jadwal_kunjungan = $validated['jadwal_kunjungan'];
+
+
+        [$nomor_antrian, $status, $nomor_urut_finnal] = $this->generateKodeAntrian($validated["poli_id"]);
+
+
+        $dokter = $this->pemilihanDokter(
+            $poli_id,
+            $jadwal_kunjungan
+        );
+
+        // Jika tidak ada dokter yang jadwalnya cocok
+        if (!$dokter) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Tidak ada dokter yang tersedia untuk poli dan tanggal tersebut.',
+                'data' => []
+            ], 404);
+        }
+
+        // Jika ketemu, kembalikan datanya
+        return response()->json([
+            'status' => true,
+            'message' => 'Dokter tersedia berhasil ditemukan',
+            'data' => [
+                'dokter' => $dokter,
+                'poli' => $poli,
+                'nomor_antrian' => $nomor_antrian,
+                'nomor_urut_finnal' => $nomor_urut_finnal,
+                'status' => $status
+            ]
+        ], 200);
     }
 }

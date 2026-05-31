@@ -71,6 +71,8 @@ module.exports = {
       figtree_medium: ['Figtree_500Medium', 'sans-serif'],
       figtree_semibold: ['Figtree_600SemiBold', 'sans-serif'],
       figtree_bold: ['Figtree_700Bold', 'sans-serif'],
+      figtree_extrabold: ['Figtree_800ExtraBold', 'sans-serif'],
+      figtree_black: ['Figtree_900Black', 'sans-serif'],
     },
   },
   future: {

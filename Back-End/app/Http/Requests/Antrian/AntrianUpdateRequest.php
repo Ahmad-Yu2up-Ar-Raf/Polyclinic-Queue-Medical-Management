@@ -36,12 +36,17 @@ class AntrianUpdateRequest extends FormRequest
             'poli_id' => ['integer', 'required', 'exists:polis,id'],
             'pasien_id' => ['sometimes', 'required', 'exists:pasiens,id'],
             'dokter_id' => ['integer', 'required', 'exists:dokters,id',  Rule::in($poliDokterIds)],
-            'jadwal_id' => [
-                'integer',
+            'jadwal_kunjungan' => [
                 'required',
-                'exists:jadwals,id',
-                Rule::exists('jadwal_dokter', 'jadwal_id')->where('dokter_id', $this->dokter_id)
+                'date',
+                'after_or_equal:today'
             ],
+            // 'jadwal_id' => [
+            //     'integer',
+            //     'required',
+            //     'exists:jadwals,id',
+            //     Rule::exists('jadwal_dokter', 'jadwal_id')->where('dokter_id', $this->dokter_id)
+            // ],
             'metode_pembayaran' => ['string', 'required', 'max:255', Rule::enum(MetodePembayaranEnum::class)],
             'status' => ['string', 'sometimes', 'max:255', Rule::enum(AntrianStatusEnum::class)],
             'deskripsi' => ['string', 'nullable', 'max:255'],

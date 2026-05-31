@@ -1,8 +1,10 @@
+import { Checkmark } from '@hugeicons/core-free-icons';
 import { Icon } from './icon';
 import { cn } from '@/lib/utils';
 import * as CheckboxPrimitive from '@rn-primitives/checkbox';
 import { Check } from 'lucide-react-native';
 import { Platform } from 'react-native';
+import { THEME } from '@/lib/theme';
 
 const DEFAULT_HIT_SLOP = 24;
 
@@ -35,7 +37,8 @@ function Checkbox({
       <CheckboxPrimitive.Indicator
         className={cn('h-full w-full items-center justify-center bg-primary', indicatorClassName)}>
         <Icon
-          as={Check}
+          color={THEME.light.primaryForeground}
+          icon={Checkmark}
           size={12}
           strokeWidth={Platform.OS === 'web' ? 2.5 : 3.5}
           className={cn('text-primary-foreground', iconClassName)}

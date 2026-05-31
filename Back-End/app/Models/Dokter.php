@@ -50,9 +50,18 @@ class Dokter extends Model
         return $q->whereStatus(DokterStatusEnum::AKTIF->value);
     }
 
+    // app/Models/Dokter.php
+
     public function scopeForWebsite(Builder $q): Builder
     {
 
-        return $q->withCount(['jadwal', 'antrian'])->with(['poli:id,nama'])->orderBy('updated_at', 'desc');
+        $hariIni = \Carbon\Carbon::now()->locale('id')->dayName;
+
+        return $q->withCount(['jadwal', 'antrian'])
+            ->with(['poli:id,nama'])
+            ->withExists(['jadwal as tersedia' => function ($query) use ($hariIni) {
+                $query->where('hari', $hariIni);
+            }])
+            ->orderBy('updated_at', 'desc');
     }
 }

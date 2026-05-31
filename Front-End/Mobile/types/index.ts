@@ -1,7 +1,8 @@
+import { IconSvgElement } from '@hugeicons/react-native';
 import { LucideIcon } from 'lucide-react-native';
 
 export interface MenuDetail {
-  icon?: LucideIcon;
+  icon?: IconSvgElement;
   Label: string;
   onPress?: () => void;
   Value?: string | number;

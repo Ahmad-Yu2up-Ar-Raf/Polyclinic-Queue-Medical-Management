@@ -48,10 +48,20 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('polis')->group(function () {
         Route::get('/', [PoliController::class, 'index'])->name('polis.index');
+        Route::get('/select', [PoliController::class, 'select'])
+            ->middleware(['auth:sanctum', 'role:pasien'])
+            ->name('polis.select');
         Route::get('/{poli}', [PoliController::class, 'show'])->name('polis.show');
         Route::post('/', [PoliController::class, 'store'])
             ->middleware(['auth:sanctum', 'role:admin'])
             ->name('polis.store');
+
+
+
+
+
+
+
 
         Route::put('/{poli}', [PoliController::class, 'update'])
             ->middleware(['auth:sanctum', 'role:admin'])
@@ -85,6 +95,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('dokter')->group(function () {
         Route::get('/', [DokterController::class, 'index'])
             ->name('dokter.index');
+        Route::get('/poli', [DokterController::class, 'getDokterByPoli'])
+            ->name('dokter.poli');
 
         Route::get('/{dokter}', [DokterController::class, 'show'])
             ->name('dokter.show');
@@ -122,10 +134,36 @@ Route::prefix('v1')->group(function () {
             ->name('pasien.destroy');
     });
 
+    Route::get('/overview', [AntrianController::class, 'overview'])
+        ->middleware(['auth:sanctum', 'role:pasien'])
+        ->name('overview.index');
+
+
+
     Route::prefix('antrian')->group(function () {
+
+
 
         Route::get('/', [AntrianController::class, 'index'])
             ->name('antrian.index');
+
+
+
+        Route::get('/monitor', [AntrianController::class, 'monitor'])
+            ->name('antrian.monitor');
+
+
+        Route::get('/user', [AntrianController::class, 'antrianSaya'])
+            ->middleware(['auth:sanctum', 'role:pasien'])
+            ->name('antrian.user');
+
+
+        Route::post('/cek', [AntrianController::class, 'cek'])
+            ->middleware(['auth:sanctum', 'role:pasien'])
+            ->name('antrian.cek');
+        Route::post('/pendaftaranBaru', [AntrianController::class, 'pendaftaranBaru'])
+            ->middleware(['auth:sanctum', 'role:admin|pasien'])
+            ->name('antrian.pendaftaranBaru');
 
         Route::get('/{antrian}', [AntrianController::class, 'show'])
             ->name('antrian.show');
@@ -134,9 +172,10 @@ Route::prefix('v1')->group(function () {
             ->middleware(['auth:sanctum', 'role:admin|pasien'])
             ->name('antrian.store');
 
-        Route::post('/pendaftaranBaru', [AntrianController::class, 'pendaftaranBaru'])
-            ->middleware(['auth:sanctum', 'role:admin|pasien'])
-            ->name('antrian.pendaftaranBaru');
+
+
+
+
 
         Route::put('/{antrian}', [AntrianController::class, 'update'])
             ->middleware(['auth:sanctum', 'role:admin|pasien'])

@@ -19,12 +19,12 @@ return new class extends Migration
             $table->foreignId('poli_id')->constrained()->cascadeOnDelete();
             $table->foreignId('pasien_id')->constrained()->cascadeOnDelete();
             $table->foreignId('dokter_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('jadwal_id')->constrained()->cascadeOnDelete();
+            // $table->foreignId('jadwal_id')->constrained()->cascadeOnDelete();
 
             $table->string('nomor_antrian')->unique();
             $table->integer('nomor_urut');
+            $table->date('jadwal_kunjungan');
 
-            $table->longText('deskripsi')->nullable();
             $table->enum("status", AntrianStatusEnum::cases())->nullable()->default(AntrianStatusEnum::MENUNGGU->value);
             $table->enum("metode_pembayaran", MetodePembayaranEnum::cases())->nullable()->default(MetodePembayaranEnum::BPJS->value);
         });

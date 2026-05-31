@@ -42,7 +42,7 @@ export const OnboardingPresets = {
     },
     {
       id: 'ready',
-      title: 'Siap untuk Berobat',
+      title: 'Siap untuk Berobat Kapanpun?',
       description:
         'Kesehatanmu adalah prioritas kami. Yuk, mulai pengalaman berobat yang lebih mudah sekarang!',
       icon: (
@@ -69,10 +69,10 @@ export function OnboardingDemo() {
         showSkip={true}
         showProgress={true}
         swipeEnabled={true}
-        primaryButtonText="Get Started"
-        skipButtonText="Skip"
-        nextButtonText="Next"
-        backButtonText="Back"
+        primaryButtonText="Siap!"
+        skipButtonText="Lewati"
+        nextButtonText="Berikutnya"
+        backButtonText="Kembali"
       />
       {/* <View className="absolute z-10 h-full w-full bg-card" /> */}
     </>

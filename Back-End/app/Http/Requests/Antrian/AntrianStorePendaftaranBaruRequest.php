@@ -41,22 +41,29 @@ class AntrianStorePendaftaranBaruRequest extends FormRequest
             'tanggal_lahir' => ['date', 'required', 'before:today'],
             'nik' => ['string', 'required', 'max:16', 'unique:pasiens,nik'],
             'alamat' => ['string', 'nullable', 'max:255'],
+            'jadwal_kunjungan' => [
+                'required',
+                'date',
+                'after_or_equal:today'
+            ],
 
 
-            // Untuk Buat Antrian
             'poli_id' => ['integer', 'required', 'exists:polis,id'],
             'pasien_id' => ['sometimes', 'required', 'exists:pasiens,id'],
             'dokter_id' => ['integer', 'required', 'exists:dokters,id',  Rule::in($poliDokterIds)],
-            'jadwal_id' => [
-                'integer',
-                'required',
-                'exists:jadwals,id',
-                Rule::exists('jadwal_dokter', 'jadwal_id')->where('dokter_id', $this->dokter_id)
-            ],
+
             'metode_pembayaran' => ['string', 'required', 'max:255', Rule::enum(MetodePembayaranEnum::class)],
             'status' => ['string', 'sometimes', 'max:255', Rule::enum(AntrianStatusEnum::class)],
             'deskripsi' => ['string', 'nullable', 'max:255'],
-            'nomor_antrian' => ['string', 'sometimes', 'unique:antrians,nomor_antrian'],
+            'nomor_antrian' => ['string', 'required', 'unique:antrians,nomor_antrian'],
+            'nomor_urut' => [
+                'integer',
+                'required',
+                Rule::unique('antrians', 'nomor_urut')->where(function ($query) {
+
+                    return $query->where('poli_id', $this->poli_id);
+                })
+            ],
         ];
     }
 }
