@@ -519,7 +519,7 @@ function SidebarMenuButton({
       data-active={isActive}
       className={cn(
         sidebarMenuButtonVariants({ variant, size }),
-        "gap-4 text-muted-foreground transition-all duration-300 ease-out hover:bg-primary/8 hover:text-primary  data-active:font-semibold data-active:bg-primary/8 data-active:text-primary",
+        "gap-4 text-muted-foreground transition-all duration-300 ease-out hover:bg-primary/8 hover:text-primary data-active:bg-primary/8 data-active:font-semibold data-active:text-primary",
         className
       )}
       {...props}

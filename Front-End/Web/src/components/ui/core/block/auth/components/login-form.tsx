@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/fragments/shadcn-ui/button"
 import { FieldGroup } from "@/components/ui/fragments/shadcn-ui/field"
 import { Spinner } from "@/components/ui/fragments/shadcn-ui/spinner"
-import type { loginReturnType } from "@/hooks/use-auth"
+import type { loginReturnType } from "@/components/ui/core/block/auth/hooks/use-auth"
 import { Email, Key } from "@hugeicons/core-free-icons"
 
 type componentProps = {

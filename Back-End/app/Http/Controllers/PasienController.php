@@ -106,7 +106,8 @@ class PasienController extends Controller
         $pasien->delete($pasien->id);
 
         return response()->json([
-            'succes' => true
-        ],  204);
+            'success' => true,
+            'message' => 'Data pasien berhasil dihapus'
+        ], 200);
     }
 }

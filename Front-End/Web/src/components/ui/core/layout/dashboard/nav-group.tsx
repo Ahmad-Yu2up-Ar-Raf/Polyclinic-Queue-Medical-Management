@@ -77,8 +77,10 @@ export function NavGroup({ label, items }: SidebarNavGroup) {
                   <Link to={item.path || "/"}>
                     {item.icon && (
                       <HugeiconsIcon
-                        strokeWidth={location.pathname == item.path ? 3 : 2}
-                        className={cn(location.pathname == item.path && 'fill-primary text-primary')}
+                        strokeWidth={2}
+                        className={cn(
+                          location.pathname == item.path && "text-primary"
+                        )}
                         icon={item.icon}
                       />
                     )}

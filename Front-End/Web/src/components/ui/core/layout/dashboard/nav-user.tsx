@@ -20,7 +20,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/fragments/shadcn-ui/sidebar"
-import { useAuth } from "@/hooks/use-auth"
+import { useAuth } from "@/components/ui/core/block/auth/hooks/use-auth"
 import { useInitials } from "@/hooks/use-initial"
 import { useAuthStore } from "@/store/auth-store"
 import { Bell, ChevronUp, LogOut, User } from "@hugeicons/core-free-icons"

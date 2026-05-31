@@ -9,6 +9,8 @@ import {
   Timer02FreeIcons,
   UserAccountFreeIcons,
   Home09Icon,
+  Wrench01FreeIcons,
+  AmbulanceIcon,
 } from "@hugeicons/core-free-icons"
 
 export type SidebarNavItem = {
@@ -23,7 +25,7 @@ export type SidebarNavGroup = {
   label?: string
   items: SidebarNavItem[]
 }
- 
+
 export const navGroups: SidebarNavGroup[] = [
   {
     items: [
@@ -65,7 +67,7 @@ export const navGroups: SidebarNavGroup[] = [
       {
         title: "Poliklinik",
         path: "/dashboard/poli",
-        icon: Home09Icon,
+        icon: AmbulanceIcon,
       },
     ],
   },
@@ -75,7 +77,7 @@ export const navGroups: SidebarNavGroup[] = [
       {
         title: "operator",
         path: "/dashboard/operator",
-        icon: Plug01Icon,
+        icon: Wrench01FreeIcons,
       },
     ],
   },

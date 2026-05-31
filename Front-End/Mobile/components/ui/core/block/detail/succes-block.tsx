@@ -50,7 +50,7 @@ export default function SuccesBlock({ Antrean }: componentProps) {
   return (
     <SafeAreaView
       edges={['bottom', 'top', 'left', 'right']}
-      className="h-full content-start items-start justify-center bg-card px-12 sm:flex-1">
+      className="h-full content-start items-start justify-center pt-3 bg-card px-12 sm:flex-1">
       <View className="flex w-full flex-col items-center justify-center gap-2">
         <View className="size-fit rounded-full bg-primary/5 p-1">
           <Icon
@@ -119,13 +119,13 @@ export default function SuccesBlock({ Antrean }: componentProps) {
           onPress={() => router.push('/(tabs)/riwayat')}
           className="w-full"
           variant="default"
-          size={'sm'}>
-          <Text className="font-figtree_semibold text-sm text-primary-foreground">
+          size={"lg"}>
+          <Text className="font-figtree_semibold  text-primary-foreground">
             Lihat Riwayat
           </Text>
         </Button>
-        <Button onPress={() => router.push('/')} className="w-full" variant="outline" size={'sm'}>
-          <Text className="font-figtree_semibold text-sm text-secondary-foreground/60">
+        <Button onPress={() => router.push('/')} className="w-full" variant="outline" size={"lg"}>
+          <Text className="font-figtree_semibold  text-secondary-foreground/60">
             Kembali ke Beranda
           </Text>
         </Button>

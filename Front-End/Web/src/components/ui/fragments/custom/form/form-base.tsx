@@ -1,6 +1,6 @@
 import type { InputProps } from "@/components/ui/fragments/shadcn-ui/input"
 import type { ReactNode } from "react"
-import { useFieldContext } from "@/hooks/form/use-form"
+import { useFieldContext } from "@/hooks/use-form"
 import {
   Field,
   FieldContent,
@@ -23,6 +23,9 @@ type FormBaseProps = FormControlProps & {
   children: ReactNode
   horizontal?: boolean
   controlFirst?: boolean
+  inputClassName?: string
+  isValidClassName?: string
+  isFocusClassName?: string
 }
 
 export function FormBase({

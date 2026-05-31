@@ -23,6 +23,8 @@ export const FetchJadwal = (search: string = '') => {
           },
         })
         .json<Response>(),
+    refetchInterval: 2000,
+    refetchOnWindowFocus: true,
   });
 };
 

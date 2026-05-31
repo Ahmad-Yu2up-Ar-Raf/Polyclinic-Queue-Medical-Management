@@ -1,5 +1,5 @@
-import { loginSchema } from "@/lib/validations/auth-validation"
-import { useAppForm } from "./form/use-form"
+import { loginSchema } from "@/components/ui/core/block/auth/validations/login-schema"
+import { useAppForm } from "../../../../../../hooks/use-form"
 import { api } from "@/api/clien"
 import type { AuthResponse } from "@/types/auth-type"
 import { toast } from "sonner"

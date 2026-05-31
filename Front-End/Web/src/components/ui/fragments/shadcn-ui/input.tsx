@@ -10,12 +10,13 @@ import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import { EyeIcon, EyeOff, X } from "@hugeicons/core-free-icons"
 
 const inputVariants = cva(
-  "h-9 w-full min-w-0 rounded-4xl bg-input/30 px-3 py-1 text-base transition-colors outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-sm dark:aria-invalid:border-destructive/50",
+  "h-9 w-full min-w-0 rounded-xl border border-border bg-background px-3 py-5 text-base transition-colors outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-sm dark:aria-invalid:border-destructive/50",
 
   {
     variants: {
       variant: {
-        default: "border-border",
+        default:
+          "border-border focus-visible:bg-primary/10 focus-visible:text-primary focus-visible:placeholder:text-primary",
         destructive: "border-destructive focus-visible:ring-destructive",
         ghost:
           "border-transparent bg-accent focus-visible:border-border focus-visible:bg-input",
@@ -133,10 +134,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       setShowPassword(!showPassword)
     }
     return (
-      <div className={cn("relative w-full", className)}>
+      <div className={cn("group relative w-full", className)}>
         {leftIcon && (
           <div className="absolute top-1/2 left-3 z-10 -translate-y-1/2 text-muted-foreground [&_svg]:size-4 [&_svg]:shrink-0">
-            <HugeiconsIcon icon={leftIcon} />
+            <HugeiconsIcon
+              icon={leftIcon}
+              className={cn(
+                "transition-colors group-focus-within:text-primary" // <-- Tambah ini
+              )}
+            />
           </div>
         )}
 

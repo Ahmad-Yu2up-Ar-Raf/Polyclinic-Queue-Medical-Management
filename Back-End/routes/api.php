@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\MonitorController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PoliController;
@@ -51,6 +52,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/select', [PoliController::class, 'select'])
             ->middleware(['auth:sanctum', 'role:pasien'])
             ->name('polis.select');
+
+
+
         Route::get('/{poli}', [PoliController::class, 'show'])->name('polis.show');
         Route::post('/', [PoliController::class, 'store'])
             ->middleware(['auth:sanctum', 'role:admin'])
@@ -186,6 +190,13 @@ Route::prefix('v1')->group(function () {
             ->name('antrian.destroy');
     });
 
+
+
+
+    Route::prefix('monitor')->group(function () {
+        Route::get('/', [MonitorController::class, 'index'])
+            ->name('monitor.index');
+    });
 
     Route::prefix('operator')->middleware(['auth:sanctum', 'role:admin|operator'])->group(function () {
         Route::get('/{poli}', [OperatorController::class, 'index'])->name('operator.index');

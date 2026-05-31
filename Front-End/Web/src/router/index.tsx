@@ -2,8 +2,12 @@ import { AppShell } from "@/components/ui/core/layout/dashboard/app-shell"
 import LoginPage from "@/pages/auth/login"
 import RegisterPage from "@/pages/auth/register"
 import DashboardPage from "@/pages/dashboard/dashboard"
+import PasienPage from "@/pages/dashboard/pasien"
 import PoliPage from "@/pages/dashboard/poli"
-import WelcomePage from "@/pages/welcome"
+import MonitorPage from "@/pages/monitor"
+import OperatorPage from "@/pages/operator/operator"
+import SelectPoli from "@/pages/operator/select-poli"
+
 import { useAuthStore } from "@/store/auth-store"
 import { createBrowserRouter, Outlet, Navigate } from "react-router"
 
@@ -18,7 +22,7 @@ const AuthenticatedGuard = () => {
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <WelcomePage />,
+    element: <MonitorPage />,
   },
   {
     element: <GuestGuard />,
@@ -45,8 +49,21 @@ export const router = createBrowserRouter([
             element: <DashboardPage />,
           },
           {
-            path: "/dashboard/poli",
+            path: "poli", // Bisa langsung 'poli' jika parent-nya sudah /dashboard
             element: <PoliPage />,
+          },
+          {
+            path: "pasien", // Bisa langsung 'poli' jika parent-nya sudah /dashboard
+            element: <PasienPage />,
+          },
+          {
+            path: "operator",
+            element: <SelectPoli />,
+          },
+          // TAMBAHKAN INI:
+          {
+            path: "operator/:id",
+            element: <OperatorPage />, // Buat komponen page baru untuk detail poli
           },
         ],
       },

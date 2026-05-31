@@ -1,7 +1,7 @@
 import { useStore } from "@tanstack/react-store"
 import { FormBase } from "./form-base"
 import type { FormControlProps } from "./form-base"
-import { useFieldContext } from "@/hooks/form/use-form"
+import { useFieldContext } from "@/hooks/use-form"
 import { Input } from "../../shadcn-ui/input"
 import { cn } from "@/lib/utils"
 import React from "react"
@@ -10,7 +10,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 export function FormInput(props: FormControlProps) {
   const field = useFieldContext<string | number>()
   const [isFocused, setIsFocused] = React.useState(false)
-
+  
   const isSubmitting = useStore(
     field.form.baseStore,
     (state) => state.isSubmitting

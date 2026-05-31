@@ -1,6 +1,6 @@
-import { useAuth } from "@/hooks/use-auth"
+import { useAuth } from "@/components/ui/core/block/auth/hooks/use-auth"
 
-import LoginForm from "../../form/login-form"
+import LoginForm from "./components/login-form"
 import AuthLayout from "../../layout/auth-layout"
 
 const LoginBlock = () => {

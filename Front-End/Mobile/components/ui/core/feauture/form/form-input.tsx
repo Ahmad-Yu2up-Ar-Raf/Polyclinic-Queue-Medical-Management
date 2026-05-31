@@ -13,9 +13,9 @@ export interface FormInputProps extends Omit<TextInputProps, 'style'> {
   LeftIcon?: IconSvgElement;
   showError?: boolean;
   iconColor?: string;
-  isValidClassName?: string;
   label?: string;
   inputClassName?: string;
+  isValidClassName?: string;
   isFocusClassName?: string;
   variant?: 'default' | 'border';
 }

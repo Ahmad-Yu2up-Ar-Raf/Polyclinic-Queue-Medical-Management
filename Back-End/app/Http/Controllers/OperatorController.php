@@ -13,57 +13,95 @@ class OperatorController extends Controller
     public function index(Poli $poli, Request $request)
     {
         $poliId = $poli->id;
+        $search = $request->input('search');
         $limit_menunggu = $request->input('limit_menunggu', 5);
         $limit_selesai = $request->input('limit_selesai', 5);
         $limit_dilewati = $request->input('limit_dilewati', 5);
 
+        // Filter Query Pencarian Reusable
+        $applySearch = function ($query) use ($search) {
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $searchLower = strtolower($search);
+                    $q->whereRaw("LOWER(nomor_antrian) LIKE ?", ["%{$searchLower}%"])
+                        ->orWhereHas('pasien', function ($pasienQuery) use ($searchLower) {
+                            $pasienQuery->whereRaw("LOWER(nama) LIKE ?", ["%{$searchLower}%"])
+                                ->orWhereRaw("LOWER(nik) LIKE ?", ["%{$searchLower}%"]);
+                        })
+                        ->orWhereHas('dokter', function ($dokterQuery) use ($searchLower) {
+                            $dokterQuery->whereRaw("LOWER(nama) LIKE ?", ["%{$searchLower}%"]);
+                        });
+                });
+            }
+        };
 
-        $antrianDipanggil =  Antrian::query()
+        // Antrian yang sedang dipanggil (Tetap)
+        $antrianDipanggil = Antrian::query()
             ->forOperator()
             ->wherePoliId($poliId)
             ->whereStatus(AntrianStatusEnum::DIPANGGIL->value)
             ->first();
 
-        $antrianBerikutnya =  Antrian::query()
+        // 1. Cari tahu dulu ID Antrian Selanjutnya yang SEHARUSNYA (Tanpa filter search)
+        $absoluteNext = Antrian::query()
             ->forOperator()
             ->wherePoliId($poliId)
             ->whereStatus(AntrianStatusEnum::MENUNGGU->value)
             ->orderBy('id', 'asc')
             ->first();
 
+        $absoluteNextId = $absoluteNext?->id;
 
-        $antrianMenunggu =  Antrian::query()
+        // 2. Tentukan Antrian Berikutnya (Hanya muncul jika cocok dengan search)
+        $antrianBerikutnya = null;
+        if ($absoluteNextId) {
+            $antrianBerikutnya = Antrian::query()
+                ->forOperator()
+                ->where('id', $absoluteNextId)
+                ->where(function ($query) use ($applySearch) {
+                    $applySearch($query);
+                })
+                ->first();
+        }
+
+        // 3. Tentukan Antrian Berjalan (Kecualikan ID dari Antrian Berikutnya agar TIDAK PERLU skip(1))
+        $antrianMenunggu = Antrian::query()
             ->forOperator()
             ->wherePoliId($poliId)
             ->whereStatus(AntrianStatusEnum::MENUNGGU->value)
-            ->skip(1)
-            ->orderBy('id', 'desc')
+            ->when($absoluteNextId, function ($query, $id) {
+                return $query->where('id', '!=', $id);
+            })
+            ->where(function ($query) use ($applySearch) {
+                $applySearch($query);
+            })
+            ->orderBy('id', 'asc')
             ->take($limit_menunggu)
             ->get();
 
-
-        $antrianSelesai =  Antrian::query()
+        // Antrian Selesai
+        $antrianSelesai = Antrian::query()
             ->forOperator()
             ->wherePoliId($poliId)
             ->whereStatus(AntrianStatusEnum::SELESAI->value)
-            ->orderBy('id', 'desc')
+            ->where(function ($query) use ($applySearch) {
+                $applySearch($query);
+            })
+            ->orderBy('id', 'asc')
             ->take($limit_selesai)
             ->get();
 
-
-
-        $antrianDilewati =  Antrian::query()
+        // Antrian Dilewati
+        $antrianDilewati = Antrian::query()
             ->forOperator()
             ->wherePoliId($poliId)
             ->whereStatus(AntrianStatusEnum::DILEWATI->value)
-            ->orderBy('id', 'desc')
+            ->where(function ($query) use ($applySearch) {
+                $applySearch($query);
+            })
+            ->orderBy('id', 'asc')
             ->limit($limit_dilewati)
             ->get();
-
-
-
-
-
 
         return response()->json([
             'data' => [
@@ -76,7 +114,6 @@ class OperatorController extends Controller
             ],
         ], 200);
     }
-
 
 
     public function show(Poli $poli, AntrianStatusEnum $status, Request $request)

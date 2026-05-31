@@ -58,10 +58,12 @@ class PoliController extends Controller
         $validate =   $request->validated();
 
         $validate['kode'] = $this->generateKode($validate['nama']);
-        $polis = Poli::create($validate);
+        $poli = Poli::create($validate);
 
         return response()->json([
-            'succes' => true
+            'succes' => true,
+            'messsage' => 'Berhasil menambahkan data poli',
+            'data' => $poli
         ], 201);
     }
 
@@ -122,13 +124,16 @@ class PoliController extends Controller
 
     public function destroy(Poli $poli)
     {
+        // 1. Hapus parameter ID di dalam fungsi delete()
         $poli->delete($poli->id);
 
+        // 2. Ubah status code dari 204 menjadi 200 (OK)
+        // Dan sekalian perbaiki typo 'succes' jadi 'success'
         return response()->json([
-            'succes' => true
-        ], 204);
+            'success' => true,
+            'message' => 'Data poli berhasil dihapus'
+        ], 200);
     }
-
 
 
     public function select()
