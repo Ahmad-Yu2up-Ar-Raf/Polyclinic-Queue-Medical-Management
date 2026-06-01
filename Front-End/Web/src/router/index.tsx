@@ -1,6 +1,7 @@
 import { AppShell } from "@/components/ui/core/layout/dashboard/app-shell"
 import LoginPage from "@/pages/auth/login"
 import RegisterPage from "@/pages/auth/register"
+import AntrianPage from "@/pages/dashboard/antrian"
 import DashboardPage from "@/pages/dashboard/dashboard"
 import DokterPage from "@/pages/dashboard/dokter"
 import PasienPage from "@/pages/dashboard/pasien"
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
           {
             path: "poli", // Bisa langsung 'poli' jika parent-nya sudah /dashboard
             element: <PoliPage />,
+          },
+          {
+            path: "antrian", // Bisa langsung 'poli' jika parent-nya sudah /dashboard
+            element: <AntrianPage />,
           },
           {
             path: "pasien", // Bisa langsung 'poli' jika parent-nya sudah /dashboard

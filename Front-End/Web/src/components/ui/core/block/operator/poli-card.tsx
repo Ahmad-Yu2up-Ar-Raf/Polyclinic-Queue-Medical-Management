@@ -9,7 +9,7 @@ import {
 import type { Poli } from "@/components/ui/core/block/poli/types/poli-type"
 import { Link } from "react-router"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowUpRight, AmbulanceIcon } from "@hugeicons/core-free-icons"
+import { ArrowUpRight, HospitalLocationIcon } from "@hugeicons/core-free-icons"
 import { Badge } from "@/components/ui/fragments/shadcn-ui/badge"
 
 type PoliCardProps = {
@@ -32,8 +32,8 @@ export const PoliCard = ({ item }: PoliCardProps) => {
         </div>
 
         <CardHeader className="pb-0">
-          <div className="flex aspect-square size-11 items-center justify-center rounded-md border border-border bg-background text-primary shadow-lg">
-            <HugeiconsIcon icon={AmbulanceIcon} className="size-7" />
+          <div className="flex aspect-square size-11 items-center justify-center rounded-md border border-border bg-background text-primary ">
+            <HugeiconsIcon icon={HospitalLocationIcon} className="size-7" />
           </div>
         </CardHeader>
 
@@ -47,8 +47,8 @@ export const PoliCard = ({ item }: PoliCardProps) => {
             </CardDescription>
           </div>
 
-          <Badge className="h-fit w-fit bg-green-50 py-2">
-            <span className="text-xs font-bold text-green-500">
+          <Badge className="h-fit w-fit bg-green-50 py-2 dark:bg-green-800">
+            <span className="dark:bg- text-xs font-bold text-green-500">
               {item.antrian_count} Antrian
             </span>
           </Badge>

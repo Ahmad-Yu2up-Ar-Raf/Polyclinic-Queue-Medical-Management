@@ -16,10 +16,21 @@ import { Button } from "@/components/ui/fragments/shadcn-ui/button"
 
 export type FormDateInputProps = FormControlProps & {
   defaultMonthFallback?: Date
+  disableFuture?: boolean
+  disablePast?: boolean // 👈 Tambahkan ini untuk mematikan tanggal lalu
+  captionLayout?:
+    | "label"
+    | "dropdown"
+    | "dropdown-months"
+    | "dropdown-years"
+    | undefined
 }
 
 export function FormDateInput({
   defaultMonthFallback,
+  disableFuture = false,
+  disablePast = false, // 👈 Default false
+  captionLayout,
   ...props
 }: FormDateInputProps) {
   const field = useFieldContext<string>()
@@ -67,7 +78,7 @@ export function FormDateInput({
             type="button"
             disabled={isSubmitting}
             className={cn(
-              "group relative flex h-14 w-full items-center overflow-hidden rounded-none border-0 border-b p-0 shadow-none transition-all duration-300 focus:outline-none focus-visible:ring-0",
+              "group relative flex h-16 w-full items-center overflow-hidden rounded-none border-0 border-b p-0 shadow-none transition-all duration-300 focus:outline-none focus-visible:ring-0",
 
               !isOpen &&
                 !isValid &&
@@ -88,21 +99,21 @@ export function FormDateInput({
             {props.LeftIcon && (
               <div
                 className={cn(
-                  "h-fullitems-center absolute left-4 z-10 flex justify-center transition-colors [&_svg]:size-7 [&_svg]:shrink-0",
+                  "absolute left-3 z-10 flex h-full items-center justify-center transition-colors [&_svg]:size-5 [&_svg]:shrink-0",
                   (isOpen || isValid) && !isInvalid
                     ? "text-green-500"
                     : "text-green-500 group-hover:text-green-500",
                   isInvalid && "text-destructive"
                 )}
               >
-                <HugeiconsIcon icon={props.LeftIcon} />
+                <HugeiconsIcon icon={props.LeftIcon} className="size-0.5" />
               </div>
             )}
 
             <div
               className={cn(
                 "flex flex-1 items-center bg-transparent px-4 text-sm transition-colors",
-                props.LeftIcon ? "pl-14" : "pl-4",
+                props.LeftIcon ? "pl-15" : "pl-4",
                 (isValid || isOpen) && !isInvalid
                   ? "font-medium text-green-500"
                   : "text-muted-foreground group-hover:text-green-500",
@@ -121,9 +132,19 @@ export function FormDateInput({
             selected={dateValue}
             onSelect={handleSelect}
             defaultMonth={dateValue || defaultMonthFallback || new Date()}
-            disabled={(date) =>
-              date > new Date() || date < new Date("1900-01-01")
-            }
+            captionLayout={captionLayout}
+            disabled={(date) => {
+              const isPast = date < new Date(new Date().setHours(0, 0, 0, 0))
+              const isFuture = date > new Date()
+
+              // Kalau disableFuture aktif, matikan tanggal masa depan
+              if (disableFuture && isFuture) return true
+
+              // Kalau disablePast aktif, matikan tanggal masa lalu
+              if (disablePast && isPast) return true
+
+              return false
+            }}
           />
         </PopoverContent>
       </Popover>

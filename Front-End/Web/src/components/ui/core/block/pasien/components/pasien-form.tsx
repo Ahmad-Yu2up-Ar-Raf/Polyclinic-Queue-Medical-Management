@@ -50,6 +50,7 @@ export default function PasienForm({ form, children }: PasienFormProps) {
                 <field.DateInput
                   label="Tanggal Lahir"
                   LeftIcon={Calendar01Icon}
+                  captionLayout="dropdown"
                   placeholder="Pilih tanggal lahir pasien"
                 />
               )}

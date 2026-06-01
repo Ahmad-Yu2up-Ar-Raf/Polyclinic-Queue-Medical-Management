@@ -1,7 +1,11 @@
 import React, { useState } from "react"
 import { Input } from "@/components/ui/fragments/shadcn-ui/input"
 import HeaderDashboard from "@/components/ui/fragments/custom/typograhy/header"
-import { AmbulanceIcon, IdentityCardFreeIcons, Search01FreeIcons } from "@hugeicons/core-free-icons"
+import {
+  HospitalLocationIcon,
+  UserMultipleIcon,
+  Search01FreeIcons,
+} from "@hugeicons/core-free-icons"
 import { useDebounce } from "@/hooks/use-debounce"
 import { Spinner } from "@/components/ui/fragments/shadcn-ui/spinner"
 import { FetchPasien } from "@/components/ui/core/block/pasien/hooks/use-pasien-query"
@@ -12,14 +16,23 @@ import CreatePasienDialog from "./components/create-pasien-sheet"
 import type { Pasien } from "@/components/ui/core/block/pasien/types/pasien-type"
 import UpdatePasienSheet from "./components/update-pasien-sheet"
 import { toast } from "sonner"
-
+import { usePagination } from "@/hooks/use-pagination"
+import { DataTablePagination } from "@/components/ui/fragments/custom/table/data-table-paggination"
 const PasienBlock = () => {
   const [searchInput, setSearchInput] = useState("")
   const [pasienId, setpasienId] = useState<number | null>(null)
   const [openDelete, setOpenDelete] = useState(false)
   const [openUpdate, setOpenUpdate] = React.useState(false)
   const debouncedSearch = useDebounce(searchInput, 500)
-  const { data, isLoading, isError } = FetchPasien(debouncedSearch)
+  const { page, perPage, setPage, handlePageChange, handlePerPageChange } =
+    usePagination(10)
+
+  const { data, isLoading, isError, isFetching } = FetchPasien({
+    search: debouncedSearch,
+    page,
+    perPage,
+  })
+
   const pasienList = data?.data ?? []
   const [currentPasien, setCurrentPasien] = React.useState<Pasien | null>(null)
 
@@ -54,7 +67,7 @@ const PasienBlock = () => {
         <div className="space-y-3">
           <div className="items-center space-y-7 sm:flex sm:justify-between">
             <HeaderDashboard
-              Icon={IdentityCardFreeIcons}
+              Icon={UserMultipleIcon}
               Title="Daftar Pasien"
               Deskrpsi="Kelola informasi data pasien poliklinik."
             />
@@ -69,33 +82,46 @@ const PasienBlock = () => {
             className="sm:max-w-sm"
           />
         </div>
-
-        {isLoading ? (
-          <div className="flex w-full justify-center py-20">
-            <Spinner className="size-8 text-primary" />
-          </div>
-        ) : isError ? (
-          <div className="col-span-full py-10 text-center text-red-500">
-            Gagal memuat data dari server.
-          </div>
-        ) : (
-          <div>
-            {pasienList.length > 0 && data ? (
-              <PasienTable
-                Data={data}
-                onEdit={handleEdit}
-                onDelete={(id) => {
-                  setpasienId(id)
-                  setOpenDelete(true)
-                }}
-              />
-            ) : (
-              <div className="col-span-full py-10 text-center text-neutral-400">
-                <p>Tidak ada data pasien ditemukan.</p>
+        <div
+          className={`flex flex-col gap-4 transition-opacity duration-200 ${isFetching && !isLoading ? "pointer-events-none opacity-60" : "opacity-100"}`}
+        >
+          {isLoading ? (
+            <div className="flex w-full justify-center py-20">
+              <Spinner className="size-8 text-primary" />
+            </div>
+          ) : isError ? (
+            <div className="col-span-full py-10 text-center text-red-500">
+              Gagal memuat data dari server.
+            </div>
+          ) : (
+            <>
+              <div className="overflow-hidden rounded-xl bg-card">
+                {pasienList.length > 0 && data ? (
+                  <PasienTable
+                    Data={data}
+                    onEdit={handleEdit}
+                    onDelete={(id) => {
+                      setpasienId(id)
+                      setOpenDelete(true)
+                    }}
+                  />
+                ) : (
+                  <div className="col-span-full py-10 text-center text-neutral-400">
+                    <p>Tidak ada data pasien ditemukan.</p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        )}
+              {data?.meta?.pagination && (
+                <DataTablePagination
+                  pagination={data.meta.pagination}
+                  onPageChange={handlePageChange}
+                  onPerPageChange={handlePerPageChange}
+                  isLoading={isFetching}
+                />
+              )}
+            </>
+          )}
+        </div>
       </div>
 
       <DeleteDialog

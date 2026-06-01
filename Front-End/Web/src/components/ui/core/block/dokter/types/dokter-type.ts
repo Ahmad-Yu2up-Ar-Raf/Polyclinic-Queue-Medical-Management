@@ -48,7 +48,7 @@ export interface Dokter {
   foto?: string
   poli?: Poli
   jadwal?: Jadwal[]
-  total_kunjungan?: number
+  antrian_count?: number
 }
 
 export type DokterSchema = z.infer<typeof dokterSchema>

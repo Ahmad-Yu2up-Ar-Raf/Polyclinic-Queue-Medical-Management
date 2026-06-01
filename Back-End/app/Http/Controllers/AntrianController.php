@@ -233,9 +233,21 @@ class AntrianController extends Controller
         $isPasien = $user->hasRole(RoleEnum::PASIEN->value);
 
         $validated = $request->validated();
+        if (empty($validated['nomor_antrian']) || empty($validated['nomor_urut'])) {
+            [$nomor_antrian, $status, $nomor_urut] = $this->generateKodeAntrian($validated['poli_id']);
+            $validated['nomor_antrian'] = $nomor_antrian;
+            $validated['nomor_urut'] = $nomor_urut;
+            $validated['status'] = $status;
+        }
 
+        if (empty($validated['dokter_id'])) {
+            $dokter = $this->pemilihanDokter($validated['poli_id'], $validated['jadwal_kunjungan']);
 
-
+            if (!$dokter) {
+                throw new \Exception("Tidak ada dokter tersedia untuk jadwal tersebut.");
+            }
+            $validated['dokter_id'] = $dokter->id;
+        }
 
         if ($isPasien) {
             $pasien =
@@ -256,14 +268,16 @@ class AntrianController extends Controller
         ], 200);
     }
 
+
     public function pendaftaranBaru(AntrianStorePendaftaranBaruRequest $request)
     {
-
         $user = $request->user();
         $isPasien = $user->hasRole(RoleEnum::PASIEN->value);
+
+
         $validated = $request->validated();
 
-        return DB::transaction(function () use ($user, $isPasien, $validated) {
+        return DB::transaction(function () use ($user, $isPasien, $validated, $request) {
 
 
             $dataPasien = Arr::only($validated, [
@@ -276,19 +290,32 @@ class AntrianController extends Controller
                 'alamat'
             ]);
 
-
             if ($isPasien) {
-
                 $dataPasien['user_id'] = $user->id;
             }
 
-            $pasien =   Pasien::create($dataPasien);
+            $pasien = Pasien::create($dataPasien);
             $validated['pasien_id'] = $pasien->id;
 
 
+            if (empty($validated['nomor_antrian']) || empty($validated['nomor_urut'])) {
+                [$nomor_antrian, $status, $nomor_urut] = $this->generateKodeAntrian($validated['poli_id']);
+                $validated['nomor_antrian'] = $nomor_antrian;
+                $validated['nomor_urut'] = $nomor_urut;
+                $validated['status'] = $status;
+            }
 
+            // B. Jika dokter_id belum ada, cari otomatis
+            if (empty($validated['dokter_id'])) {
+                $dokter = $this->pemilihanDokter($validated['poli_id'], $validated['jadwal_kunjungan']);
 
+                if (!$dokter) {
+                    throw new \Exception("Tidak ada dokter tersedia untuk jadwal tersebut.");
+                }
+                $validated['dokter_id'] = $dokter->id;
+            }
 
+            // 3. Proses Data Antrian
             $dataAntrian = Arr::only($validated, [
                 'pasien_id',
                 'poli_id',
@@ -298,21 +325,18 @@ class AntrianController extends Controller
                 'nomor_urut',
                 'deskripsi',
                 'nomor_antrian',
-                'jadwal_kunjungan' // <--- LU KELUPAAN NAMBAHIN INI BRO! 🔥
+                'jadwal_kunjungan'
             ]);
-
-
-
 
             $antrian = Antrian::create($dataAntrian);
 
             return response()->json([
-                'succes' => true,
+                'success' => true,
+                'message' => 'Pendaftaran berhasil',
                 'data' => $antrian
             ], 200);
         });
     }
-
     public function show(Antrian $antrian)
     {
 
@@ -348,8 +372,9 @@ class AntrianController extends Controller
         $antrian->delete($antrian->id);
 
         return response()->json([
-            'succes' => true
-        ], 204);
+            'success' => true,
+            'message' => 'Data antrian berhasil dihapus'
+        ], 200);
     }
 
 

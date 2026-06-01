@@ -3,13 +3,6 @@ import { Antrean } from '@/types/antrian-types';
 
 import { useQuery } from '@tanstack/react-query';
 
-export const FetchAntreanMonitor = () => {
-  return useQuery({
-    queryKey: ['monitor'],
-    queryFn: async () => api.get('antrian/monitor').json<Response>(),
-  });
-};
-
 export const FetchJadwal = (search: string = '') => {
   return useQuery({
     // Masukkan 'search' ke dalam queryKey agar otomatis refetch saat search berubah

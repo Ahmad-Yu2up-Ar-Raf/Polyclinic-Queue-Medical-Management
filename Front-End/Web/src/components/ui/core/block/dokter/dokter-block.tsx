@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Input } from "@/components/ui/fragments/shadcn-ui/input"
 import HeaderDashboard from "@/components/ui/fragments/custom/typograhy/header"
 import {
-  IdentityCardFreeIcons,
   Search01FreeIcons,
+  Stethoscope02FreeIcons,
 } from "@hugeicons/core-free-icons"
 import { useDebounce } from "@/hooks/use-debounce"
 import { Spinner } from "@/components/ui/fragments/shadcn-ui/spinner"
@@ -13,10 +13,11 @@ import DeleteDialog from "@/components/ui/fragments/custom/dialog/delete-dialog"
 import { useDokterDeleteMutation } from "./hooks/use-dokter-mutation"
 import type { Dokter } from "@/components/ui/core/block/dokter/types/dokter-type"
 import { toast } from "sonner"
-
-// ✅ INTEGRASI: Membuka segel import komponen dialog & sheet manipulasi data dokter
 import CreateDokterSheet from "./components/create-dokter-sheet"
 import UpdateDokterSheet from "./components/update-dokter-sheet"
+
+import { usePagination } from "@/hooks/use-pagination"
+import { DataTablePagination } from "@/components/ui/fragments/custom/table/data-table-paggination"
 
 const DokterBlock = () => {
   const [searchInput, setSearchInput] = useState("")
@@ -25,7 +26,22 @@ const DokterBlock = () => {
   const [openUpdate, setOpenUpdate] = useState(false)
 
   const debouncedSearch = useDebounce(searchInput, 500)
-  const { data, isLoading, isError } = FetchDokter(debouncedSearch)
+
+  // Implementasi Pagination
+  const { page, perPage, setPage, handlePageChange, handlePerPageChange } =
+    usePagination(10)
+
+  // Reset ke halaman 1 jika user mengetik pencarian baru
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedSearch, setPage])
+
+  const { data, isLoading, isError, isFetching } = FetchDokter({
+    search: debouncedSearch,
+    page,
+    perPage,
+  })
+
   const dokterList = data?.data ?? []
 
   const [currentDokter, setCurrentDokter] = useState<Dokter | null>(null)
@@ -60,11 +76,10 @@ const DokterBlock = () => {
         <div className="space-y-3">
           <div className="items-center space-y-7 sm:flex sm:justify-between">
             <HeaderDashboard
-              Icon={IdentityCardFreeIcons}
+              Icon={Stethoscope02FreeIcons}
               Title="Daftar Dokter"
               Deskrpsi="Kelola informasi data dokter poliklinik."
             />
-            {/* ✅ INTEGRASI: Mengaktifkan komponen pendaftaran dokter baru */}
             <CreateDokterSheet />
           </div>
 
@@ -77,32 +92,48 @@ const DokterBlock = () => {
           />
         </div>
 
-        {isLoading ? (
-          <div className="flex w-full justify-center py-20">
-            <Spinner className="size-8 text-primary" />
-          </div>
-        ) : isError ? (
-          <div className="col-span-full py-10 text-center text-red-500">
-            Gagal memuat data dari server.
-          </div>
-        ) : (
-          <div>
-            {dokterList.length > 0 && data ? (
-              <DokterTable
-                Data={data}
-                onEdit={handleEdit}
-                onDelete={(id) => {
-                  setdokterId(id)
-                  setOpenDelete(true)
-                }}
-              />
-            ) : (
-              <div className="col-span-full py-10 text-center text-neutral-400">
-                <p>Tidak ada data dokter ditemukan.</p>
+        <div
+          className={`flex flex-col gap-4 transition-opacity duration-200 ${isFetching && !isLoading ? "pointer-events-none opacity-60" : "opacity-100"}`}
+        >
+          {isLoading ? (
+            <div className="flex w-full justify-center py-20">
+              <Spinner className="size-8 text-primary" />
+            </div>
+          ) : isError ? (
+            <div className="col-span-full py-10 text-center text-red-500">
+              Gagal memuat data dari server.
+            </div>
+          ) : (
+            <>
+              <div className="overflow-hidden rounded-xl bg-card">
+                {dokterList.length > 0 && data ? (
+                  <DokterTable
+                    Data={data}
+                    onEdit={handleEdit}
+                    onDelete={(id) => {
+                      setdokterId(id)
+                      setOpenDelete(true)
+                    }}
+                  />
+                ) : (
+                  <div className="col-span-full py-16 text-center text-neutral-400">
+                    <p>Tidak ada data dokter ditemukan.</p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        )}
+
+              {/* Tampilkan Pagination jika request sukses dan memiliki object meta */}
+              {data?.meta?.pagination && (
+                <DataTablePagination
+                  pagination={data.meta.pagination}
+                  onPageChange={handlePageChange}
+                  onPerPageChange={handlePerPageChange}
+                  isLoading={isFetching}
+                />
+              )}
+            </>
+          )}
+        </div>
       </div>
 
       <DeleteDialog
@@ -117,7 +148,6 @@ const DokterBlock = () => {
         trigger={false}
       />
 
-      {/* ✅ INTEGRASI: Mengaktifkan komponen pembaruan profil & memetakan defaultValues sesuai skema Dokter */}
       {currentDokter && (
         <UpdateDokterSheet
           id={currentDokter.id}
@@ -125,13 +155,11 @@ const DokterBlock = () => {
             nama: currentDokter.nama,
             email: currentDokter.email,
             poli_id: currentDokter.poli_id,
-            // Mengekstrak list ID Jadwal murni dari relasi objek tabel pivot
             jadwal_ids: currentDokter.jadwal?.map((j) => j.id) || [],
             spesialisasi: currentDokter.spesialisasi || "",
             jenis_kelamin: currentDokter.jenis_kelamin,
             status: currentDokter.status,
             deskripsi: currentDokter.deskripsi || "",
-            foto: null,
           }}
           open={openUpdate}
           onOpenChange={(open) => {

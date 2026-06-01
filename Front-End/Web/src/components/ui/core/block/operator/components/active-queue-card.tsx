@@ -32,7 +32,7 @@ export const ActiveQueueCard = ({ antrian }: { antrian: Antrian | null }) => {
     (antrian.pasien?.jenis_kelamin ?? "pria") === "pria" ? "Bapak" : "Ibu"
 
   return (
-    <Card className="rounded-2xl border-0 bg-transparent p-5 text-center shadow-none">
+    <Card className="rounded-2xl border-0 bg-transparent p-5 text-center ring-0 shadow-none">
       <CardContent>
         <Badge className="relative mx-auto mb-9 flex h-fit w-fit items-center gap-2 rounded-full border border-border/50 bg-green-50 py-3 pr-5 pl-10 font-bold text-green-600 uppercase">
           <span className="absolute left-2.5 mb-1.5 text-5xl">•</span>

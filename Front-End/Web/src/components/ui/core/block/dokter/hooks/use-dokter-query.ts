@@ -1,23 +1,27 @@
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
+import type { DokterResponse } from "../types/dokter-type"
 import { api } from "@/api/clien"
 
-import { useQuery } from "@tanstack/react-query"
-import type { DokterResponse } from "../types/dokter-type"
+interface FetchDokterParams {
+  search: string
+  page: number
+  perPage: number
+}
 
-export const FetchDokter = (search: string) => {
+export const FetchDokter = ({ search, page, perPage }: FetchDokterParams) => {
   return useQuery({
-    // Masukkan search ke dalam queryKey agar TanStack otomatis refetch saat search berubah
-    queryKey: ["dokter", search],
+    queryKey: ["dokter", search, page, perPage],
     queryFn: async () =>
       api
         .get("dokter", {
           searchParams: {
-            // Ky akan otomatis mengubah ini menjadi ?search=keyword di URL
+            page: page.toString(),
+            perPage: perPage.toString(),
             ...(search ? { search } : {}),
           },
         })
         .json<DokterResponse>(),
-
-    // PENTING: Jangan pakai refetchInterval di sini agar tidak spam!
-    staleTime: 5000, // Cache data selama 5 detik
+    staleTime: 5000,
+    placeholderData: keepPreviousData, // Menjaga UI tabel tetap stabil saat memuat halaman baru
   })
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 import type { Poli } from "@/components/ui/core/block/poli/types/poli-type"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { AmbulanceIcon } from "@hugeicons/core-free-icons"
+import { HospitalLocationIcon } from "@hugeicons/core-free-icons"
 
 export const OperatorHeader = ({ poli }: { poli: Poli }) => {
   const [time, setTime] = useState({ jam: "--:--", tanggal: "-- ---- ----" })
@@ -34,12 +34,12 @@ export const OperatorHeader = ({ poli }: { poli: Poli }) => {
   return (
     <div className="flex w-full flex-col space-y-6 md:flex-row md:items-center md:justify-between md:space-y-0">
       <div className="flex flex-row items-center gap-5 md:w-fit">
-        <div className="flex aspect-square size-11 items-center justify-center rounded-md bg-primary p-2.5 text-white">
-          <HugeiconsIcon
-            icon={AmbulanceIcon}
-            className="size-full  text-primary-foreground"
-          />
-        </div>
+       <div className="flex aspect-square size-14 items-center justify-center    border rounded-full p-2.5 text-white">
+        <HugeiconsIcon
+          icon={HospitalLocationIcon}
+          className="size-full  text-primary "
+        />
+      </div>
         <div>
           <h1 className="w-fit text-2xl font-bold text-neutral-900 dark:text-neutral-100">
             {poli.nama}

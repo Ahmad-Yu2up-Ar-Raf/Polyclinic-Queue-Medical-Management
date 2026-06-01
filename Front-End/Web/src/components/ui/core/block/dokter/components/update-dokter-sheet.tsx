@@ -20,7 +20,7 @@ import {
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useDokterForm } from "../hooks/use-dokter-mutation"
-import DokterForm from "@/components/ui/fragments/custom/form/dokter-form"
+import DokterForm from "@/components/ui/core/block/dokter/components/dokter-form"
 import type { DokterSchema } from "../types/dokter-type"
 
 interface UpdateDokterSheetProps {

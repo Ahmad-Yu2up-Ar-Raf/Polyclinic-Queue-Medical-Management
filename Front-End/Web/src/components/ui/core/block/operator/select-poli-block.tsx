@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { Input } from "@/components/ui/fragments/shadcn-ui/input"
 import HeaderDashboard from "@/components/ui/fragments/custom/typograhy/header"
 import { PoliCard } from "./poli-card"
@@ -10,16 +10,22 @@ import {
 import { useDebounce } from "@/hooks/use-debounce"
 import { Spinner } from "@/components/ui/fragments/shadcn-ui/spinner" // Pastikan import spinner
 import { FetchPoli } from "@/components/ui/core/block/poli/hooks/use-poli-query"
+import { usePagination } from "@/hooks/use-pagination"
 
 const SelectPoli = () => {
-  // 1. State untuk input text murni
   const [searchInput, setSearchInput] = useState("")
-
-  // 2. State yang sudah di-debounce (Tunggu 500ms setelah user berhenti ngetik)
+  const [poliId, setpoliId] = useState<number | null>(null)
+  const [openDelete, setOpenDelete] = useState(false)
+  const [openUpdate, setOpenUpdate] = React.useState(false)
   const debouncedSearch = useDebounce(searchInput, 500)
+  const { page, perPage, setPage, handlePageChange, handlePerPageChange } =
+    usePagination(10)
 
-  // 3. Panggil hook fetching dengan parameter debounced
-  const { data, isLoading, isError } = FetchPoli(debouncedSearch)
+  const { data, isLoading, isError, isFetching } = FetchPoli({
+    search: debouncedSearch,
+    page,
+    perPage,
+  })
 
   // 4. Safe access data menggunakan optional chaining (?.)
   const poliList = data?.data ?? []

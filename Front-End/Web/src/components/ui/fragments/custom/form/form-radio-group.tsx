@@ -60,7 +60,7 @@ export function FormRadioGroup(props: FormRadioGroupProps) {
         disabled={isSubmitting}
         onValueChange={handleSelect}
         className={cn(
-          "flex w-full h-fit py-0 flex-col gap-3 sm:flex-row",
+          "flex h-fit w-full flex-col gap-3 py-0 sm:flex-row",
           props.containerClassName
         )}
       >

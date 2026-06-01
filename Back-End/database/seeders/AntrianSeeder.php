@@ -24,14 +24,13 @@ class AntrianSeeder extends Seeder
             return;
         }
 
-        // --- TRIKNYA DI SINI BRO ---
-        // 1. Ambil spesifik Akun Utama yang udah dibikin di PasienSeeder
-        $pasienUtama = Pasien::whereNama('yusuf')->first();
+        // Ambil data Yusuf secara spesifik
+        $pasienUtama = Pasien::where('nama', 'yusuf')->first();
 
-        // 2. Set target kuota (lebih dari 5 berarti minimal 6) dan bikin counternya
-        $targetAntrianUtama = 6;
-        $counterAntrianUtama = 0;
-        // ---------------------------
+        // --- TRIK 1: POLA DATA NAIK TURUN (GAP 7 BULAN) ---
+        // Kita petakan 10 antrian ke dalam offset bulan (0 = bulan ini, 6 = 7 bulan ke depan)
+        // Perhatikan polanya: ada penumpukan di bulan ke-1, ke-3, dan ke-6 biar grafiknya naik-turun!
+        $polaBulan = [0, 1, 1, 2, 3, 3, 4, 5, 6, 6];
 
         foreach ($polis as $poli) {
 
@@ -42,17 +41,12 @@ class AntrianSeeder extends Seeder
                 continue;
             }
 
-            // $jadwalDokter = $dokter->jadwal;
-
-            // if (!$jadwalDokter || $jadwalDokter->isEmpty()) {
-            //     $this->command->warn("Dokter {$dokter->nama} di {$poli->nama} belum punya jadwal. Antrian di-skip.");
-            //     continue;
-            // }
-
             for ($i = 0; $i < 10; $i++) {
                 $nomor_urut = $i + 1;
                 $nomorTigaDigit = str_pad($nomor_urut, 3, "0", STR_PAD_LEFT);
 
+                // --- ATURAN STATUS (1 DIPANGGIL PER POLI) ---
+                // Setiap nomor urut 5 otomatis berstatus DIPANGGIL (Pas per poli cuma ada satu urutan 5)
                 if ($nomor_urut <= 3) {
                     $status = AntrianStatusEnum::SELESAI;
                 } elseif ($nomor_urut == 5) {
@@ -63,33 +57,51 @@ class AntrianSeeder extends Seeder
                     $status = AntrianStatusEnum::MENUNGGU;
                 }
 
-                // $jadwalIdTerpilih = $jadwalDokter->random()->id;
-
-                // --- 3. KONDISI LOCK ID PASIEN ---
-                // Jika data Akun Utama ada dan kuotanya belum habis, prioritaskan dia dulu
-                if ($pasienUtama && $counterAntrianUtama < $targetAntrianUtama) {
-                    $pasienIdTerpilih = $pasienUtama->id;
-                    $counterAntrianUtama++; // Tambah counter tiap kali Akun Utama dipakai
+                // --- TRIK 2: INTERVENSI PASIEN YUSUF ---
+                // Kita plot Yusuf di nomor urut 2 dan 5 di SETIAP POLI (3 Poli x 2 = 6 data mantap!)
+                if ($pasienUtama && ($nomor_urut == 2 || $nomor_urut == 5)) {
+                    $pasienTerpilih = $pasienUtama;
                 } else {
-                    // Kalau kuota Akun Utama udah aman (udah punya 6 antrian), baru digacha lagi
-                    $pasienIdTerpilih = $pasiens->random()->id;
+                    // Ambil pasien random selain Yusuf agar variatif
+                    $pasienTerpilih = $pasiens->where('id', '!=', $pasienUtama->id)->random();
                 }
-                // ---------------------------------
+
+                // --- TRIK 3: MANIPULASI TANGGAL KRONOLOGIS ---
+                // 1. Tentukan bulan kunjungan berdasarkan pola array berjarak 7 bulan
+                $bulanOffset = $polaBulan[$i];
+                $targetKunjungan = Carbon::today()
+                    ->addMonths($bulanOffset)
+                    ->addDays(rand(1, 28));
+
+                // 2. Waktu booking tiket dibuat 1-3 hari sebelum jadwal kunjungan
+                $waktuCreateAntrian = Carbon::parse($targetKunjungan)
+                    ->subDays(rand(1, 3))
+                    ->addHours(rand(8, 15));
+
+                // 3. SAFE GUARD: Pastikan waktu buat antrian TIDAK MENDAHULUI register usernya
+                if ($waktuCreateAntrian->lt(Carbon::parse($pasienTerpilih->created_at))) {
+                    $waktuCreateAntrian = Carbon::parse($pasienTerpilih->created_at)->addMinutes(rand(15, 45));
+                }
+
+                // 4. Pastikan jadwal kunjungan kembali logis setelah terkena safe guard
+                $jadwalKunjunganFinal = Carbon::parse($targetKunjungan)->lt($waktuCreateAntrian)
+                    ? Carbon::parse($waktuCreateAntrian)->addDay()->format('Y-m-d')
+                    : $targetKunjungan->format('Y-m-d');
 
                 Antrian::factory()->create([
-                    'nomor_urut'      => $nomor_urut,
-                    'nomor_antrian'   => "{$poli->kode}-{$nomorTigaDigit}",
-                    'poli_id'         => $poli->id,
-                    'dokter_id'       => $dokter->id,
-                    // 'jadwal_id'       => $jadwalIdTerpilih,
-                    'pasien_id'       => $pasienIdTerpilih, // Sekarang pakai variabel penentu di atas
-                    'status'          => $status,
-                    'created_at'      => Carbon::now()->subHours(5)->addMinutes($nomor_urut * 2),
-                    'updated_at'      => Carbon::now()->subHours(5)->addMinutes($nomor_urut * 2),
+                    'nomor_urut'       => $nomor_urut,
+                    'nomor_antrian'    => "{$poli->kode}-{$nomorTigaDigit}",
+                    'poli_id'          => $poli->id,
+                    'dokter_id'        => $dokter->id,
+                    'pasien_id'        => $pasienTerpilih->id,
+                    'status'           => $status,
+                    'jadwal_kunjungan' => $jadwalKunjunganFinal,
+                    'created_at'       => $waktuCreateAntrian,
+                    'updated_at'       => $waktuCreateAntrian,
                 ]);
             }
         }
 
-        $this->command->info('Seeder Antrian sukses! Akun Utama dipastikan punya minimal 6 antrian.');
+        $this->command->info('Seeder Antrian sukses besar! Gap 7 bulan fluktuatif, Yusuf terbagi rata, dan status panggilan aman.');
     }
 }

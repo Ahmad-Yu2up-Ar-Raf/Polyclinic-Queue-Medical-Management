@@ -18,12 +18,12 @@ class Antrian extends Model
     protected $fillable = [
         'poli_id',
         'dokter_id',
-        // 'jadwal_id',
+
         'pasien_id',
         'jadwal_kunjungan',
         'nomor_urut',
         'metode_pembayaran',
-        'deskripsi',
+
         'nomor_antrian',
         'status',
     ];

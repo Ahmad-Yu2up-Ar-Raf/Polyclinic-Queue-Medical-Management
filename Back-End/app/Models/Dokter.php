@@ -51,14 +51,24 @@ class Dokter extends Model
     }
 
     // app/Models/Dokter.php
+    protected $appends = ['jadwal_ids'];
 
+    // Tambahkan accessor ini
+    public function getJadwalIdsAttribute()
+    {
+        // Menggunakan relation 'jadwal' untuk mengambil ID saja
+        // 'modelKeys()' adalah cara cepat mengambil array ID dari relasi
+        return $this->jadwal()->pluck('jadwal_id')->toArray();
+        // Ganti 'jadwal_id' sesuai dengan nama kolom foreign key di pivot table kamu
+    }
     public function scopeForWebsite(Builder $q): Builder
     {
-
         $hariIni = \Carbon\Carbon::now()->locale('id')->dayName;
 
         return $q->withCount(['jadwal', 'antrian'])
             ->with(['poli:id,nama'])
+            // Load relasi jadwal tapi batasi hanya ambil kolom id saja
+            ->with(['jadwal:id'])
             ->withExists(['jadwal as tersedia' => function ($query) use ($hariIni) {
                 $query->where('hari', $hariIni);
             }])

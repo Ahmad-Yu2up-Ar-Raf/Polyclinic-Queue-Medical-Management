@@ -7,7 +7,11 @@ const MonitorPage = () => {
   const { isLoading, data } = FetchMonitor()
 
   if (isLoading) {
-    return <Spinner className="m-auto w-full text-primary" />
+    return (
+      <div className="flex min-h-dvh w-full content-center items-center justify-center py-20">
+        <Spinner className="size-10 text-primary" />
+      </div>
+    )
   }
 
   return <MonitorBlock Data={data!} />

@@ -2,7 +2,7 @@ import React from "react"
 
 import { FieldGroup } from "@/components/ui/fragments/shadcn-ui/field"
 import type { PoliFormReturnType } from "../hooks/use-poli-mutation"
-import { AmbulanceIcon, DoorOpen } from "@hugeicons/core-free-icons"
+import { HospitalLocationIcon, DoorOpen } from "@hugeicons/core-free-icons"
 
 interface PoliFormProps {
   form: PoliFormReturnType
@@ -24,7 +24,7 @@ export default function PoliForm({ form, children }: PoliFormProps) {
           {(field) => (
             <field.Input
               label="Nama Poli"
-              LeftIcon={AmbulanceIcon}
+              LeftIcon={HospitalLocationIcon}
               type="text"
               placeholder="Poli Anak"
             />

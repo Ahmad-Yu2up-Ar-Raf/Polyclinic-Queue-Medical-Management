@@ -1,16 +1,16 @@
 import { type IconSvgElement } from "@hugeicons/react"
 import {
   DashboardCircleIcon,
-  UserMultipleIcon,
   Plug01Icon,
   HelpCircleIcon,
   ActivityIcon,
   Tv01FreeIcons,
   Timer02FreeIcons,
-  UserAccountFreeIcons,
+  UserMultipleIcon,
   Home09Icon,
   Wrench01FreeIcons,
-  AmbulanceIcon,
+  HospitalLocationIcon,
+  Stethoscope02FreeIcons,
 } from "@hugeicons/core-free-icons"
 
 export type SidebarNavItem = {
@@ -57,17 +57,17 @@ export const navGroups: SidebarNavGroup[] = [
       {
         title: "Dokter",
         path: "/dashboard/dokter",
-        icon: UserMultipleIcon,
+        icon: Stethoscope02FreeIcons,
       },
       {
         title: "Pasien",
         path: "/dashboard/pasien",
-        icon: UserAccountFreeIcons,
+        icon: UserMultipleIcon,
       },
       {
         title: "Poliklinik",
         path: "/dashboard/poli",
-        icon: AmbulanceIcon,
+        icon: HospitalLocationIcon,
       },
     ],
   },

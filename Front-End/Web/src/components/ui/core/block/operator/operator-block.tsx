@@ -56,7 +56,7 @@ export default function OperatorBlock({ id }: { id: string }) {
 
       <div className="grid gap-12 md:gap-20 lg:grid-cols-2">
         {/* KOLOM KIRI */}
-        <div className="mx-auto w-full max-w-xl pt-0">
+        <div className="mx-auto w-full max-w-lg pt-0">
           <div className="sticky top-40 space-y-7">
             <ActiveQueueCard antrian={Data?.antrian_dipanggil ?? null} />
             {Data?.antrian_dipanggil && (

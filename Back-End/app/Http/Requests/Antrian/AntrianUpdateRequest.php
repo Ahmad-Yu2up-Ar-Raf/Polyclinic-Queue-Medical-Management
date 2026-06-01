@@ -27,15 +27,17 @@ class AntrianUpdateRequest extends FormRequest
     public function rules(): array
     {
 
-        $id = $this->route('id');
+        $antrian = $this->route('antrian');
+        $id = is_object($antrian) ? $antrian->id : $antrian;
+
         $poliDokterIds = Dokter::query()->where('poli_id', $this->poli_id)->pluck('id')->toArray();
 
 
         return [
             //
             'poli_id' => ['integer', 'required', 'exists:polis,id'],
-            'pasien_id' => ['sometimes', 'required', 'exists:pasiens,id'],
-            'dokter_id' => ['integer', 'required', 'exists:dokters,id',  Rule::in($poliDokterIds)],
+            'pasien_id' => ['sometimes', 'sometimes', 'exists:pasiens,id'],
+            'dokter_id' => ['integer', 'sometimes', 'exists:dokters,id',  Rule::in($poliDokterIds)],
             'jadwal_kunjungan' => [
                 'required',
                 'date',
@@ -49,7 +51,7 @@ class AntrianUpdateRequest extends FormRequest
             // ],
             'metode_pembayaran' => ['string', 'required', 'max:255', Rule::enum(MetodePembayaranEnum::class)],
             'status' => ['string', 'sometimes', 'max:255', Rule::enum(AntrianStatusEnum::class)],
-            'deskripsi' => ['string', 'nullable', 'max:255'],
+
             'nomor_antrian' => ['string', 'sometimes', 'unique:antrians,nomor_antrian,' . $id]
         ];
     }

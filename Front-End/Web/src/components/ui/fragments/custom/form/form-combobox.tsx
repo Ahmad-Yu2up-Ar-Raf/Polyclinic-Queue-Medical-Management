@@ -16,10 +16,6 @@ import {
   ComboboxList,
   ComboboxTrigger,
   ComboboxValue,
-  ComboboxChips,
-  ComboboxChip,
-  ComboboxChipsInput,
-  useComboboxAnchor,
 } from "@/components/ui/fragments/shadcn-ui/combobox"
 
 export interface ComboboxOption {
@@ -32,13 +28,12 @@ interface FormComboboxProps extends Omit<
   "type" | "maxLength" | "inputMode"
 > {
   options: ComboboxOption[]
-  multiple?: boolean
 }
 
 export function FormCombobox(props: FormComboboxProps) {
-  const field = useFieldContext<any>()
-  const anchor = useComboboxAnchor()
+  const field = useFieldContext<string | number | undefined>()
   const [isFocused, setIsFocused] = useState(false)
+  const [search, setSearch] = useState("")
 
   const isSubmitting = useStore(
     field.form.baseStore,
@@ -51,65 +46,39 @@ export function FormCombobox(props: FormComboboxProps) {
   const errors = useStore(field.store, (state) => state.meta.errors)
   const value = useStore(field.store, (state) => state.value)
 
-  const isMultiple = props.multiple || false
-
   const hasErrors = errors.length > 0
-  const hasValue = isMultiple
-    ? Array.isArray(value) && value.length > 0
-    : value !== undefined && value !== ""
-
+  const hasValue = value !== undefined && value !== ""
   const isInvalid = hasErrors && submissionAttempts > 0
   const isValid = hasValue && !hasErrors
 
-  const defaultIconColor = props.iconClassName || "text-primary"
-  const focusClass = props.isFocusClassName || "border-b-primary bg-primary/5"
-  const validClass = props.isValidClassName || "border-b-primary bg-primary/5"
-  const invalidClass =
-    props.isInvalidClassName || "border-b-destructive bg-destructive/5"
+  const containerStateClass = isInvalid
+    ? "border-b-destructive bg-destructive/5 text-destructive"
+    : isValid
+      ? "border-b-primary bg-primary/5"
+      : isFocused
+        ? "border-b-primary bg-primary/5"
+        : "border-border bg-card"
 
-  let containerStateClass = "border-border bg-card"
-  let iconStateColor = defaultIconColor
-
-  if (isInvalid) {
-    containerStateClass = invalidClass
-    iconStateColor = "text-destructive"
-  } else if (isValid) {
-    containerStateClass = validClass
-    iconStateColor = defaultIconColor
-  } else if (isFocused) {
-    containerStateClass = focusClass
-  }
-
-  const selectedValue = isMultiple
-    ? props.options.filter(
-        (opt) => Array.isArray(value) && value.includes(opt.value)
-      )
-    : props.options.find((opt) => opt.value === value) || null
-
-  const handleValueChange = (val: any) => {
-    if (isMultiple) {
-      field.handleChange(val ? val.map((v: any) => v.value) : [])
-    } else {
-      field.handleChange(val ? val.value : undefined)
-    }
-  }
+  // Filter ditangani secara lokal & reaktif tanpa mengganggu state utama
+  const filteredOptions = props.options.filter((opt) =>
+    opt.label.toLowerCase().includes(search.toLowerCase())
+  )
 
   return (
     <FormBase {...props}>
       <div
         className={cn(
-          "relative flex w-full flex-col justify-center overflow-hidden border-b transition-all duration-300 ease-in-out",
+          "relative flex h-14 w-full flex-col justify-center overflow-hidden border-b transition-all duration-300 ease-in-out",
           containerStateClass,
           isSubmitting && "pointer-events-none opacity-50",
-          props.className,
-          isMultiple ? "min-h-14 py-2" : "h-14"
+          props.className
         )}
       >
         {props.LeftIcon && (
           <div
             className={cn(
-              "absolute top-4 left-3 z-10 flex items-center justify-center transition-colors [&_svg]:size-5 [&_svg]:shrink-0",
-              iconStateColor
+              "absolute left-3 z-10 flex items-center justify-center transition-colors [&_svg]:size-5",
+              isInvalid ? "text-destructive" : "text-primary"
             )}
           >
             <HugeiconsIcon icon={props.LeftIcon} />
@@ -117,90 +86,50 @@ export function FormCombobox(props: FormComboboxProps) {
         )}
 
         <Combobox
-          multiple={isMultiple as any}
-          items={props.options}
-          value={selectedValue}
-          onValueChange={handleValueChange}
+          value={value ?? props.placeholder}
+          onValueChange={(val) => {
+            field.handleChange(val ? val : undefined)
+          }}
+          onOpenChange={(open) => {
+            setIsFocused(open)
+            if (!open) setSearch("")
+          }}
           disabled={isSubmitting}
-          onOpenChange={(open) => setIsFocused(open)}
         >
-          {isMultiple ? (
-            <>
-              <ComboboxChips
-                ref={anchor}
-                className={cn(
-                  "w-full border-none bg-transparent shadow-none ring-0 focus-within:ring-0",
-                  props.LeftIcon ? "pl-10" : "pl-4",
-                  isInvalid && "[&_input]:placeholder:text-destructive"
-                )}
-              >
-                <ComboboxValue>
-                  {(values: ComboboxOption[]) => (
-                    <React.Fragment>
-                      {values.map((v) => (
-                        /* ✅ FIX: Menghapus properti value={v} yang memicu error TypeScript */
-                        <ComboboxChip key={v.value}>{v.label}</ComboboxChip>
-                      ))}
-                      <ComboboxChipsInput
-                        placeholder={hasValue ? "" : props.placeholder}
-                        className={cn(
-                          "bg-transparent",
-                          isInvalid
-                            ? "text-destructive placeholder:text-destructive"
-                            : "text-foreground"
-                        )}
-                      />
-                    </React.Fragment>
-                  )}
-                </ComboboxValue>
-              </ComboboxChips>
+          <ComboboxTrigger
+            className={cn(
+              "flex h-full w-full items-center justify-between border-none bg-transparent px-4 text-sm outline-none",
+              props.LeftIcon ? "pl-16" : "pl-4",
 
-              {/* ✅ FIX: Mengubah z-[100] menjadi z-100 sesuai panduan aturan kelas Tailwind */}
-              <ComboboxContent anchor={anchor} className="z-100">
-                <ComboboxEmpty>Pencarian tidak ditemukan.</ComboboxEmpty>
-                <ComboboxList>
-                  {props.options.map((item) => (
-                    <ComboboxItem key={item.value} value={item}>
-                      {item.label}
-                    </ComboboxItem>
-                  ))}
-                </ComboboxList>
-              </ComboboxContent>
-            </>
-          ) : (
-            <>
-              <ComboboxTrigger
-                className={cn(
-                  "flex h-full w-full items-center justify-between border-none bg-transparent px-4 text-sm outline-none",
-                  props.LeftIcon ? "pl-10" : "pl-4",
-                  isInvalid
-                    ? "text-destructive"
-                    : hasValue
-                      ? "font-medium text-primary"
-                      : "text-muted-foreground"
-                )}
-              >
-                <ComboboxValue placeholder={props.placeholder} />
-              </ComboboxTrigger>
+              value ? "text-primary" : "text-muted-foreground",
 
-              {/* ✅ FIX: Mengubah z-[100] menjadi z-100 & min-w-[200px] menjadi min-w-50 */}
-              <ComboboxContent className="z-100 w-full min-w-50">
-                <ComboboxInput
-                  showTrigger={false}
-                  placeholder="Cari..."
-                  className="mx-2 my-2"
-                />
-                <ComboboxEmpty>Pencarian tidak ditemukan.</ComboboxEmpty>
-                <ComboboxList>
-                  {props.options.map((item) => (
-                    <ComboboxItem key={item.value} value={item}>
-                      {item.label}
-                    </ComboboxItem>
-                  ))}
-                </ComboboxList>
-              </ComboboxContent>
-            </>
-          )}
+              isInvalid && "text-destructive"
+            )}
+          >
+            <ComboboxValue placeholder={props.placeholder}>
+              {props.options.find((opt) => opt.value === value)?.label}
+            </ComboboxValue>
+          </ComboboxTrigger>
+
+          <ComboboxContent className="z-100 w-full p-2">
+            {/* <ComboboxInput
+              showTrigger={false}
+              placeholder="Cari..."
+              className="mx-2 my-2"
+              value={search}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
+            /> */}
+            {/* <ComboboxEmpty>Pencarian tidak ditemukan.</ComboboxEmpty> */}
+            <ComboboxList>
+              {filteredOptions.map((item) => (
+                <ComboboxItem key={item.value} value={item.value}>
+                  {item.label}
+                </ComboboxItem>
+              ))}
+            </ComboboxList>
+          </ComboboxContent>
         </Combobox>
       </div>
     </FormBase>

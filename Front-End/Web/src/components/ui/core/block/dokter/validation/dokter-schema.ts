@@ -34,9 +34,8 @@ export const dokterSchema = z.object({
 
   spesialisasi: z
     .string()
-    .max(255, "Spesialisasi maksimal 255 karakter")
-    .nullable()
-    .optional(),
+    .min(1, "Spesialisasi wajib diisi")
+    .max(255, "Spesialisasi maksimal 255 karakter"),
 
   jenis_kelamin: jenisKelaminEnum,
 
@@ -44,11 +43,11 @@ export const dokterSchema = z.object({
 
   deskripsi: z
     .string()
-    .max(255, "Deskripsi maksimal 255 karakter")
+
     .nullable()
     .optional(),
 
   // Catatan: Untuk foto (File), biasanya di-handle terpisah dengan FormData
   // Tapi kita define optional di schema
-  foto: z.any().nullable().optional(),
+  // foto: z.any().nullable().optional(),
 })

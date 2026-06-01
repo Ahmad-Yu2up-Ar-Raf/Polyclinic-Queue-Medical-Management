@@ -37,12 +37,12 @@ class DokterUpdateRequest extends FormRequest
             'jadwal_ids.*' => ['integer', 'distinct', 'exists:jadwals,id'],
             'spesialisasi' => ['string', 'nullable', 'max:255'],
 
-            'foto' => ['nullable', 'image', 'max:2048'],
+
             'jenis_kelamin' => ['string', 'nullable', Rule::enum(JenisKelaminEnum::class)],
             'status' => ['string', 'nullable', Rule::enum(DokterStatusEnum::class)],
 
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:dokters,email,' . $id],
-            'deskripsi' => ['string', 'nullable', 'max:255'],
+            'deskripsi' => ['string', 'nullable'],
 
         ];
     }

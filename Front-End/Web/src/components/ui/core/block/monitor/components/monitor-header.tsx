@@ -8,7 +8,7 @@ export const MonitorHeader = () => {
   return (
     <div className="m-auto flex w-full flex-col border-b px-7 py-3 md:flex-row md:items-center md:justify-between">
       <div className="flex flex-col items-center gap-5 text-center md:flex-row md:text-left">
-        <div className="flex aspect-square size-11 items-center justify-center rounded-md  text-white">
+        <div className="flex aspect-square size-11 items-center justify-center rounded-md text-white">
           <AppLogoIcon className="size-full fill-current text-white dark:text-black" />
         </div>
         <div>
