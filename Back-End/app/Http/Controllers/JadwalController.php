@@ -10,6 +10,18 @@ use Illuminate\Http\Request;
 class JadwalController extends Controller
 {
 
+
+    public function select()
+    {
+        $jadwal = Jadwal::select('id', 'hari', 'jam_mulai', 'jam_selesai')->get();
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Jadwal retrieved successfully',
+            'data'    => $jadwal,
+        ]);
+    }
+
     public function index(Request $request)
     {
         $search = $request->input('search');

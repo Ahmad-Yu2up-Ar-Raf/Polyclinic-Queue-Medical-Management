@@ -1,16 +1,16 @@
 import React, { useState } from "react"
 import { Input } from "@/components/ui/fragments/shadcn-ui/input"
 import HeaderDashboard from "@/components/ui/fragments/custom/typograhy/header"
-import { AmbulanceIcon, Search01FreeIcons } from "@hugeicons/core-free-icons"
+import { AmbulanceIcon, IdentityCardFreeIcons, Search01FreeIcons } from "@hugeicons/core-free-icons"
 import { useDebounce } from "@/hooks/use-debounce"
 import { Spinner } from "@/components/ui/fragments/shadcn-ui/spinner"
 import { FetchPasien } from "@/components/ui/core/block/pasien/hooks/use-pasien-query"
 import PasienTable from "./components/pasien-table"
 import DeleteDialog from "@/components/ui/fragments/custom/dialog/delete-dialog"
 import { usePasienDeleteMutation } from "./hooks/use-pasien-mutation"
-import CreatePasienDialog from "./components/create-pasien-dialog"
+import CreatePasienDialog from "./components/create-pasien-sheet"
 import type { Pasien } from "@/components/ui/core/block/pasien/types/pasien-type"
-import UpdatePasienDialog from "./components/update-pasien-dialog"
+import UpdatePasienSheet from "./components/update-pasien-sheet"
 import { toast } from "sonner"
 
 const PasienBlock = () => {
@@ -54,7 +54,7 @@ const PasienBlock = () => {
         <div className="space-y-3">
           <div className="items-center space-y-7 sm:flex sm:justify-between">
             <HeaderDashboard
-              Icon={AmbulanceIcon}
+              Icon={IdentityCardFreeIcons}
               Title="Daftar Pasien"
               Deskrpsi="Kelola informasi data pasien poliklinik."
             />
@@ -111,12 +111,13 @@ const PasienBlock = () => {
       />
 
       {currentPasien && (
-        <UpdatePasienDialog
+        <UpdatePasienSheet
           id={currentPasien.id}
           defaultValues={{
             nama: currentPasien.nama,
             nik: currentPasien.nik,
-            jenis_kelamin: currentPasien.jenis_kelamin as "Pria" | "Wanita",
+            no_hp: currentPasien.no_hp,
+            jenis_kelamin: currentPasien.jenis_kelamin as "pria" | "wanita",
             // Parsing Date object / ISO String ke format murni string yyyy-MM-dd agar dibaca sempurna oleh Calendar
             tanggal_lahir: currentPasien.tanggal_lahir
               ? new Date(currentPasien.tanggal_lahir)

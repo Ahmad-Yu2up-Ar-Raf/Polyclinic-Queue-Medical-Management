@@ -26,7 +26,9 @@ class DokterUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route('id');
+        $dokter = $this->route('dokter');
+        $id = is_object($dokter) ? $dokter->id : $dokter;
+
         return [
             //
             'poli_id' => ['required', 'integer', 'exists:polis,id'],

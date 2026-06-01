@@ -12,7 +12,7 @@ const HeaderDashboard = ({ Icon, Title, Deskrpsi }: compoenentProp) => {
       <div className="flex aspect-square size-11 items-center justify-center rounded-md bg-primary p-2.5 text-white">
         <HugeiconsIcon
           icon={Icon}
-          className="size-full fill-primary-foreground text-primary-foreground"
+          className="size-full  text-primary-foreground"
         />
       </div>
       <div>

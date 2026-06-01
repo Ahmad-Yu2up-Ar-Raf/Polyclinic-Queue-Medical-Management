@@ -41,7 +41,7 @@ export const navGroups: SidebarNavGroup[] = [
     items: [
       {
         title: "Monitor",
-        path: "/monitor",
+        path: "/",
         icon: Tv01FreeIcons,
       },
       {

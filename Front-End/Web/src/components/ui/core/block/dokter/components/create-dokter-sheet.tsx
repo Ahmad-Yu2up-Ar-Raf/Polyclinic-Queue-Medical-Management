@@ -2,14 +2,14 @@ import * as React from "react"
 import { Button } from "@/components/ui/fragments/shadcn-ui/button"
 import { Spinner } from "@/components/ui/fragments/shadcn-ui/spinner"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-} from "@/components/ui/fragments/shadcn-ui/dialog"
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+} from "@/components/ui/fragments/shadcn-ui/sheet"
 import {
   Drawer,
   DrawerContent,
@@ -21,22 +21,22 @@ import {
 } from "@/components/ui/fragments/shadcn-ui/drawer"
 
 import { useIsMobile } from "@/hooks/use-mobile"
-import { usePasienForm } from "../hooks/use-pasien-mutation"
-import PasienForm from "./pasien-form"
+import { useDokterForm } from "../hooks/use-dokter-mutation"
+import DokterForm from "@/components/ui/fragments/custom/form/dokter-form"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Plus } from "@hugeicons/core-free-icons"
 
-interface CreatePasienProps {
+interface CreateDokterProps {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   trigger?: boolean
 }
 
-export default function CreatePasienDialog({
+export default function CreateDokterSheet({
   open: externalOpen,
   onOpenChange: setExternalOpen,
   trigger = true,
-}: CreatePasienProps) {
+}: CreateDokterProps) {
   const isMobile = useIsMobile()
   const [internalOpen, setInternalOpen] = React.useState(false)
 
@@ -48,14 +48,14 @@ export default function CreatePasienDialog({
     setOpen(false)
   }
 
-  const form = usePasienForm({
+  const form = useDokterForm({
     onSuccessCallback: handleClose,
   })
 
   const ActionButtons = () => (
     <form.Subscribe selector={(state) => state.isSubmitting}>
       {(isSubmitting) => (
-        <div className="flex w-full justify-end gap-3 pt-4">
+        <div className="flex w-full justify-end gap-3 pt-2">
           <Button
             type="button"
             variant="outline"
@@ -77,7 +77,7 @@ export default function CreatePasienDialog({
   const TriggerButton = trigger ? (
     <Button className="w-fit text-sm">
       <HugeiconsIcon icon={Plus} className="mr-2 h-4 w-4" />
-      Tambah Pasien
+      Tambah Dokter
     </Button>
   ) : null
 
@@ -88,18 +88,18 @@ export default function CreatePasienDialog({
         <DrawerContent className="flex flex-col">
           <DrawerHeader className="border-b p-4 text-left">
             <DrawerTitle className="text-lg font-semibold text-muted-foreground capitalize">
-              Tambah Pasien
+              Tambah Dokter
             </DrawerTitle>
             <DrawerDescription className="text-sm text-muted-foreground">
-              Isi rincian data pasien baru di bawah ini.
+              Isi rincian data dokter baru beserta jadwal dan polinya.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="px-4 py-4">
-            <PasienForm form={form}>
+          <div className="px-4">
+            <DokterForm form={form}>
               <DrawerFooter className="px-0">
                 <ActionButtons />
               </DrawerFooter>
-            </PasienForm>
+            </DokterForm>
           </div>
         </DrawerContent>
       </Drawer>
@@ -107,23 +107,30 @@ export default function CreatePasienDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      {trigger && <DialogTrigger asChild>{TriggerButton}</DialogTrigger>}
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle className="text-lg font-semibold text-muted-foreground capitalize">
-            Tambah Pasien
-          </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
-            Isi rincian data pasien baru di bawah ini.
-          </DialogDescription>
-        </DialogHeader>
-        <PasienForm form={form}>
-          <DialogFooter>
+    <Sheet open={open} onOpenChange={setOpen}>
+      {trigger && (
+        <SheetTrigger asChild>
+          <Button className="w-fit text-sm">
+            <HugeiconsIcon icon={Plus} className="mr-3" />
+            Tambahkan Baru
+          </Button>
+        </SheetTrigger>
+      )}
+      <SheetContent className="flex flex-col gap-0 overflow-y-scroll">
+        <SheetHeader className="top-0 z-30 space-y-1 border-b bg-background p-6 text-left sm:px-9">
+          <SheetTitle className="text-lg font-semibold text-muted-foreground capitalize">
+            Tambah Dokter
+          </SheetTitle>
+          <SheetDescription className="text-sm text-muted-foreground">
+            Isi rincian data dokter baru beserta jadwal dan polinya.
+          </SheetDescription>
+        </SheetHeader>
+        <DokterForm form={form}>
+          <SheetFooter className="border- flex w-full flex-row justify-end gap-3 px-8 py-4 sm:space-x-0">
             <ActionButtons />
-          </DialogFooter>
-        </PasienForm>
-      </DialogContent>
-    </Dialog>
+          </SheetFooter>
+        </DokterForm>
+      </SheetContent>
+    </Sheet>
   )
 }

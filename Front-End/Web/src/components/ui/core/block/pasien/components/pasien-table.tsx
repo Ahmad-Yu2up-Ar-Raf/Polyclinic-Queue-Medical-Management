@@ -33,6 +33,7 @@ const PasienTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
             <TableHead>Nama</TableHead>
             <TableHead>NIK</TableHead>
             <TableHead>Jenis Kelamin</TableHead>
+            <TableHead>No Hp</TableHead>
             <TableHead>Total Kunjungan</TableHead>
             <TableHead>Tanggal Lahir</TableHead>
             <TableHead>Tanggal Pendaftaran</TableHead>
@@ -85,7 +86,10 @@ const PasienTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
 
                 {/* 4. TOTAL KUNJUNGAN */}
                 <TableCell className="whitespace-nowrap">
-                  {Pasien.total_kunjungan ?? 0}
+                  {Pasien.no_hp}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {Pasien.total_kunjungan ?? 0}x
                 </TableCell>
 
                 {/* 5. TANGGAL LAHIR */}

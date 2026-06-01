@@ -191,7 +191,8 @@ class DokterController extends Controller
         $dokter->delete($dokter->id);
 
         return response()->json([
-            'succes' => true
-        ], 204);
+            'success' => true,
+            'message' => 'Data dokter berhasil dihapus'
+        ], 200);
     }
 }

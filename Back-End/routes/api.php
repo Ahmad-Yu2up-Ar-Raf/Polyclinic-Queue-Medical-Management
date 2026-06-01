@@ -81,6 +81,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('jadwal')->group(function () {
         Route::get('/', [JadwalController::class, 'index'])->name('jadwal.index');
+        Route::get('/select', [JadwalController::class, 'select'])->name('jadwal.select');
         Route::get('/{jadwal}', [JadwalController::class, 'show'])->name('jadwal.show');
         Route::post('/', [JadwalController::class, 'store'])
             ->middleware(['auth:sanctum', 'role:admin'])

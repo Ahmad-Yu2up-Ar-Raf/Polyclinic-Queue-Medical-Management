@@ -1,7 +1,8 @@
 import * as z from "zod"
 
-export const jenisKelaminEnum = z.enum(["Pria", "Wanita"] as const, {
-  message: "Jenis Kelamin wajib dipilih",
+// ✅ FIX: Gunakan required_error & invalid_type_error
+export const jenisKelaminEnum = z.enum(["pria", "wanita"] as const, {
+  message: "Jenis kelamin wajib dipilih",
 })
 
 export const pasienSchema = z.object({
@@ -11,21 +12,17 @@ export const pasienSchema = z.object({
     .max(255, "Nama maksimal 255 karakter"),
 
   nik: z
-    .string({ error: "NIK wajib diisi" })
+    .string()
     .min(16, "NIK harus 16 digit")
-    .max(16, "NIK maksimal 16 digit")
-    .regex(/^[0-9]+$/, "NIK hanya boleh berisi angka"),
+    .max(16, "NIK maksimal 16 digit"),
 
   jenis_kelamin: jenisKelaminEnum,
 
-  tanggal_lahir: z
-    .string({ error: "Tanggal lahir wajib diisi" })
-    .refine((dateString) => {
-      const date = new Date(dateString)
-      const today = new Date()
-      return !isNaN(date.getTime()) && date < today
-    }, "Tanggal lahir harus sebelum hari ini"),
-
+  tanggal_lahir: z.string().min(1, "Tanggal lahir wajib diisi"),
+  no_hp: z
+    .string()
+    .min(1, "Nomor wajib diisi")
+    .max(255, "Maksimal 255 karakter"),
   alamat: z
     .string()
     .max(255, "Alamat maksimal 255 karakter")

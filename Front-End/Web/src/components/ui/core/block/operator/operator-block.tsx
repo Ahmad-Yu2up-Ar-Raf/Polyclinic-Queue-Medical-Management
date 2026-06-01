@@ -97,7 +97,7 @@ export default function OperatorBlock({ id }: { id: string }) {
               <div className="mb-5 max-w-xl space-y-10 rounded-xl p-3">
                 <div className="border-b border-border pb-5">
                   <h3 className="mb-1 text-lg font-bold text-neutral-800 dark:text-neutral-200">
-                    {antrian_berikutnya.pasien.nama}
+                  Antrian Berikunya
                   </h3>
                   <p className="text-sm text-muted-foreground">
                     Antrian yang akan di panggil

@@ -16,7 +16,7 @@ const inputVariants = cva(
     variants: {
       variant: {
         default:
-          "border-border focus-visible:bg-primary/10 focus-visible:text-primary focus-visible:placeholder:text-primary",
+          "border-border focus-visible:text-primary focus-visible:placeholder:text-primary",
         destructive: "border-destructive focus-visible:ring-destructive",
         ghost:
           "border-transparent bg-accent focus-visible:border-border focus-visible:bg-input",

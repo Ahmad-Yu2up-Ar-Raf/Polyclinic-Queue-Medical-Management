@@ -1,19 +1,27 @@
 import React, { useState } from "react"
 import { useStore } from "@tanstack/react-store"
 import { format, parse } from "date-fns"
-import { FormBase, type FormControlProps } from "./form-base"
+import { id } from "date-fns/locale"
 import { useFieldContext } from "@/hooks/use-form"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../shadcn-ui/popover"
-import { Calendar } from "../../shadcn-ui/calendar"
-import { Button } from "../../shadcn-ui/button"
+} from "@/components/ui/fragments/shadcn-ui/popover"
+import { Calendar } from "@/components/ui/fragments/shadcn-ui/calendar"
+import { FormBase, type FormControlProps } from "./form-base"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/fragments/shadcn-ui/button"
 
-export function FormDateInput(props: FormControlProps) {
+export type FormDateInputProps = FormControlProps & {
+  defaultMonthFallback?: Date
+}
+
+export function FormDateInput({
+  defaultMonthFallback,
+  ...props
+}: FormDateInputProps) {
   const field = useFieldContext<string>()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -26,75 +34,99 @@ export function FormDateInput(props: FormControlProps) {
     (state) => state.submissionAttempts
   )
 
-  const hasErrors = field.state.meta.errors.length > 0
-  const isInvalid =
-    hasErrors && (field.state.meta.isTouched || submissionAttempts > 0)
+  const errors = useStore(field.store, (state) => state.meta.errors)
+  const value = useStore(field.store, (state) => state.value)
 
-  // Konversi string YYYY-MM-DD dari state ke Date object untuk Calendar
-  const dateValue = field.state.value
-    ? parse(field.state.value, "yyyy-MM-dd", new Date())
-    : undefined
+  const hasErrors = errors.length > 0
+  const hasValue = value !== undefined && value !== ""
+
+  // ✅ FIX: Konsisten menggunakan patokan submissionAttempts saja
+  const isInvalid = hasErrors && submissionAttempts > 0
+  const isValid = hasValue && !hasErrors
+
+  const dateValue = value ? parse(value, "yyyy-MM-dd", new Date()) : undefined
 
   const handleSelect = (date: Date | undefined) => {
-    // Saat dipilih, ubah Date object jadi string YYYY-MM-DD untuk backend
     field.handleChange(date ? format(date, "yyyy-MM-dd") : "")
+    // 🚨 FIX: Hapus field.handleBlur() di sini agar tidak memicu event berlebih
     setIsOpen(false)
   }
 
   return (
     <FormBase {...props}>
-      <div className="relative">
-        {props.LeftIcon && (
-          <div
+      <Popover
+        open={isOpen}
+        onOpenChange={(open) => {
+          setIsOpen(open)
+          // 🚨 FIX: Hapus field.handleBlur() dari onOpenChange
+        }}
+      >
+        <PopoverTrigger asChild>
+          <Button
+            variant="ghost"
+            type="button"
+            disabled={isSubmitting}
             className={cn(
-              "absolute top-1/2 left-3 z-10 -translate-y-1/2 transition-colors [&_svg]:size-4 [&_svg]:shrink-0",
-              isOpen ? "text-primary" : "text-muted-foreground",
-              isInvalid && "text-destructive",
-              props.className // Agar bisa di-override warna via kelas eksternal
+              "group relative flex h-14 w-full items-center overflow-hidden rounded-none border-0 border-b p-0 shadow-none transition-all duration-300 focus:outline-none focus-visible:ring-0",
+
+              !isOpen &&
+                !isValid &&
+                !isInvalid &&
+                "border-border bg-card hover:bg-green-500/5",
+              !isOpen &&
+                isValid &&
+                !isInvalid &&
+                "border-green-500 bg-green-500/5",
+              isOpen && !isInvalid && "border-green-500 bg-green-500/5",
+              isInvalid &&
+                "border-destructive bg-destructive/5 text-destructive",
+              isSubmitting &&
+                "pointer-events-none cursor-not-allowed opacity-50",
+              props.className
             )}
           >
-            <HugeiconsIcon icon={props.LeftIcon} />
-          </div>
-        )}
+            {props.LeftIcon && (
+              <div
+                className={cn(
+                  "h-fullitems-center absolute left-4 z-10 flex justify-center transition-colors [&_svg]:size-7 [&_svg]:shrink-0",
+                  (isOpen || isValid) && !isInvalid
+                    ? "text-green-500"
+                    : "text-green-500 group-hover:text-green-500",
+                  isInvalid && "text-destructive"
+                )}
+              >
+                <HugeiconsIcon icon={props.LeftIcon} />
+              </div>
+            )}
 
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              disabled={isSubmitting}
+            <div
               className={cn(
-                "w-full justify-start rounded-none border-0 border-b bg-background py-6 pr-6 pl-13 text-sm font-normal shadow-none transition-all duration-200 hover:bg-transparent focus-visible:ring-0",
-                isOpen
-                  ? "border-b-primary text-primary"
-                  : "border-b-border text-foreground",
-                !field.state.value && "text-muted-foreground",
-                isInvalid && "border-b-destructive text-destructive",
-                props.className
+                "flex flex-1 items-center bg-transparent px-4 text-sm transition-colors",
+                props.LeftIcon ? "pl-14" : "pl-4",
+                (isValid || isOpen) && !isInvalid
+                  ? "font-medium text-green-500"
+                  : "text-muted-foreground group-hover:text-green-500",
+                isInvalid && "font-medium text-destructive"
               )}
             >
-              {dateValue ? (
-                format(dateValue, "dd MMMM yyyy")
-              ) : (
-                <span className="opacity-70">
-                  {props.placeholder || "Pilih Tanggal"}
-                </span>
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={dateValue}
-              onSelect={handleSelect}
-              defaultMonth={dateValue}
-              disabled={(date) =>
-                date > new Date() || date < new Date("1900-01-01")
-              }
-            />
-          </PopoverContent>
-        </Popover>
-      </div>
+              {dateValue
+                ? format(dateValue, "dd MMMM yyyy", { locale: id })
+                : props.placeholder || "Pilih Tanggal"}
+            </div>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={dateValue}
+            onSelect={handleSelect}
+            defaultMonth={dateValue || defaultMonthFallback || new Date()}
+            disabled={(date) =>
+              date > new Date() || date < new Date("1900-01-01")
+            }
+          />
+        </PopoverContent>
+      </Popover>
     </FormBase>
   )
 }

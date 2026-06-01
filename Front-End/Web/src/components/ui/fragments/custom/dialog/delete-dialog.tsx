@@ -113,7 +113,7 @@ export default function DeleteDialog({
           <HugeiconsIcon icon={Trash2} className="text-destructive" />
         </DialogTrigger>
       )}
-      <DialogContent>
+      <DialogContent className="max-w-sm m-auto">
         <DialogHeader>
           <DialogTitle>Apakah Anda benar-benar yakin?</DialogTitle>
           <DialogDescription>
