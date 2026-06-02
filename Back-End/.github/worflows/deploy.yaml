@@ -23,7 +23,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            cd /var/www/poliklinik/Back-End
+            cd /var/www/poliklinik
             git pull origin main
             php8.4 /usr/local/bin/composer install --no-dev --optimize-autoloader
             php8.4 artisan config:cache
