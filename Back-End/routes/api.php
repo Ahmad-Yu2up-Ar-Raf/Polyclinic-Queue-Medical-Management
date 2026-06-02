@@ -201,10 +201,15 @@ Route::prefix('v1')->group(function () {
     });
 
 
-    Route::prefix('overview')->middleware(['auth:sanctum', 'role:admin|operator'])->group(function () {
+    Route::prefix('overview')->group(function () {
         Route::get('/', [OverviewController::class, 'index'])
-            ->name('overview.index');
+            ->middleware(['auth:sanctum', 'role:admin|operator'])
+            ->name('overview.admin');
+        Route::get('/pasien', [AntrianController::class, 'overview'])
+            ->middleware(['auth:sanctum', 'role:pasien'])
+            ->name('overview.pasien');
     });
+    Route::prefix('overview')->middleware(['auth:sanctum', 'role:pasien'])->group(function () {});
 
     Route::prefix('operator')->middleware(['auth:sanctum', 'role:admin|operator'])->group(function () {
         Route::get('/{poli}', [OperatorController::class, 'index'])->name('operator.index');

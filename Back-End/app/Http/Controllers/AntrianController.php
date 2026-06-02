@@ -24,15 +24,16 @@ class AntrianController extends Controller
 
     public function overview(Request $request)
     {
-        $userId = $request->user()->id;
+        $user = $request->user();
 
 
-        $pasienIds = Pasien::where('user_id', $userId)->pluck('id');
+        $pasienIds = Pasien::where('user_id', $user->id)->pluck('id');
 
 
 
         $userAntrian = Antrian::query()
             ->forWebsite()
+            ->whereStatus(AntrianStatusEnum::DIPANGGIL->value)
             ->whereIn('pasien_id', $pasienIds)
             ->take(3)
             ->get();

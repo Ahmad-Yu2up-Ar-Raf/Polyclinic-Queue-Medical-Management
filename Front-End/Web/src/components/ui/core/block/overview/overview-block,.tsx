@@ -28,6 +28,7 @@ import { useMonitorClock } from "@/hooks/use-monitor-clock"
 function OverviewBlock() {
   const { data, isLoading, isError } = FetchOverview()
   const activityTrends = data?.reports.countsByDate
+  const { jam, tanggal } = useMonitorClock()
   // 1. Loading State
   if (isLoading) {
     return (
@@ -92,32 +93,10 @@ function OverviewBlock() {
     count: value,
   }))
 
-  const dokterStatusData = Object.entries(reports.DokterstatusCount || {}).map(
-    ([key, value]) => ({
-      // Normalize string "tidak aktif" jadi "tidak-aktif" biar cocok dengan config chart
-      name: key.replace(" ", "-"),
-      count: value,
-    })
-  )
-
-  const genderPasienData = Object.entries(
-    reports.JenisKelaminPasienCount || {}
-  ).map(([key, value]) => ({
-    name: key,
-    count: value,
-  }))
-
-  const genderDokterData = Object.entries(
-    reports.JenisKelaminDokterCount || {}
-  ).map(([key, value]) => ({
-    name: key,
-    count: value,
-  }))
-  const { jam, tanggal } = useMonitorClock()
   return (
     <section className="space-y-4 px-10 py-4">
       <div className="@container/main flex flex-1 flex-col gap-10">
-        <header className="m-auto flex w-full flex-col border-b px-0 pb-7   md:flex-row md:items-center md:justify-between">
+        <header className="m-auto flex w-full flex-col border-b px-0 pb-7 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-2 text-center">
             <h1 className="w-fit text-3xl font-bold text-neutral-900 dark:text-neutral-100">
               Selamat

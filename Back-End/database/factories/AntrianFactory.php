@@ -24,7 +24,7 @@ class AntrianFactory extends Factory
         return [
             'metode_pembayaran' => $faker->randomElement(MetodePembayaranEnum::cases()),
 
-           
+
         ];
     }
 }
