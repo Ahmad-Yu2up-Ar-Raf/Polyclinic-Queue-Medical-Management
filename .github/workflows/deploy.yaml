@@ -3,7 +3,11 @@ name: Deploy Laravel BE via Tailscale
 on:
   push:
     branches: [main]
+    paths:
+    - "Back-End/**"
 
+
+    
 jobs:
   deploy:
     runs-on: ubuntu-latest
