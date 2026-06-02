@@ -2,10 +2,10 @@ import { setLogout, useAuthStore } from '@/store/auth-store';
 import { router } from 'expo-router';
 import ky from 'ky';
 
-const BASE_API = process.env.EXPO_PUBLIC_API_URL ?? 'http://171.16.1.90:8000/';
+const BASE_API = process.env.EXPO_PUBLIC_API_URL ?? 'http://172.16.0.132:8000/';
 
 export const api = ky.create({
-  baseUrl: 'http://171.16.1.90:8000/api/v1/',
+  baseUrl: 'http://172.16.0.132:8000/api/v1/',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

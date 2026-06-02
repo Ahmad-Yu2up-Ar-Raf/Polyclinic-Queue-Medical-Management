@@ -7,7 +7,7 @@ import { ChevronLeft, Monitor } from '@hugeicons/core-free-icons';
 import LoadingIndicator from '../loading-indicator';
 import { Wrapper } from '../layout/wrapper';
 import AntreanCard from '../../fragments/custom-ui/card/antrian-card';
-import { FetchAntreanMonitor } from '@/hooks/app/use-antrian';
+ 
 import { Antrean } from '@/types/antrian-types';
 import { Header } from '../../fragments/custom-ui/typography/header';
 import { useScrollTracker } from '@/hooks/useScrollTracker';
