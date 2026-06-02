@@ -28,11 +28,11 @@ class PasienStoreRequest extends FormRequest
             //
             'user_id' => ['sometimes', 'integer', 'exists:users,id'],
             'nama' => ['required', 'string', 'max:255'],
-            'no_hp' => ['nullable', 'string'],
+            'no_hp' => ['nullable', 'string'],  
             'jenis_kelamin' => ['string', 'nullable', Rule::enum(JenisKelaminEnum::class)],
             'tanggal_lahir' => ['date', 'required', 'before:today'],
             'nik' => ['string', 'required', 'max:16', 'unique:pasiens,nik'],
-            'alamat' => ['string', 'nullable', 'max:255']
+            'alamat' => ['string', 'nullable', 'max:255'],
         ];
     }
 }

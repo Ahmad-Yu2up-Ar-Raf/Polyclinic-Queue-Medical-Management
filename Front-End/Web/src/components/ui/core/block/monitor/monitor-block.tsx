@@ -22,7 +22,7 @@ const MonitorBlock = ({ Data }: ComponentsProps) => {
   useAntrianSpeech(dipanggil)
 
   return (
-    <div className="w-full">
+    <div className="m-auto w-full max-w-6xl">
       <MonitorHeader />
 
       {/* Wrapper utama yang menggantikan wire:poll.2s styling */}

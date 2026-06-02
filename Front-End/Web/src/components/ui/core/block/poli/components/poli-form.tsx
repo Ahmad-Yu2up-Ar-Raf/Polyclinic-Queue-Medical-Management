@@ -2,7 +2,7 @@ import React from "react"
 
 import { FieldGroup } from "@/components/ui/fragments/shadcn-ui/field"
 import type { PoliFormReturnType } from "../hooks/use-poli-mutation"
-import { AmbulanceIcon, DoorOpen } from "@hugeicons/core-free-icons"
+import { HospitalLocationIcon, DoorOpen } from "@hugeicons/core-free-icons"
 
 interface PoliFormProps {
   form: PoliFormReturnType
@@ -19,13 +19,14 @@ export default function PoliForm({ form, children }: PoliFormProps) {
       }}
       className="space-y-6"
     >
-      <FieldGroup className="gap-4">
+      <FieldGroup className="gap-8">
         <form.AppField name="nama">
           {(field) => (
             <field.Input
-              LeftIcon={AmbulanceIcon}
+              label="Nama Poli"
+              LeftIcon={HospitalLocationIcon}
               type="text"
-              placeholder="Nama"
+              placeholder="Poli Anak"
             />
           )}
         </form.AppField>
@@ -33,9 +34,15 @@ export default function PoliForm({ form, children }: PoliFormProps) {
         <form.AppField name="ruangan">
           {(field) => (
             <field.Input
+              label="Ruangan"
               LeftIcon={DoorOpen}
               type="text"
-              placeholder="Ruangan"
+              placeholder="123-230"
+              iconClassName="text-amber-500"
+              inputClassName="text-amber-600 font-medium focus-visible:text-amber-500 focus-visible:placeholder:text-amber-500"
+              isFocusClassName="border-b-amber-500 bg-amber-500/10 focus-visible:text-amber-500 focus-visible:placeholder:text-amber-500"
+              isValidClassName="border-b-amber-500 bg-amber-500/10 focus-visible:text-amber-500 focus-visible:placeholder:text-amber-500"
+              isInvalidClassName="border-b-destructive bg-destructive/10"
             />
           )}
         </form.AppField>

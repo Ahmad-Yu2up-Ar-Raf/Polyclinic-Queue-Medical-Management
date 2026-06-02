@@ -1,7 +1,7 @@
-import React from "react"
+import OverviewBlock from "@/components/ui/core/block/overview/overview-block,"
 
 const DashboardPage = () => {
-  return <div></div>
+  return <OverviewBlock />
 }
 
 export default DashboardPage

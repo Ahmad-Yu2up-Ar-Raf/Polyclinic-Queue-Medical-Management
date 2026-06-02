@@ -24,14 +24,25 @@ class PasienUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route('id');
+        // 🎯 Ambil parameter {pasien}. Karena pakai Route Model Binding,
+        // ini bisa berupa Object Model 'Pasien' atau ID mentah.
+        $pasien = $this->route('pasien');
+        $id = is_object($pasien) ? $pasien->id : $pasien;
+
         return [
-            //
             'nama' => ['required', 'string', 'max:255'],
             'no_hp' => ['nullable', 'string'],
             'jenis_kelamin' => ['string', 'nullable', Rule::enum(JenisKelaminEnum::class)],
             'tanggal_lahir' => ['date', 'required', 'before:today'],
-            'nik' => ['string', 'required', 'max:16', 'unique:pasiens,nik,' . $id],
+
+            // 🎯 Perbaikan validasi NIK menggunakan Rule::unique()->ignore()
+            'nik' => [
+                'string',
+                'required',
+                'max:16',
+                Rule::unique('pasiens', 'nik')->ignore($id)
+            ],
+
             'alamat' => ['string', 'nullable', 'max:255']
         ];
     }

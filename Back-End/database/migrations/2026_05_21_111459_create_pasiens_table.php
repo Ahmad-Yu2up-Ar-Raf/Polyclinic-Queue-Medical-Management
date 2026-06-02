@@ -17,8 +17,8 @@ return new class extends Migration
             $table->timestamps();
             $table->string('nama');
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('jenis_kelamin', JenisKelaminEnum::cases())->nullable()->default(JenisKelaminEnum::PRIA->value);
-            $table->string('no_hp', 15)->nullable();
+            $table->enum('jenis_kelamin', JenisKelaminEnum::cases())->nullable()->default(JenisKelaminEnum::PRIA->value);
+            $table->string('no_hp', 60)->nullable();
             $table->date('tanggal_lahir');
             $table->string('nik', 16)->unique();
             $table->longText('alamat')->nullable();

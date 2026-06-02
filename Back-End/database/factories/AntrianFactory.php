@@ -24,8 +24,7 @@ class AntrianFactory extends Factory
         return [
             'metode_pembayaran' => $faker->randomElement(MetodePembayaranEnum::cases()),
 
-            // Menghasilkan tanggal acak mulai dari hari ini sampai 30 hari ke depan
-            'jadwal_kunjungan' => $faker->dateTimeBetween('now', '+30 days')->format('Y-m-d'),
+
         ];
     }
 }

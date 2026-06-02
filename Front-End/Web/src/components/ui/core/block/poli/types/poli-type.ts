@@ -1,4 +1,6 @@
-import type { Meta } from "../../monitor/types/monitor-types"
+import type { Meta } from "@/types/pagination-type"
+
+ 
 
 export interface PoliResponse {
   status: boolean

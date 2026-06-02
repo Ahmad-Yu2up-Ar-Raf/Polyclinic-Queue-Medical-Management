@@ -34,12 +34,12 @@ class DokterStoreRequest extends FormRequest
             'nama' => ['string', 'required', 'max:255'],
             'spesialisasi' => ['string', 'nullable', 'max:255'],
 
-            'foto' => ['nullable', 'image', 'max:2048'],
+
             'jenis_kelamin' => ['string', 'nullable', Rule::enum(JenisKelaminEnum::class)],
             'status' => ['string', 'nullable', Rule::enum(DokterStatusEnum::class)],
 
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:dokters,email'],
-            'deskripsi' => ['string', 'nullable', 'max:255'],
+            'deskripsi' => ['string', 'nullable'],
 
         ];
     }

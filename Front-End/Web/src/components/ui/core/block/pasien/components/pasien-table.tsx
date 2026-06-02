@@ -33,6 +33,7 @@ const PasienTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
             <TableHead>Nama</TableHead>
             <TableHead>NIK</TableHead>
             <TableHead>Jenis Kelamin</TableHead>
+            <TableHead>No Hp</TableHead>
             <TableHead>Total Kunjungan</TableHead>
             <TableHead>Tanggal Lahir</TableHead>
             <TableHead>Tanggal Pendaftaran</TableHead>
@@ -53,16 +54,18 @@ const PasienTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
             return (
               <TableRow key={Pasien.id ?? i}>
                 {/* 👇 1. NAMA: Perhatikan penambahan shrink-0 dan truncate */}
-                <TableCell className="flex w-[20em] items-center gap-3 font-medium">
-                  <HugeiconsIcon
-                    icon={User}
-                    // 👇 shrink-0 bikin icon gak bakal mengecil
-                    className="size-5 shrink-0 fill-muted-foreground/40 text-background"
-                  />
-                  {/* 👇 truncate bikin teks panjang jadi ada elipsis (...) */}
-                  <span className="truncate" title={Pasien.nama}>
-                    {Pasien.nama || "-"}
-                  </span>
+                <TableCell className="items-center font-medium whitespace-nowrap">
+                  <div className="flex items-center gap-3">
+                    <HugeiconsIcon
+                      icon={User}
+                      // 👇 shrink-0 bikin icon gak bakal mengecil
+                      className="text-muted-foregrounded/10 size-5 shrink-0"
+                    />
+                    {/* 👇 truncate bikin teks panjang jadi ada elipsis (...) */}
+                    <span   title={Pasien.nama}>
+                      {Pasien.nama || "-"}
+                    </span>
+                  </div>
                 </TableCell>
 
                 {/* 2. NIK */}
@@ -85,7 +88,10 @@ const PasienTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
 
                 {/* 4. TOTAL KUNJUNGAN */}
                 <TableCell className="whitespace-nowrap">
-                  {Pasien.total_kunjungan ?? 0}
+                  {Pasien.no_hp}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {Pasien.total_kunjungan ?? 0}x
                 </TableCell>
 
                 {/* 5. TANGGAL LAHIR */}

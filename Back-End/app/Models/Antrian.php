@@ -18,12 +18,12 @@ class Antrian extends Model
     protected $fillable = [
         'poli_id',
         'dokter_id',
-        // 'jadwal_id',
+
         'pasien_id',
         'jadwal_kunjungan',
         'nomor_urut',
         'metode_pembayaran',
-        'deskripsi',
+
         'nomor_antrian',
         'status',
     ];
@@ -56,7 +56,7 @@ class Antrian extends Model
             'dokter:nama,id,foto,spesialisasi',
             'poli:id,nama',
             'pasien:id,nama,nik',
-        ])->orderBy('updated_at', 'desc');
+        ])->orderBy('updated_at', 'asc');
     }
     public function scopeForOperator(Builder $q): Builder
     {

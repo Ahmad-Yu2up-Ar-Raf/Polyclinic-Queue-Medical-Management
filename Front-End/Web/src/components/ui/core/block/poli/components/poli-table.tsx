@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/fragments/shadcn-ui/table"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
-  AmbulanceIcon,
-  UserAccountFreeIcons,
+  HospitalLocationIcon,
+  Stethoscope,
   UserMultipleIcon,
 } from "@hugeicons/core-free-icons"
 import { format } from "date-fns"
@@ -50,8 +50,8 @@ const PoliTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
             <TableRow key={i}>
               <TableCell className="flex items-center gap-3 font-medium">
                 <HugeiconsIcon
-                  icon={AmbulanceIcon}
-                  className="size-5 fill-muted-foreground/40 text-background"
+                  icon={HospitalLocationIcon}
+                  className="text-muted-foregrounded size-5"
                 />
                 {Poli.nama}
               </TableCell>
@@ -62,8 +62,8 @@ const PoliTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
               <TableCell className="">
                 <div className="flex items-center gap-3 font-medium">
                   <HugeiconsIcon
-                    icon={UserMultipleIcon}
-                    className="size-5 fill-muted-foreground/40 text-background"
+                    icon={Stethoscope}
+                    className="text-muted-foregrounded size-5"
                   />
                   {Poli.dokter_count}
                 </div>
@@ -72,8 +72,8 @@ const PoliTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
               <TableCell className="">
                 <div className="flex items-center gap-3 font-medium">
                   <HugeiconsIcon
-                    icon={UserAccountFreeIcons}
-                    className="size-5 fill-muted-foreground/40 text-background"
+                    icon={UserMultipleIcon}
+                    className="text-muted-foregrounded size-5"
                   />
                   {Poli.antrian_count}
                 </div>

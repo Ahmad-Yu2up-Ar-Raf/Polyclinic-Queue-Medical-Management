@@ -49,16 +49,16 @@ class AntrianStorePendaftaranBaruRequest extends FormRequest
 
 
             'poli_id' => ['integer', 'required', 'exists:polis,id'],
-            'pasien_id' => ['sometimes', 'required', 'exists:pasiens,id'],
-            'dokter_id' => ['integer', 'required', 'exists:dokters,id',  Rule::in($poliDokterIds)],
+            'pasien_id' => ['sometimes', 'sometimes', 'exists:pasiens,id'],
+            'dokter_id' => ['integer', 'sometimes', 'exists:dokters,id',  Rule::in($poliDokterIds)],
 
             'metode_pembayaran' => ['string', 'required', 'max:255', Rule::enum(MetodePembayaranEnum::class)],
             'status' => ['string', 'sometimes', 'max:255', Rule::enum(AntrianStatusEnum::class)],
             'deskripsi' => ['string', 'nullable', 'max:255'],
-            'nomor_antrian' => ['string', 'required', 'unique:antrians,nomor_antrian'],
+            'nomor_antrian' => ['string', 'sometimes', 'unique:antrians,nomor_antrian'],
             'nomor_urut' => [
                 'integer',
-                'required',
+                'sometimes',
                 Rule::unique('antrians', 'nomor_urut')->where(function ($query) {
 
                     return $query->where('poli_id', $this->poli_id);

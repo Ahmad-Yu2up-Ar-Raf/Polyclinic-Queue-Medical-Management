@@ -12,7 +12,7 @@ export const usePasienDeleteMutation = () => {
 
   return useMutation({
     mutationFn: async (pasienId: string | number) => {
-      return api.delete(`pasiens/${pasienId}`).json()
+      return api.delete(`pasien/${pasienId}`).json()
     },
     onMutate: () => {
       toast.loading("Memproses menghapus data Pasien...", {
@@ -21,7 +21,7 @@ export const usePasienDeleteMutation = () => {
     },
     onSuccess: () => {
       toast.success("Pasien berhasil dihapus.", { id: "pasien-delete" })
-      queryClient.invalidateQueries({ queryKey: ["pasiens"] })
+      queryClient.invalidateQueries({ queryKey: ["pasien"] })
     },
     onError: (error) => {
       toast.error("Gagal menghapus Pasien. Coba lagi.", { id: "pasien-delete" })
@@ -40,11 +40,13 @@ export const usePasienForm = ({
   return useAppForm({
     validators: {
       onChange: pasienSchema,
+      onSubmit: pasienSchema,
     },
     defaultValues: defaultValues ?? {
       nama: "",
       nik: "",
-      jenis_kelamin: "Pria",
+      no_hp: "",
+      jenis_kelamin: "pria",
       tanggal_lahir: "",
       alamat: "",
     },
@@ -53,10 +55,10 @@ export const usePasienForm = ({
 
       const actionRequest = isUpdate
         ? api
-            .put(`pasiens/${pasienId}`, { json: data })
+            .put(`pasien/${pasienId}`, { json: data })
             .json<{ message: string; data: PasienResponse }>()
         : api
-            .post("pasiens", { json: data })
+            .post("pasien", { json: data })
             .json<{ message: string; data: PasienResponse }>()
 
       toast.promise(actionRequest, {
@@ -64,7 +66,7 @@ export const usePasienForm = ({
           ? "Memperbarui data pasien..."
           : "Menambahkan data pasien...",
         success: (res) => {
-          queryClient.invalidateQueries({ queryKey: ["pasiens"] })
+          queryClient.invalidateQueries({ queryKey: ["pasien"] })
           onSuccessCallback?.()
           return (
             res.message ||

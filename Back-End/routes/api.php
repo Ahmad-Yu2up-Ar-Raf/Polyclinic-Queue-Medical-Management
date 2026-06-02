@@ -11,6 +11,7 @@ use App\Http\Controllers\DokterController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MonitorController;
 use App\Http\Controllers\OperatorController;
+use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PoliController;
 use Illuminate\Support\Facades\Route;
@@ -50,7 +51,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('polis')->group(function () {
         Route::get('/', [PoliController::class, 'index'])->name('polis.index');
         Route::get('/select', [PoliController::class, 'select'])
-            ->middleware(['auth:sanctum', 'role:pasien'])
+            ->middleware(['auth:sanctum', 'role:pasien|admin'])
             ->name('polis.select');
 
 
@@ -81,6 +82,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('jadwal')->group(function () {
         Route::get('/', [JadwalController::class, 'index'])->name('jadwal.index');
+        Route::get('/select', [JadwalController::class, 'select'])->name('jadwal.select');
         Route::get('/{jadwal}', [JadwalController::class, 'show'])->name('jadwal.show');
         Route::post('/', [JadwalController::class, 'store'])
             ->middleware(['auth:sanctum', 'role:admin'])
@@ -101,7 +103,9 @@ Route::prefix('v1')->group(function () {
             ->name('dokter.index');
         Route::get('/poli', [DokterController::class, 'getDokterByPoli'])
             ->name('dokter.poli');
-
+        Route::put('/{dokter}', [DokterController::class, 'update'])
+            ->middleware(['auth:sanctum', 'role:admin'])
+            ->name('dokter.update');
         Route::get('/{dokter}', [DokterController::class, 'show'])
             ->name('dokter.show');
 
@@ -109,9 +113,7 @@ Route::prefix('v1')->group(function () {
             ->middleware(['auth:sanctum', 'role:admin'])
             ->name('dokter.store');
 
-        Route::put('/{dokter}', [DokterController::class, 'update'])
-            ->middleware(['auth:sanctum', 'role:admin'])
-            ->name('dokter.update');
+
 
         Route::delete('/{dokter}', [DokterController::class, 'destroy'])
             ->middleware(['auth:sanctum', 'role:admin'])
@@ -197,6 +199,17 @@ Route::prefix('v1')->group(function () {
         Route::get('/', [MonitorController::class, 'index'])
             ->name('monitor.index');
     });
+
+
+    Route::prefix('overview')->group(function () {
+        Route::get('/', [OverviewController::class, 'index'])
+            ->middleware(['auth:sanctum', 'role:admin|operator'])
+            ->name('overview.admin');
+        Route::get('/pasien', [AntrianController::class, 'overview'])
+            ->middleware(['auth:sanctum', 'role:pasien'])
+            ->name('overview.pasien');
+    });
+    Route::prefix('overview')->middleware(['auth:sanctum', 'role:pasien'])->group(function () {});
 
     Route::prefix('operator')->middleware(['auth:sanctum', 'role:admin|operator'])->group(function () {
         Route::get('/{poli}', [OperatorController::class, 'index'])->name('operator.index');

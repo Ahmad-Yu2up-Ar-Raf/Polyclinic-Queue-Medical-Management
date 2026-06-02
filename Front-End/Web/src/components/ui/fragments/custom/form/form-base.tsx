@@ -10,27 +10,32 @@ import {
 } from "@/components/ui/fragments/shadcn-ui/field"
 import type { IconSvgElement } from "@hugeicons/react"
 import { useStore } from "@tanstack/react-store"
+import { cn } from "@/lib/utils"
+
 export type FormControlProps = {
   label?: string
   description?: string
   type?: InputProps["type"]
   placeholder?: string
   className?: string
-  LeftIcon: IconSvgElement
+  LeftIcon?: IconSvgElement
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"]
+  maxLength?: number
+  iconClassName?: string
+  inputClassName?: string
+  isFocusClassName?: string
+  isValidClassName?: string
+  isInvalidClassName?: string
 }
 
 type FormBaseProps = FormControlProps & {
   children: ReactNode
   horizontal?: boolean
   controlFirst?: boolean
-  inputClassName?: string
-  isValidClassName?: string
-  isFocusClassName?: string
 }
 
 export function FormBase({
   children,
-
   label,
   description,
   controlFirst,
@@ -43,23 +48,32 @@ export function FormBase({
     (state) => state.submissionAttempts
   )
 
-  const hasErrors = field.state.meta.errors.length > 0
-  const isInvalid =
-    hasErrors && (field.state.meta.isTouched || submissionAttempts > 0)
+  // 🚨 FIX: Subscribe secara eksplisit ke store untuk realtime error updates!
+  const errors = useStore(field.store, (state) => state.meta.errors)
 
-  const labelElement = <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+  const hasErrors = errors.length > 0
+  const isInvalid = hasErrors && submissionAttempts > 0
+
+  const labelElement = (
+    <FieldLabel
+      className={cn(
+        "mb-2 tracking-widest px-1 text-muted-foreground",
+        isInvalid && "text-destructive"
+      )}
+      htmlFor={field.name}
+    >
+      {label}
+    </FieldLabel>
+  )
 
   const captionElem = isInvalid ? (
-    <FieldError className="mt-2 text-xs" errors={field.state.meta.errors} />
-  ) : !isInvalid && description ? (
+    <FieldError className="mt-2 text-xs" errors={errors} />
+  ) : description && !isInvalid ? (
     <FieldDescription>{description}</FieldDescription>
   ) : null
 
   return (
-    <Field
-      data-invalid={isInvalid}
-      orientation={horizontal ? "horizontal" : undefined}
-    >
+    <Field orientation={horizontal ? "horizontal" : undefined}>
       {controlFirst ? (
         <>
           {children}

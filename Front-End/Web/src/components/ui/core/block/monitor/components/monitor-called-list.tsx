@@ -21,7 +21,7 @@ export const MonitorCalledList = ({ data }: { data: Dipanggil[] }) => {
         </Badge>
       </header>
 
-      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
         {data.length === 0 ? (
           <MonitorEmptyState message="Tidak ada antrian dipanggil saat ini." />
         ) : (

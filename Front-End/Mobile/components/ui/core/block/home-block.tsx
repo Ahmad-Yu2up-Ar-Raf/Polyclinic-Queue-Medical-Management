@@ -21,7 +21,7 @@ export default function HomeBlock() {
   const { isLoading, data } = FetchOverview();
   const dokter: Dokter[] = data?.data.dokter ?? [];
   const antrian: Antrean[] = data?.data.antrianUser ?? [];
-
+  console.log(data);
   if (isLoading) {
     return <LoadingIndicator />;
   }

@@ -1,7 +1,10 @@
 import React, { useState } from "react"
 import { Input } from "@/components/ui/fragments/shadcn-ui/input"
 import HeaderDashboard from "@/components/ui/fragments/custom/typograhy/header"
-import { AmbulanceIcon, Search01FreeIcons } from "@hugeicons/core-free-icons"
+import {
+  HospitalLocationIcon,
+  Search01FreeIcons,
+} from "@hugeicons/core-free-icons"
 import { useDebounce } from "@/hooks/use-debounce"
 import { Spinner } from "@/components/ui/fragments/shadcn-ui/spinner"
 import { FetchPoli } from "@/components/ui/core/block/poli/hooks/use-poli-query"
@@ -11,8 +14,10 @@ import { usePoliDeleteMutation } from "./hooks/use-poli-mutation"
 import CreatePoliDialog from "./components/create-poli-dialog"
 import type { Poli } from "@/components/ui/core/block/poli/types/poli-type"
 import UpdatePoliDialog from "./components/update-poli-dialog"
- 
+
 import { toast } from "sonner"
+import { usePagination } from "@/hooks/use-pagination"
+import { DataTablePagination } from "@/components/ui/fragments/custom/table/data-table-paggination"
 
 const PoliBlock = () => {
   const [searchInput, setSearchInput] = useState("")
@@ -20,12 +25,18 @@ const PoliBlock = () => {
   const [openDelete, setOpenDelete] = useState(false)
   const [openUpdate, setOpenUpdate] = React.useState(false)
   const debouncedSearch = useDebounce(searchInput, 500)
-  const { data, isLoading, isError } = FetchPoli(debouncedSearch)
-  const poliList = data?.data ?? []
+  const { page, perPage, setPage, handlePageChange, handlePerPageChange } =
+    usePagination(10)
+
   const [currentPoli, setCurrentPoli] = React.useState<Poli | null>(null)
   // 👇 Hook di-load bersih tanpa disuapi parameter ID di awal
   const { mutate: deletePoli, isPending } = usePoliDeleteMutation()
-
+  const { data, isLoading, isError, isFetching } = FetchPoli({
+    search: debouncedSearch,
+    page,
+    perPage,
+  })
+  const poliList = data?.data ?? []
   // 👇 Handler eksekusi delete sesungguhnya
   const handleDelete = React.useCallback(
     (id: number) => {
@@ -55,7 +66,7 @@ const PoliBlock = () => {
         <div className="space-y-3">
           <div className="items-center space-y-7 sm:flex sm:justify-between">
             <HeaderDashboard
-              Icon={AmbulanceIcon}
+              Icon={HospitalLocationIcon}
               Title="Daftar Poli"
               Deskrpsi="Kelola informasi poli poliklinik."
             />
@@ -70,33 +81,46 @@ const PoliBlock = () => {
             className="sm:max-w-sm"
           />
         </div>
-
-        {isLoading ? (
-          <div className="flex w-full justify-center py-20">
-            <Spinner className="size-8 text-primary" />
-          </div>
-        ) : isError ? (
-          <div className="col-span-full py-10 text-center text-red-500">
-            Gagal memuat data dari server.
-          </div>
-        ) : (
-          <div>
-            {poliList.length > 0 && data ? (
-              <PoliTable
-                Data={data}
-                onEdit={handleEdit}
-                onDelete={(id) => {
-                  setpoliId(id)
-                  setOpenDelete(true)
-                }}
-              />
-            ) : (
-              <div className="col-span-full py-10 text-center text-neutral-400">
-                <p>Tidak ada data poli ditemukan.</p>
+        <div
+          className={`flex flex-col gap-4 transition-opacity duration-200 ${isFetching && !isLoading ? "pointer-events-none opacity-60" : "opacity-100"}`}
+        >
+          {isLoading ? (
+            <div className="flex w-full justify-center py-20">
+              <Spinner className="size-8 text-primary" />
+            </div>
+          ) : isError ? (
+            <div className="col-span-full py-10 text-center text-red-500">
+              Gagal memuat data dari server.
+            </div>
+          ) : (
+            <>
+              <div className="overflow-hidden rounded-xl bg-card">
+                {poliList.length > 0 && data ? (
+                  <PoliTable
+                    Data={data}
+                    onEdit={handleEdit}
+                    onDelete={(id) => {
+                      setpoliId(id)
+                      setOpenDelete(true)
+                    }}
+                  />
+                ) : (
+                  <div className="col-span-full py-10 text-center text-neutral-400">
+                    <p>Tidak ada data poli ditemukan.</p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        )}
+              {data?.meta?.pagination && (
+                <DataTablePagination
+                  pagination={data.meta.pagination}
+                  onPageChange={handlePageChange}
+                  onPerPageChange={handlePerPageChange}
+                  isLoading={isFetching}
+                />
+              )}
+            </>
+          )}
+        </div>
       </div>
 
       {/* 👇 Dialog dikontrol penuh menggunakan openDelete state */}

@@ -29,24 +29,19 @@ class AntrianStoreRequest extends FormRequest
         $poliDokterIds = Dokter::query()->where('poli_id', $this->poli_id)->pluck('id')->toArray();
         return [
             'poli_id' => ['integer', 'required', 'exists:polis,id'],
-            'nomor_urut' => ['required', 'required'],
-            'pasien_id' => ['sometimes', 'required', 'exists:pasiens,id'],
+            'nomor_urut' => ['required', 'sometimes'],
+            'pasien_id' => ['required', 'integer', 'exists:pasiens,id'],
             'dokter_id' => ['integer', 'sometimes', 'exists:dokters,id',  Rule::in($poliDokterIds)],
             'jadwal_kunjungan' => [
                 'required',
                 'date',
                 'after_or_equal:today'
             ],
-            // 'jadwal_id' => [
-            //     'integer',
-            //     'sometimes',
-            //     'exists:jadwals,id',
-            //     Rule::exists('jadwal_dokter', 'jadwal_id')->where('dokter_id', $this->dokter_id)
-            // ],
+
             'metode_pembayaran' => ['string', 'required', 'max:255', Rule::enum(MetodePembayaranEnum::class)],
             'status' => ['string', 'sometimes', 'max:255', Rule::enum(AntrianStatusEnum::class)],
-            'deskripsi' => ['string', 'nullable', 'max:255'],
-            'nomor_antrian' => ['string', 'required', 'unique:antrians,nomor_antrian']
+
+            'nomor_antrian' => ['string', 'sometimes', 'unique:antrians,nomor_antrian']
         ];
     }
 }

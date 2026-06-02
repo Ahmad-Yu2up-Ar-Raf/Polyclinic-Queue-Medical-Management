@@ -31,11 +31,7 @@ class PoliSeeder extends Seeder
                 "kode" => "GIG",
                 "ruangan" => "520-403",
             ],
-            [
-                "nama" => "Poli Mata",
-                "kode" => "MTA",
-                "ruangan" => "220-103",
-            ],
+
         ];
 
 

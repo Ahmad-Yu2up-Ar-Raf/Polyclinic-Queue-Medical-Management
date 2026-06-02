@@ -7,6 +7,6 @@ import { useQuery } from '@tanstack/react-query';
 export const FetchOverview = () => {
   return useQuery({
     queryKey: ['overview'],
-    queryFn: async () => api.get('overview').json<OverviewResponse>(),
+    queryFn: async () => api.get('overview/pasien').json<OverviewResponse>(),
   });
 };

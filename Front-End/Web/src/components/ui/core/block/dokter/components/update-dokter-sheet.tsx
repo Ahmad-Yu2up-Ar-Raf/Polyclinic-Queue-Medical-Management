@@ -2,13 +2,13 @@ import * as React from "react"
 import { Button } from "@/components/ui/fragments/shadcn-ui/button"
 import { Spinner } from "@/components/ui/fragments/shadcn-ui/spinner"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/fragments/shadcn-ui/dialog"
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+} from "@/components/ui/fragments/shadcn-ui/sheet"
 import {
   Drawer,
   DrawerContent,
@@ -19,23 +19,23 @@ import {
 } from "@/components/ui/fragments/shadcn-ui/drawer"
 
 import { useIsMobile } from "@/hooks/use-mobile"
-import { usePasienForm } from "../hooks/use-pasien-mutation"
-import PasienForm from "./pasien-form"
-import type { PasienSchema } from "../types/pasien-type"
+import { useDokterForm } from "../hooks/use-dokter-mutation"
+import DokterForm from "@/components/ui/core/block/dokter/components/dokter-form"
+import type { DokterSchema } from "../types/dokter-type"
 
-interface UpdatePasienDialogProps {
+interface UpdateDokterSheetProps {
   id: number
-  defaultValues: PasienSchema
+  defaultValues: DokterSchema
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
-export default function UpdatePasienDialog({
+export default function UpdateDokterSheet({
   id,
   defaultValues,
   open,
   onOpenChange,
-}: UpdatePasienDialogProps) {
+}: UpdateDokterSheetProps) {
   const isMobile = useIsMobile()
 
   const handleClose = () => {
@@ -43,18 +43,18 @@ export default function UpdatePasienDialog({
     onOpenChange(false)
   }
 
-  const form = usePasienForm({
-    pasienId: id,
+  const form = useDokterForm({
+    dokterId: id,
     defaultValues,
     onSuccessCallback: handleClose,
   })
 
-  // Sinkronisasi data ketika defaultValues berubah saat dialog dibuka
+  // Sinkronisasi data ketika dialog dibuka
   React.useEffect(() => {
     if (open) {
       form.reset()
     }
-  }, [open, id])
+  }, [open, id, defaultValues, form])
 
   const ActionButtons = () => (
     <form.Subscribe selector={(state) => state.isSubmitting}>
@@ -84,18 +84,18 @@ export default function UpdatePasienDialog({
         <DrawerContent className="flex flex-col">
           <DrawerHeader className="border-b p-4 text-left">
             <DrawerTitle className="text-lg font-semibold text-muted-foreground capitalize">
-              Perbarui Pasien
+              Perbarui Dokter
             </DrawerTitle>
             <DrawerDescription className="text-sm text-muted-foreground">
-              Ubah rincian informasi data pasien di bawah ini.
+              Ubah rincian informasi dan jadwal dokter di bawah ini.
             </DrawerDescription>
           </DrawerHeader>
           <div className="px-4 py-4">
-            <PasienForm form={form}>
+            <DokterForm form={form}>
               <DrawerFooter className="px-0">
                 <ActionButtons />
               </DrawerFooter>
-            </PasienForm>
+            </DokterForm>
           </div>
         </DrawerContent>
       </Drawer>
@@ -103,22 +103,25 @@ export default function UpdatePasienDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle className="text-lg font-semibold text-muted-foreground capitalize">
-            Perbarui Pasien
-          </DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
-            Ubah rincian informasi data pasien di bawah ini.
-          </DialogDescription>
-        </DialogHeader>
-        <PasienForm form={form}>
-          <DialogFooter>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent className="flex flex-col gap-0 overflow-y-scroll">
+        <SheetHeader className="top-0 z-30 space-y-1 border-b bg-background p-6 text-left sm:px-9">
+          <SheetTitle className="text-lg font-semibold text-muted-foreground capitalize">
+            Perbarui{" "}
+            <span className="font-semibold text-primary">
+              {defaultValues?.nama}
+            </span>
+          </SheetTitle>
+          <SheetDescription className="text-sm text-muted-foreground">
+            Ubah rincian informasi dan jadwal dokter di bawah ini.
+          </SheetDescription>
+        </SheetHeader>
+        <DokterForm form={form}>
+          <SheetFooter className="sticky bottom-0 z-50 flex w-full flex-row justify-end gap-3 border-t bg-background px-8 py-4 pb-6 sm:space-x-0">
             <ActionButtons />
-          </DialogFooter>
-        </PasienForm>
-      </DialogContent>
-    </Dialog>
+          </SheetFooter>
+        </DokterForm>
+      </SheetContent>
+    </Sheet>
   )
 }

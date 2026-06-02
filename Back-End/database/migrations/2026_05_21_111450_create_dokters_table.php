@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('poli_id')->constrained()->cascadeOnDelete();
             $table->string('nama')->unique();
             $table->string('email')->unique();
-            $table->string('jenis_kelamin', JenisKelaminEnum::cases())->nullable()->default(JenisKelaminEnum::PRIA->value);
+            $table->enum('jenis_kelamin', JenisKelaminEnum::cases())->nullable()->default(JenisKelaminEnum::PRIA->value);
             $table->enum('status', DokterStatusEnum::cases())->nullable()->default(DokterStatusEnum::AKTIF->value);
             $table->longText('deskripsi')->nullable();
             $table->string('spesialisasi');

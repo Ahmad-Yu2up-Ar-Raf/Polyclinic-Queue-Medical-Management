@@ -1,0 +1,35 @@
+name: Deploy Laravel BE via Tailscale
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Connect to Tailscale Network
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTH_KEY }}
+          userspace-networking: false
+
+      - name: Masuk ke Proxmox via SSH & Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }} # Ini otomatis membaca IP Tailscale 100.xx
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            cd /var/www/poliklinik/Back-End
+            git pull origin main
+            php8.4 /usr/local/bin/composer install --no-dev --optimize-autoloader
+            php8.4 artisan config:cache
+            php8.4 artisan route:cache
+            php8.4 artisan view:cache
+            php8.4 artisan optimize:clear
+            sudo systemctl restart php8.4-fpm
+            sudo systemctl restart nginx
+            echo "Deployment Selesai!"

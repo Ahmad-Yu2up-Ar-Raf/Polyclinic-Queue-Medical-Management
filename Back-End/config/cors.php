@@ -19,7 +19,12 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:5173')],
+    'allowed_origins' => [
+        env('FRONTEND_URL', 'http://localhost:5173'),
+        'http://liveup.smkpesat.id/',
+        'https://polyclinic-queue-medical-management.vercel.app',
+        'https://polyclinic-queue-medical-management.vercel.app/'
+    ],
 
     'allowed_origins_patterns' => [],
 

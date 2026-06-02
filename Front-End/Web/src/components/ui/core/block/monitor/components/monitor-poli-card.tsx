@@ -11,14 +11,18 @@ import {
 import { MonitorAntrianItem } from "./monitor-antrian-item"
 import { MonitorEmptyState } from "./monitor-empty-state"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { ClinicIcon } from "@hugeicons/core-free-icons"
+import {
+  HospitalLocationIcon,
+  Building,
+  ClinicIcon,
+} from "@hugeicons/core-free-icons"
 
 export const MonitorPoliCard = ({ data }: { data: PoliElement }) => {
   return (
     <Card className="flex-col gap-0 rounded-2xl border border-border bg-transparent p-0 pb-5 shadow-lg">
       <CardHeader className="flex gap-5 border-b p-5">
         <div className="flex aspect-square size-11 items-center justify-center rounded-md border border-border p-3 text-primary shadow-lg">
-          <HugeiconsIcon icon={ClinicIcon} className="size-full" />
+          <HugeiconsIcon icon={HospitalLocationIcon} className="size-full" />
         </div>
         <div>
           <CardTitle className="mb-1 text-lg font-bold text-neutral-800 dark:text-neutral-200">
