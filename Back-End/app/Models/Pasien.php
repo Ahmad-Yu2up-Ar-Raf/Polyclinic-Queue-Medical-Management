@@ -37,6 +37,7 @@ class Pasien extends Model
 
     public function scopeForWebsite(Builder $q): Builder
     {
-        return $q->withCount('antrian as total_kunjungan')->orderBy('updated_at', 'desc');
+        // Ubah 'asc' menjadi 'desc' di sini 👇
+        return $q->withCount('antrian as total_kunjungan')->orderBy('updated_at', 'asc');
     }
 }

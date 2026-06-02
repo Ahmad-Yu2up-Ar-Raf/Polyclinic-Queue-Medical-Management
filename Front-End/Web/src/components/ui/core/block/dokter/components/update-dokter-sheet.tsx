@@ -117,7 +117,11 @@ export default function UpdateDokterSheet({
           </SheetDescription>
         </SheetHeader>
         <DokterForm form={form}>
+<<<<<<< HEAD
           <SheetFooter className="border- flex w-full flex-row justify-end gap-3 px-8 py-4 sm:space-x-0">
+=======
+          <SheetFooter className="sticky bottom-0 z-50 flex w-full flex-row justify-end gap-3 border-t bg-background px-8 py-4 pb-6 sm:space-x-0">
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
             <ActionButtons />
           </SheetFooter>
         </DokterForm>

@@ -4,7 +4,11 @@ export const jenisKelaminEnum = z.enum(["pria", "wanita"] as const, {
   message: "Jenis kelamin wajib dipilih",
 })
 
+<<<<<<< HEAD
 export const statusDokterEnum = z.enum(["aktif", "nonaktif"] as const, {
+=======
+export const statusDokterEnum = z.enum(["aktif", "tidak aktif"] as const, {
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
   message: "Status wajib dipilih",
 })
 

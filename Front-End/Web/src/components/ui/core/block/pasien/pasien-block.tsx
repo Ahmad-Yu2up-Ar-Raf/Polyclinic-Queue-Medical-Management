@@ -144,7 +144,10 @@ const PasienBlock = () => {
             nik: currentPasien.nik,
             no_hp: currentPasien.no_hp,
             jenis_kelamin: currentPasien.jenis_kelamin as "pria" | "wanita",
+<<<<<<< HEAD
             // Parsing Date object / ISO String ke format murni string yyyy-MM-dd agar dibaca sempurna oleh Calendar
+=======
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
             tanggal_lahir: currentPasien.tanggal_lahir
               ? new Date(currentPasien.tanggal_lahir)
                   .toISOString()
@@ -156,6 +159,13 @@ const PasienBlock = () => {
           onOpenChange={(open) => {
             setOpenUpdate(open)
             if (!open) setCurrentPasien(null)
+          }}
+          // 👇 Tambahkan callback onSuccess (kalau di komponen lu ada)
+          onSuccessCallback={() => {
+            setPage(1) // Balikin tabel ke halaman 1 biar datanya langsung kelihatan di atas!
+            setSearchInput("") // (Opsional) Reset search kalau mau bener-bener bersih
+            setOpenUpdate(false)
+            setCurrentPasien(null)
           }}
         />
       )}

@@ -275,11 +275,17 @@ class AntrianController extends Controller
         $user = $request->user();
         $isPasien = $user->hasRole(RoleEnum::PASIEN->value);
 
+<<<<<<< HEAD
 
         $validated = $request->validated();
 
         return DB::transaction(function () use ($user, $isPasien, $validated, $request) {
 
+=======
+        $validated = $request->validated();
+
+        return DB::transaction(function () use ($user, $isPasien, $validated, $request) {
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
 
             $dataPasien = Arr::only($validated, [
                 'nama',
@@ -310,6 +316,11 @@ class AntrianController extends Controller
             if (empty($validated['dokter_id'])) {
                 $dokter = $this->pemilihanDokter($validated['poli_id'], $validated['jadwal_kunjungan']);
 
+<<<<<<< HEAD
+=======
+            if (empty($validated['dokter_id'])) {
+                $dokter = $this->pemilihanDokter($validated['poli_id'], $validated['jadwal_kunjungan']);
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
                 if (!$dokter) {
                     throw new \Exception("Tidak ada dokter tersedia untuk jadwal tersebut.");
                 }

@@ -18,7 +18,11 @@ return new class extends Migration
             $table->string('nama');
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->enum('jenis_kelamin', JenisKelaminEnum::cases())->nullable()->default(JenisKelaminEnum::PRIA->value);
+<<<<<<< HEAD
             $table->string('no_hp', 15)->nullable();
+=======
+            $table->string('no_hp', 60)->nullable();
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
             $table->date('tanggal_lahir');
             $table->string('nik', 16)->unique();
             $table->longText('alamat')->nullable();

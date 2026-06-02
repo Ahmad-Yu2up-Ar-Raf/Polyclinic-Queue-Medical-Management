@@ -56,7 +56,7 @@ class Antrian extends Model
             'dokter:nama,id,foto,spesialisasi',
             'poli:id,nama',
             'pasien:id,nama,nik',
-        ])->orderBy('updated_at', 'desc');
+        ])->orderBy('updated_at', 'asc');
     }
     public function scopeForOperator(Builder $q): Builder
     {

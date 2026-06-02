@@ -49,7 +49,11 @@ class AntrianStorePendaftaranBaruRequest extends FormRequest
 
 
             'poli_id' => ['integer', 'required', 'exists:polis,id'],
+<<<<<<< HEAD
             'pasien_id' => ['sometimes', 'required', 'exists:pasiens,id'],
+=======
+            'pasien_id' => ['sometimes', 'sometimes', 'exists:pasiens,id'],
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
             'dokter_id' => ['integer', 'sometimes', 'exists:dokters,id',  Rule::in($poliDokterIds)],
 
             'metode_pembayaran' => ['string', 'required', 'max:255', Rule::enum(MetodePembayaranEnum::class)],

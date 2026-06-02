@@ -60,10 +60,17 @@ export default function DokterForm({ form, children }: DokterFormProps) {
         e.stopPropagation()
         form.handleSubmit()
       }}
+<<<<<<< HEAD
       className="space-y-6"
     >
       <main className="flex-1 space-y-4 overflow-y-auto">
         <section className="space-y-6 px-4 py-10 sm:px-9">
+=======
+      className="flex flex-col gap-4 overflow-y-scroll px-0 pt-6 md:overflow-y-clip md:pt-0"
+    >
+      <main className="mb-6 space-y-6">
+        <section className="space-y-10 px-4 py-10 sm:px-9">
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
           <FieldGroup>
             <form.AppField name="nama">
               {() => (
@@ -74,7 +81,12 @@ export default function DokterForm({ form, children }: DokterFormProps) {
                 />
               )}
             </form.AppField>
+<<<<<<< HEAD
 
+=======
+          </FieldGroup>
+          <FieldGroup>
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
             <form.AppField name="email">
               {() => (
                 <FormInput
@@ -82,20 +94,46 @@ export default function DokterForm({ form, children }: DokterFormProps) {
                   type="email"
                   placeholder="contoh@poliklinik.com"
                   LeftIcon={Mail01Icon}
+<<<<<<< HEAD
                 />
               )}
             </form.AppField>
 
+=======
+                  iconClassName="text-amber-500"
+                  inputClassName="text-amber-600 font-medium focus-visible:text-amber-500 focus-visible:placeholder:text-amber-500"
+                  isFocusClassName="border-b-amber-500 bg-amber-500/10 focus-visible:text-amber-500 focus-visible:placeholder:text-amber-500"
+                  isValidClassName="border-b-amber-500 bg-amber-500/10 focus-visible:text-amber-500 focus-visible:placeholder:text-amber-500"
+                  isInvalidClassName="border-b-destructive bg-destructive/10"
+                />
+              )}
+            </form.AppField>
+          </FieldGroup>
+          <FieldGroup>
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
             <form.AppField name="spesialisasi">
               {() => (
                 <FormInput
                   label="Spesialisasi"
                   placeholder="Contoh: Anak, Jantung, Bedah"
                   LeftIcon={Stethoscope}
+<<<<<<< HEAD
                 />
               )}
             </form.AppField>
 
+=======
+                  iconClassName="text-violet-500"
+                  inputClassName="text-violet-600 font-medium focus-visible:text-violet-500 focus-visible:placeholder:text-violet-500"
+                  isFocusClassName="border-b-violet-500 bg-violet-500/10 focus-visible:text-violet-500 focus-visible:placeholder:text-violet-500"
+                  isValidClassName="border-b-violet-500 bg-violet-500/10 focus-visible:text-violet-500 focus-visible:placeholder:text-violet-500"
+                  isInvalidClassName="border-b-destructive bg-destructive/10"
+                />
+              )}
+            </form.AppField>
+          </FieldGroup>
+          <FieldGroup>
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
             <form.AppField name="poli_id">
               {() => (
                 <FormCombobox
@@ -107,6 +145,10 @@ export default function DokterForm({ form, children }: DokterFormProps) {
               )}
             </form.AppField>
           </FieldGroup>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
           <FieldGroup>
             <form.AppField name="jenis_kelamin">
               {(field) => (
