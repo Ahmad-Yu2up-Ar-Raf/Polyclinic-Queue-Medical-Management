@@ -144,10 +144,6 @@ const PasienBlock = () => {
             nik: currentPasien.nik,
             no_hp: currentPasien.no_hp,
             jenis_kelamin: currentPasien.jenis_kelamin as "pria" | "wanita",
-<<<<<<< HEAD
-            // Parsing Date object / ISO String ke format murni string yyyy-MM-dd agar dibaca sempurna oleh Calendar
-=======
->>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
             tanggal_lahir: currentPasien.tanggal_lahir
               ? new Date(currentPasien.tanggal_lahir)
                   .toISOString()

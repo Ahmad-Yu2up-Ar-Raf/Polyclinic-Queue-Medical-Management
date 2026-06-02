@@ -60,11 +60,7 @@ const AntrianTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
           <TableHead>Dokter</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Metode Pembayaran</TableHead>
-<<<<<<< HEAD
-          <TableHead>Tanggal Pendaftaran</TableHead>
-=======
           <TableHead>Tanggal Kunjungan</TableHead>
->>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
           <TableHead typeColumn="sticky" className="right-0">
             <span className="sr-only">Action</span>
           </TableHead>
@@ -140,11 +136,7 @@ const AntrianTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
                   <div className="flex items-center gap-3">
                     <HugeiconsIcon
                       icon={User}
-<<<<<<< HEAD
-                      className="size-5 text-muted-foregrounded "
-=======
                       className="text-muted-foregrounded size-5"
->>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
                     />
                     <span>{antrian.pasien?.nama || "-"}</span>
                   </div>
@@ -194,11 +186,7 @@ const AntrianTable = ({ Data, onDelete, onEdit }: ComponentProps) => {
 
                 {/* 7. TANGGAL PENDAFTARAN */}
                 <TableCell className="whitespace-nowrap">
-<<<<<<< HEAD
-                  {formatTanggal(antrian.created_at)}
-=======
                   {formatTanggal(antrian.jadwal_kunjungan)}
->>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
                 </TableCell>
 
                 {/* 8. ACTION */}

@@ -50,14 +50,9 @@ export default function PasienForm({ form, children }: PasienFormProps) {
                 <field.DateInput
                   label="Tanggal Lahir"
                   LeftIcon={Calendar01Icon}
-<<<<<<< HEAD
-                  captionLayout="dropdown"
-                  placeholder="Pilih tanggal lahir pasien"
-=======
                   placeholder="Pilih tanggal lahir pasien"
                   captionLayout="dropdown"
                   disableFuture={true} // 👈 Pasien tidak mungkin lahir di masa depan
->>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
                 />
               )}
             </form.AppField>

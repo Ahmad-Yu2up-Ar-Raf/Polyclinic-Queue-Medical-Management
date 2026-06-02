@@ -13,17 +13,6 @@ export const pasienSchema = z.object({
   nik: z
     .string()
     .min(16, "NIK harus 16 digit")
-<<<<<<< HEAD
-    .max(16, "NIK maksimal 16 digit"),
-
-  jenis_kelamin: jenisKelaminEnum,
-
-  tanggal_lahir: z.string().min(1, "Tanggal lahir wajib diisi"),
-  no_hp: z
-    .string()
-    .min(1, "Nomor wajib diisi")
-    .max(255, "Maksimal 255 karakter"),
-=======
     .max(16, "NIK maksimal 16 digit")
     .regex(/^[0-9]+$/, "NIK hanya boleh berisi angka"),
   no_hp: z
@@ -41,7 +30,6 @@ export const pasienSchema = z.object({
       today.setHours(0, 0, 0, 0)
       return !isNaN(date.getTime()) && date < today
     }, "Tanggal lahir harus sebelum hari ini"),
->>>>>>> 084ee958cd25ffd5b0b573422f9ce0406c9e2962
   alamat: z
     .string()
     .max(255, "Alamat maksimal 255 karakter")

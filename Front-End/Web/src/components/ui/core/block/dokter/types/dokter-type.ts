@@ -4,7 +4,7 @@ import type { dokterSchema } from "../validation/dokter-schema"
 
 // Mengikuti tipe enum string dari backend
 export type JenisKelamin = "pria" | "wanita"
-export type StatusDokter = "aktif" | "nonaktif"
+export type StatusDokter = "aktif" | "tidak aktif"
 
 // Tipe helper untuk select option
 export interface ComboboxOption {
