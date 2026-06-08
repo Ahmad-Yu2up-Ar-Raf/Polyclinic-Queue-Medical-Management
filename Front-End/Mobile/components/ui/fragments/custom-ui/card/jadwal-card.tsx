@@ -1,15 +1,12 @@
 import { View } from 'react-native';
 import React from 'react';
 
-import { Button } from '../../shadcn-ui/button';
 import { cn } from '@/lib/utils';
 import { Text } from '../../shadcn-ui/text';
-
-import { Antrean } from '@/types/antrian-types';
+import { Antrean } from '@/components/ui/core/block/jadwal/types/jadwal-types';
 import { batasiKata } from '@/hooks/use-word';
 import { format } from 'date-fns';
 import { THEME } from '@/lib/theme';
-import { Separator } from '../../shadcn-ui/separator';
 import { IconSvgElement } from '@hugeicons/react-native';
 import { Icon } from '../../shadcn-ui/icon';
 
@@ -18,8 +15,6 @@ import {
   NextIcon,
   Clock01Icon,
   CheckmarkCircle01Icon,
-  Calendar,
-  Clock,
   Calendar02FreeIcons,
 } from '@hugeicons/core-free-icons';
 import {

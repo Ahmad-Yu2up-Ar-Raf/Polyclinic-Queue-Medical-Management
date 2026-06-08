@@ -1,9 +1,9 @@
-import HomeBlock from '@/components/ui/core/block/home-block';
+import HomeBlock from '@/components/ui/core/block/home/home-block';
 import { SCREEN_OPTIONS } from '@/components/ui/core/layout/nav';
 import { Button } from '@/components/ui/fragments/shadcn-ui/button';
 import Email from '@/components/ui/fragments/svg/icons/email';
 
-import { useAuth } from '@/hooks/app/use-auth';
+import { useAuth } from '@/components/ui/core/block/auth/hooks/use-auth';
 
 import { Link, Stack } from 'expo-router';
 

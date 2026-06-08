@@ -1,6 +1,6 @@
-import { View, Pressable, ScrollView } from 'react-native'; // Tambahkan ScrollView di sini bro
+import { View, Pressable, ScrollView } from 'react-native'; 
 import React, { useState } from 'react';
-import { Dokter } from '@/hooks/app/use-dokter';
+
 import { Wrapper } from '../../layout/wrapper';
 import { Stack, router } from 'expo-router';
 import { SCREEN_OPTIONS } from '../../layout/nav';
@@ -16,8 +16,7 @@ import {
   Sun,
   User,
 } from '@hugeicons/core-free-icons';
-import { useScrollTracker } from '@/hooks/useScrollTracker';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/fragments/shadcn-ui/avatar';
+import { useScrollTracker } from '@/hooks/use-scroll-tracker';
 import { Text } from '@/components/ui/fragments/shadcn-ui/text';
 import { useInitials } from '@/hooks/use-initial';
 import { Badge } from '@/components/ui/fragments/shadcn-ui/badge';
@@ -25,7 +24,10 @@ import { cn } from '@/lib/utils';
 import { Image } from '@/components/ui/fragments/shadcn-ui/image';
 import FloatingComponent from '@/components/ui/fragments/custom-ui/button/floating-button';
 import { Button } from '@/components/ui/fragments/shadcn-ui/button';
-import { useOnboardingStore, setDokterPoli } from '@/store/pendaftaran-store';
+import {
+  useOnboardingStore,
+  setDokterPoli,
+} from '@/components/ui/core/block/pendaftaran/store/pendaftaran-store';
 import {
   Card,
   CardContent,
@@ -35,6 +37,8 @@ import {
 } from '@/components/ui/fragments/shadcn-ui/card';
 import { Icon } from '@/components/ui/fragments/shadcn-ui/icon';
 import { THEME } from '@/lib/theme';
+import { Dokter } from '../dokter/types/dokter-type';
+import PendaftaranMode from '@/components/ui/fragments/custom-ui/dialog/pendaftaran-select-mode-dialog';
 
 type compoenentProp = {
   Dokter: Dokter;
@@ -78,9 +82,14 @@ const checkIsJadwalActive = (hari: string, jamMulai: string, jamSelesai: string)
 
 export default function DokterDetailBlock({ Dokter }: compoenentProp) {
   const Nama = batasiKata(Dokter.nama, 3);
+  const [showDialogOption, setDialogOption] = useState(false);
   const { scrollPosition, handleScroll } = useScrollTracker();
   const Poli = Dokter.poli;
   const initial = useInitials();
+
+  const handlePendaftaran = () => {
+    setDialogOption(true);
+  };
   const getShiftWaktu = (jamMulai: string): string => {
     // Ambil 2 digit pertama dari jam_mulai (misal "08:00:00" -> "08")
     const jam = parseInt(jamMulai.substring(0, 2), 10);
@@ -133,7 +142,7 @@ export default function DokterDetailBlock({ Dokter }: compoenentProp) {
       poli: Poli.nama,
     });
 
-    router.push('/daftar/stepper/first-step');
+    router.push('/daftar/pendaftaran_baru/first-step');
   };
 
   return (
@@ -148,6 +157,7 @@ export default function DokterDetailBlock({ Dokter }: compoenentProp) {
           scrollAnimationType: 'slide',
         })}
       />
+      <PendaftaranMode showDialogOption={showDialogOption} setDialogOption={setDialogOption} />
       <View style={{ flex: 1 }}>
         <Wrapper
           animatedScrollHandler={handleScroll}
@@ -192,7 +202,9 @@ export default function DokterDetailBlock({ Dokter }: compoenentProp) {
                   </Text>
                 </Badge>
                 <View className="gap-2">
-                  <Text className="font-figtree_bold text-xl tracking-tighter">{Nama}</Text>
+                  <Text className="font-figtree_bold text-xl tracking-tighter text-foreground">
+                    {Nama}
+                  </Text>
                   <Text className="font-figtree_regular text-sm tracking-tighter text-muted-foreground">
                     {`${Poli.nama}  •  ${Dokter.spesialisasi} `}
                   </Text>
@@ -381,7 +393,7 @@ export default function DokterDetailBlock({ Dokter }: compoenentProp) {
             className="w-full gap-4"
             variant="default"
             size={'lg'}
-            onPress={handleJadwalkanKonsultasi}
+            onPress={handlePendaftaran}
             disabled={!Dokter.tersedia}>
             <Icon icon={Calendar02Icon} color={THEME.light.primaryForeground} size={20} />
 

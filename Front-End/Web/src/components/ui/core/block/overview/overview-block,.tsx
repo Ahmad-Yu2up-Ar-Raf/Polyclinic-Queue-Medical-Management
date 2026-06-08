@@ -17,11 +17,7 @@ import {
 
 // Import komponen Chart dan Config-nya
 import { ChartDistribution } from "./components/chart-distribution"
-import {
-  antrianStatusChartConfig,
-  dokterStatusChartConfig,
-  genderChartConfig,
-} from "@/config/analytics-chart-config" // Sesuaikan path-nya ya bro
+import { antrianStatusChartConfig } from "@/config/analytics-chart-config" // Sesuaikan path-nya ya bro
 import { ChartActivityTrends } from "./components/chart-activity-trends"
 import { useMonitorClock } from "@/hooks/use-monitor-clock"
 
@@ -84,8 +80,6 @@ function OverviewBlock() {
     },
   ]
 
-  // 4. Transform Data API Object ke Array of Object untuk Chart
-  // Pake fallback {} biar gak crash kalau datanya undefined dari API
   const antrianStatusData = Object.entries(
     reports.AntrianstatusCount || {}
   ).map(([key, value]) => ({
@@ -94,8 +88,8 @@ function OverviewBlock() {
   }))
 
   return (
-    <section className="space-y-4 px-10 py-4">
-      <div className="@container/main flex flex-1 flex-col gap-10">
+    <section className="space-y-4 px-10 py-6">
+      <div className="@container/main flex flex-1 flex-col gap-6 ">
         <header className="m-auto flex w-full flex-col border-b px-0 pb-7 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-2 text-center">
             <h1 className="w-fit text-3xl font-bold text-neutral-900 dark:text-neutral-100">
@@ -103,7 +97,7 @@ function OverviewBlock() {
               <span className="text-primary"> Datang</span>
             </h1>
             <p className="w-fit text-lg text-neutral-500">
-              Berikut ini rangkuman data keseluruhan
+              Berikut ini rangkuman keseluruhan data
             </p>
           </div>
 
@@ -128,7 +122,7 @@ function OverviewBlock() {
             className="col-span-3"
             data={activityTrends || []}
             title="Tren Aktivitas"
-            description="Votes, destinasi, dan artikel per hari"
+            description="Pasien & Antrian harian"
           />
           <ChartDistribution
             data={antrianStatusData}

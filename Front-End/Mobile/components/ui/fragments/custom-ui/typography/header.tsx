@@ -26,7 +26,7 @@ export function Header({ title, className, icon }: HeaderProps) {
   return (
     <View className={cn('w-full', className)}>
       <View className={`w-full gap-6 pr-16`}>
-        <View className="flex size-14 content-center items-center justify-center rounded-2xl bg-primary/10">
+        <View className="flex size-14 content-center items-center justify-center rounded-2xl border border-border">
           <Icon icon={icon} color={THEME.light.primary} size={30} />
         </View>
 

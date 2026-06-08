@@ -8,10 +8,13 @@ import { useFieldContext } from '@/hooks/form/form-context';
 import { useFormFieldState } from '@/utils/form-utils';
 import { cn } from '@/lib/utils';
 import type { IconSvgElement } from '@hugeicons/react-native';
-
+import { Button } from '@/components/ui/fragments/shadcn-ui/button';
+import { Eye, EyeOff } from '@hugeicons/core-free-icons';
 export interface FormInputProps extends Omit<TextInputProps, 'style'> {
   LeftIcon?: IconSvgElement;
+  isPassword?: boolean;
   showError?: boolean;
+
   iconColor?: string;
   label?: string;
   inputClassName?: string;
@@ -22,6 +25,7 @@ export interface FormInputProps extends Omit<TextInputProps, 'style'> {
 
 export function FormInput({
   LeftIcon,
+  isPassword,
   showError = true,
   iconColor,
   className,
@@ -51,7 +55,7 @@ export function FormInput({
     : isFocused || isValid
       ? primaryColor
       : primaryColor;
-
+  const [showPassword, setShowPassword] = React.useState(true);
   return (
     <View className={cn('mb-4 w-full', className)}>
       {label && (
@@ -69,16 +73,13 @@ export function FormInput({
           'relative w-full overflow-hidden text-foreground transition-all duration-200',
           baseBorderClass,
 
-          // State: Normal
+ 
           !isFocused && !isValid && !isInvalid && normalBorderClass,
 
-          // State: Focused atau Valid
-          // (UDAH DI FIX: Hanya aktif JIKA TIDAK INVALID)
           (isFocused || isValid) && !isInvalid && [activeBorderClass, 'bg-primary/5'],
           isFocused && !isInvalid && isFocusClassName,
           isValid && !isInvalid && isValidClassName,
 
-          // State: Invalid (Error) - SEKARANG MENANG ABSOLUT
           isInvalid && [errorBorderClass, 'bg-destructive/5 text-destructive']
         )}>
         {LeftIcon && (
@@ -98,17 +99,14 @@ export function FormInput({
           onChangeText={field.handleChange}
           editable={!field.form.state.isSubmitting || field.form.state.submissionAttempts === 0}
           className={cn(
-            // 2. UDAH DIBERSIHIN: Gak ada lagi logic border/bg ganda di dalem Input ini
-            'h-12 border-0  text-sm shadow-none transition-all duration-200',
+            'h-12 rounded-none border-0 text-sm shadow-none transition-all duration-200',
             LeftIcon ? 'pl-12' : 'pl-3',
 
-            // 3. FIX POSISI KELAS WARNA TEKS
-            // Terapin input class kustom/normal HANYA jika TIDAK INVALID
             !isInvalid && 'text-primary',
             !isInvalid && inputClassName,
             isFocused && !isInvalid && 'bg-primary/5',
             isValid && !isInvalid && 'bg-primary/5',
-            // Taruh logic error di PALING BAWAH biar ga ada yang bisa nimpa text-destructive
+
             isValid && !isInvalid && isValidClassName,
             isFocused && !isInvalid && isFocusClassName,
             isInvalid && 'bg-destructive/5 text-destructive',
@@ -117,8 +115,22 @@ export function FormInput({
           placeholderTextColor={
             isInvalid ? colors.destructive : isFocused ? primaryColor : colors.mutedForeground
           }
+          secureTextEntry={isPassword ? showPassword : false}
           {...props}
         />
+        {isPassword && (
+          <Button
+            disabled={field.form.state.isSubmitting}
+            variant="ghost"
+            className="absolute right-0 top-1/2 z-10 -translate-y-1/2 bg-none"
+            onPress={() => setShowPassword(!showPassword)}>
+            {showPassword ? (
+              <Icon color={currentIconColor} icon={Eye} size={18} />
+            ) : (
+              <Icon color={currentIconColor} icon={EyeOff} size={18} />
+            )}
+          </Button>
+        )}
       </View>
 
       {isInvalid && showError && (

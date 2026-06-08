@@ -1,11 +1,11 @@
-import { setLogout, useAuthStore } from '@/store/auth-store';
+import { setLogout, useAuthStore } from '@/components/ui/core/block/auth/store/auth-store';
 import { router } from 'expo-router';
 import ky from 'ky';
 
 const BASE_API = process.env.EXPO_PUBLIC_API_URL ?? 'https://poliklinik-api.smkpesat.id/';
 
 export const api = ky.create({
-  baseUrl: 'https://poliklinik-api.smkpesat.id/api/v1/',
+  baseUrl: BASE_API,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

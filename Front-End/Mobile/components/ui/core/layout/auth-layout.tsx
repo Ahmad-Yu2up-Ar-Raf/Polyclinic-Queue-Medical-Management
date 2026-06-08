@@ -16,8 +16,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Spinner } from '../../fragments/shadcn-ui/spinner';
 import { LogoAdaptive } from '../../fragments/svg/logo-app';
-import { Separator } from '../../fragments/shadcn-ui/separator';
-import { SocialConnections } from '../feauture/auth/social-connection';
+
 import { cn } from '@/lib/utils';
 import FloatingComponent from '../../fragments/custom-ui/button/floating-button';
 import { Button } from '../../fragments/shadcn-ui/button';
@@ -57,14 +56,16 @@ const AuthLayout = ({
   return (
     <SafeAreaView
       edges={['bottom', 'top', 'left', 'right']}
-      className="h-full content-start items-start justify-center bg-card p-10 sm:flex-1">
+      className="h-full content-start items-start justify-center p-10 sm:flex-1">
       <Card className="relative m-auto flex h-full w-full max-w-sm content-center justify-center gap-6 border-0 bg-transparent px-0 shadow-none sm:border-border">
         <CardHeader className="relative mb-1 flex w-full flex-col content-center items-center justify-start gap-3 p-0">
           <View className="size-fit scale-100">
             <LogoAdaptive className="relative m-auto size-full overflow-visible" />
           </View>
           <View>
-            <CardTitle className="mb-0.5 text-center font-figtree_bold text-2xl">{title}</CardTitle>
+            <CardTitle className="mb-0.5 text-center font-figtree_bold text-2xl text-foreground">
+              {title}
+            </CardTitle>
             <CardDescription className="text-center text-sm text-muted-foreground sm:text-left">
               {description}
             </CardDescription>

@@ -10,9 +10,9 @@ import { Separator } from '../../../fragments/shadcn-ui/separator';
 import { Wrapper } from '../../layout/wrapper';
 import ProgresHeader from '../../layout/progress-header';
 import { SCREEN_OPTIONS } from '../../layout/nav';
-import { useScrollTracker } from '@/hooks/useScrollTracker';
-import { useOnboardingStore } from '@/store/pendaftaran-store';
-import { useFinalSubmit } from '@/hooks/form/use-pendaftaran';
+import { useScrollTracker } from '@/hooks/use-scroll-tracker';
+
+import { useFinalSubmit } from '@/components/ui/core/block/pendaftaran/hooks/use-pendaftaran';
 
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/fragments/shadcn-ui/card';
@@ -44,6 +44,7 @@ import {
   Calendar01FreeIcons,
   NoteDoneFreeIcons,
 } from '@hugeicons/core-free-icons';
+import { useOnboardingStore } from '@/components/ui/core/block/pendaftaran/store/pendaftaran-store';
 
 interface detailType {
   value: string;
@@ -59,12 +60,12 @@ export default function ThirdStepBlock() {
   const { submitAction, isLoading } = useFinalSubmit();
 
   const handleLeave = () => {
-    router.push('/daftar/stepper/second-step');
+    router.push('/daftar/pendaftaran_baru/second-step');
   };
 
   // Guard Clause: Lempar balik ke step 1 kalau data wajib belum terisi
   if (!storeState.nama || !storeState.nik || !storeState.Dokter || !storeState.poli_id) {
-    return <Redirect href="/daftar/stepper/first-step" />;
+    return <Redirect href="/daftar/pendaftaran_baru/first-step" />;
   }
 
   // Parsing Tanggal
@@ -194,40 +195,45 @@ export default function ThirdStepBlock() {
             <Separator className="mb-10 mt-7" />
 
             <View className="gap-12">
-              {/* Nomor Urut & Antrean Box */}
-              <Card className="w-full overflow-hidden rounded-3xl border-primary bg-primary/5">
-                <CardContent className="flex flex-row items-center justify-between gap-5 px-4 py-1">
-                  <View className="flex-1 items-center justify-center">
-                    <Text className="mb-1 font-figtree_bold text-lg tracking-widest text-primary">
-                      {(storeState as any).nomor_antrian || '-'}
-                    </Text>
-                    <Text className="font-figtree_medium text-xs uppercase tracking-wider text-primary/90">
-                      Nomor Antrean
-                    </Text>
-                  </View>
+              <View className="w-full">
+                <Text className="mb-4 px-1 font-figtree_medium text-sm uppercase tracking-widest text-foreground">
+                  Tiket Antrean:
+                </Text>
+                {/* Nomor Urut & Antrean Box */}
+                <Card className="w-full overflow-hidden rounded-3xl border-primary bg-primary/5">
+                  <CardContent className="flex flex-row items-center justify-between gap-5 px-4 py-1">
+                    <View className="flex-1 items-center justify-center">
+                      <Text className="mb-1 font-figtree_bold text-lg tracking-widest text-primary">
+                        {(storeState as any).nomor_antrian || '-'}
+                      </Text>
+                      <Text className="font-figtree_medium text-xs uppercase tracking-wider text-primary/90">
+                        Nomor Antrean
+                      </Text>
+                    </View>
 
-                  <Separator
-                    orientation="vertical"
-                    className="h-16 w-[3px] bg-primary opacity-50"
-                  />
+                    <Separator
+                      orientation="vertical"
+                      className="h-16 w-[3px] bg-primary opacity-50"
+                    />
 
-                  <View className="flex-1 items-center justify-center">
-                    <Text className="mb-1 font-figtree_bold text-lg tracking-widest text-primary">
-                      {storeState.nomor_urut || '-'}
-                    </Text>
-                    <Text className="font-figtree_medium text-xs uppercase tracking-wider text-primary/90">
-                      Nomor Urut
-                    </Text>
-                  </View>
-                </CardContent>
-              </Card>
+                    <View className="flex-1 items-center justify-center">
+                      <Text className="mb-1 font-figtree_bold text-lg tracking-widest text-primary">
+                        {storeState.nomor_urut || '-'}
+                      </Text>
+                      <Text className="font-figtree_medium text-xs uppercase tracking-wider text-primary/90">
+                        Nomor Urut
+                      </Text>
+                    </View>
+                  </CardContent>
+                </Card>
+              </View>
 
               {/* SECTION REVIEW KARTU JADWAL */}
               <View className="w-full">
                 <Text className="mb-4 px-1 font-figtree_medium text-sm uppercase tracking-widest text-foreground">
-                  Preview Tiket Antrean:
+                  Dokter Anda:
                 </Text>
-
+                {/* Nomor 
                 {/* 3. RENDER KOMPONEN JADWAL CARD DI SINI */}
                 <JadwalCard Antrean={antreanPreviewData as any} />
               </View>

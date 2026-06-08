@@ -57,7 +57,7 @@ export function Onboarding({
   const [currentStep, setCurrentStep] = useState(0);
   const scrollViewRef = useRef<ScrollView>(null);
   const translateX = useSharedValue(0);
-  const backgroundColor = THEME.light.card;
+
   const primaryColor = THEME.light.primary;
   const mutedColor = THEME.light.mutedForeground;
 
@@ -151,11 +151,7 @@ export function Onboarding({
     return (
       <Animated.View
         key={step.id}
-        style={[
-          styles.stepContainer,
-          { backgroundColor: step.backgroundColor || backgroundColor },
-          { opacity: isActive ? 1 : 0.8 },
-        ]}
+        style={[styles.stepContainer, { opacity: isActive ? 1 : 0.8 }]}
         className={'flex h-full flex-col'}>
         <View style={styles.contentContainer} className="mb-3">
           <View className="flex h-full max-h-[30em] content-center items-center justify-center overflow-hidden">
@@ -166,7 +162,7 @@ export function Onboarding({
             <Text
               variant="h1"
               style={styles.title}
-              className="font-figtree_bold text-3xl tracking-tighter">
+              className="font-figtree_bold text-3xl tracking-tighter text-foreground">
               {step.title}
             </Text>
             <Text
@@ -184,7 +180,7 @@ export function Onboarding({
   };
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.container, { backgroundColor }, style]}>
+    <View style={[styles.container, style]}>
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.container, animatedStyle]}>
           <ScrollView

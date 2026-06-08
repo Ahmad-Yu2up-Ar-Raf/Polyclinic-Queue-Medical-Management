@@ -44,7 +44,7 @@ export function Wrapper({
         scrollEventThrottle={16}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="interactive"
-        contentContainerClassName={cn('flex-col pt-0  bg-background gap-3 relative', className)}
+        contentContainerClassName={cn('flex-col pt-0   gap-3 relative', className)}
         contentContainerStyle={contentContainerStyle}
         showsVerticalScrollIndicator={false}
         style={scrollViewStyle}>

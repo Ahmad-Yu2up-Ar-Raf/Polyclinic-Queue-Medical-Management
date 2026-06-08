@@ -14,7 +14,7 @@ import { batasiKata } from '@/hooks/use-word';
 import { Badge } from '../../shadcn-ui/badge';
 import { cn } from '@/lib/utils';
 import { router } from 'expo-router';
-import { Dokter } from '@/hooks/app/use-dokter';
+import { Dokter } from '@/components/ui/core/block/dokter/hooks/use-dokter';
 
 type componentProps = {
   Dokter: Dokter;

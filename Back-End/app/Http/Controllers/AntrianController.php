@@ -264,7 +264,8 @@ class AntrianController extends Controller
         $antrian = Antrian::create($validated);
 
         return response()->json([
-            'succes' => true,
+            'success' => true,
+            'message' => 'Pendaftaran berhasil',
             'data' => $antrian
         ], 200);
     }
@@ -277,64 +278,63 @@ class AntrianController extends Controller
 
         $validated = $request->validated();
 
-        return DB::transaction(function () use ($user, $isPasien, $validated, $request) {
 
-            $dataPasien = Arr::only($validated, [
-                'nama',
-                'no_hp',
-                'user_id',
-                'jenis_kelamin',
-                'tanggal_lahir',
-                'nik',
-                'alamat'
-            ]);
 
-            if ($isPasien) {
-                $dataPasien['user_id'] = $user->id;
+        $dataPasien = Arr::only($validated, [
+            'nama',
+            'no_hp',
+            'user_id',
+            'jenis_kelamin',
+            'tanggal_lahir',
+            'nik',
+            'alamat'
+        ]);
+
+        if ($isPasien) {
+            $dataPasien['user_id'] = $user->id;
+        }
+
+        $pasien = Pasien::create($dataPasien);
+        $validated['pasien_id'] = $pasien->id;
+
+
+        if (empty($validated['nomor_antrian']) || empty($validated['nomor_urut'])) {
+            [$nomor_antrian, $status, $nomor_urut] = $this->generateKodeAntrian($validated['poli_id']);
+            $validated['nomor_antrian'] = $nomor_antrian;
+            $validated['nomor_urut'] = $nomor_urut;
+            $validated['status'] = $status;
+        }
+
+        // B. Jika dokter_id belum ada, cari otomatis
+        if (empty($validated['dokter_id'])) {
+            $dokter = $this->pemilihanDokter($validated['poli_id'], $validated['jadwal_kunjungan']);
+
+            if (!$dokter) {
+                throw new \Exception("Tidak ada dokter tersedia untuk jadwal tersebut.");
             }
+            $validated['dokter_id'] = $dokter->id;
+        }
 
-            $pasien = Pasien::create($dataPasien);
-            $validated['pasien_id'] = $pasien->id;
+        // 3. Proses Data Antrian
+        $dataAntrian = Arr::only($validated, [
+            'pasien_id',
+            'poli_id',
+            'dokter_id',
+            'metode_pembayaran',
+            'status',
+            'nomor_urut',
+            'deskripsi',
+            'nomor_antrian',
+            'jadwal_kunjungan'
+        ]);
 
+        $antrian = Antrian::create($dataAntrian);
 
-            if (empty($validated['nomor_antrian']) || empty($validated['nomor_urut'])) {
-                [$nomor_antrian, $status, $nomor_urut] = $this->generateKodeAntrian($validated['poli_id']);
-                $validated['nomor_antrian'] = $nomor_antrian;
-                $validated['nomor_urut'] = $nomor_urut;
-                $validated['status'] = $status;
-            }
-
-            // B. Jika dokter_id belum ada, cari otomatis
-            if (empty($validated['dokter_id'])) {
-                $dokter = $this->pemilihanDokter($validated['poli_id'], $validated['jadwal_kunjungan']);
-
-                if (!$dokter) {
-                    throw new \Exception("Tidak ada dokter tersedia untuk jadwal tersebut.");
-                }
-                $validated['dokter_id'] = $dokter->id;
-            }
-
-            // 3. Proses Data Antrian
-            $dataAntrian = Arr::only($validated, [
-                'pasien_id',
-                'poli_id',
-                'dokter_id',
-                'metode_pembayaran',
-                'status',
-                'nomor_urut',
-                'deskripsi',
-                'nomor_antrian',
-                'jadwal_kunjungan'
-            ]);
-
-            $antrian = Antrian::create($dataAntrian);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Pendaftaran berhasil',
-                'data' => $antrian
-            ], 200);
-        });
+        return response()->json([
+            'success' => true,
+            'message' => 'Pendaftaran berhasil',
+            'data' => $antrian
+        ], 200);
     }
     public function show(Antrian $antrian)
     {

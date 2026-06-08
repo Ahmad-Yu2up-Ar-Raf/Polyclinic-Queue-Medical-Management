@@ -86,9 +86,18 @@ export function FormCombobox(props: FormComboboxProps) {
         )}
 
         <Combobox
-          value={value ?? props.placeholder}
+          value={value !== undefined ? String(value) : undefined}
           onValueChange={(val) => {
-            field.handleChange(val ? val : undefined)
+            if (!val) {
+              field.handleChange(undefined)
+              return
+            }
+
+            const selectedOption = props.options.find(
+              (opt) => String(opt.value) === val
+            )
+
+            field.handleChange(selectedOption?.value)
           }}
           onOpenChange={(open) => {
             setIsFocused(open)
@@ -124,7 +133,7 @@ export function FormCombobox(props: FormComboboxProps) {
             {/* <ComboboxEmpty>Pencarian tidak ditemukan.</ComboboxEmpty> */}
             <ComboboxList>
               {filteredOptions.map((item) => (
-                <ComboboxItem key={item.value} value={item.value}>
+                <ComboboxItem key={item.value} value={String(item.value)}>
                   {item.label}
                 </ComboboxItem>
               ))}

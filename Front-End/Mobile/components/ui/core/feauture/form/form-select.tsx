@@ -15,19 +15,26 @@ import { cn } from '@/lib/utils';
 import type { Option } from '@/components/ui/fragments/shadcn-ui/select';
 import { THEME } from '@/lib/theme';
 import { Icon } from '@/components/ui/fragments/shadcn-ui/icon';
-import { Building } from '@hugeicons/core-free-icons';
+import { HospitalLocationIcon } from '@hugeicons/core-free-icons';
+import { IconSvgElement } from '@hugeicons/react-native';
 
 export interface FormSelectProps {
   options: Option[];
   placeholder?: string;
   showError?: boolean;
+  primaryColor?: string;
   className?: string;
   label?: string;
+  isValidClassName?: string;
+  icon?: IconSvgElement;
 }
 
 export function FormSelect({
   options,
+  primaryColor = 'hsl(330 81.2% 60.4%)',
+  icon = HospitalLocationIcon,
   placeholder = 'Pilih...',
+  isValidClassName,
   showError = true,
   className,
   label,
@@ -66,26 +73,24 @@ export function FormSelect({
           }}
           className={cn(
             isInvalid && 'border-destructive bg-destructive/5 text-destructive',
-            isValid && 'border-pink-500',
+            isValid && 'border-pink-500 bg-pink-50',
+            isValid && isValidClassName,
             'h-12 rounded-2xl',
             field.form.state.isSubmitting && 'opacity-50',
-            isValid && 'bg-pink-50',
+
             'active:bg-muted'
           )}
           color={isInvalid ? THEME.light.destructive : THEME.dark.foreground}>
           <View className="flex flex-row items-center">
-            <Icon
-              icon={Building}
-              size={18}
-              color={isInvalid ? colors.destructive : 'hsl(330 81.2% 60.4%)'}
-            />
+            <Icon icon={icon} size={18} color={isInvalid ? colors.destructive : primaryColor} />
             <SelectValue
               className={cn(
                 !selectedOption && 'text-muted-foreground/50',
                 !isValid && 'text-muted-foreground',
                 isInvalid ? 'text-destructive' : 'text-foreground',
                 'px-3',
-                isValid && 'text-pink-500'
+                isValid && 'text-pink-500',
+                isValid && isValidClassName
               )}
               placeholder={placeholder}
             />

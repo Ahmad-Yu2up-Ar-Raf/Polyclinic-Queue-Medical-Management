@@ -9,6 +9,7 @@ use App\Models\Antrian;
 use App\Models\Pasien;
 use App\Models\Poli;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PasienController extends Controller
 {
@@ -98,6 +99,32 @@ class PasienController extends Controller
             'succes' => true
         ], 200);
     }
+
+
+
+
+    public function select(Request $request)
+    {
+        $user = $request->user();
+        $userId = $user->id;
+
+        $isPasien = $user->hasRole(RoleEnum::PASIEN->value);
+        $query = Pasien::select('id', 'nama', 'nik');
+    
+        if ($isPasien) {
+            $query->where('user_id', $userId);
+        }
+
+
+        $pasien = $query->get();
+        return response()->json([
+            'status'  => true,
+            'message' => 'Pasiens retrieved successfully',
+            'data'    => $pasien, // Tidak perlu ->items() jika tidak pakai paginate
+        ]);
+    }
+
+
 
 
     public function destroy(Pasien $pasien)

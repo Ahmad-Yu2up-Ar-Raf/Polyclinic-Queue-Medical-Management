@@ -1,10 +1,9 @@
 import React from 'react';
-
-import { router, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { SCREEN_OPTIONS } from '@/components/ui/core/layout/nav';
 import { ChevronLeft } from '@hugeicons/core-free-icons';
 
-export default function HomeLayout() {
+export default function PageLayout() {
   return (
     <Stack>
       <Stack.Screen
@@ -15,13 +14,6 @@ export default function HomeLayout() {
           className: 'px-5',
         })}
       />
-      <Stack.Screen
-        name="[id]"
-        options={{
-          headerShown: false,
-        }}
-      />
-      {/* Tambahkan screen lain di sini jika ada nested routes */}
     </Stack>
   );
 }

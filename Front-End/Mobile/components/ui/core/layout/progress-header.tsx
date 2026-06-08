@@ -12,15 +12,15 @@ type progresSchema = {
 const Progres: progresSchema[] = [
   {
     label: 'Indentitas',
-    path: ['/daftar/stepper/first-step'],
+    path: ['/daftar/pendaftaran_baru/first-step'],
   },
   {
     label: 'Layanan',
-    path: ['/daftar/stepper/second-step'],
+    path: ['/daftar/pendaftaran_baru/second-step'],
   },
   {
     label: 'Tinjau',
-    path: ['/daftar/stepper/third-step'],
+    path: ['/daftar/pendaftaran_baru/third-step'],
   },
 ];
 

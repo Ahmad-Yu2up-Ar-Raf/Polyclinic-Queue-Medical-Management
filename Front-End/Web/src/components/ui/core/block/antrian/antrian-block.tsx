@@ -33,7 +33,7 @@ const AntrianBlock = () => {
   const [openDelete, setOpenDelete] = useState(false)
   const [antrianId, setAntrianId] = useState<number | null>(null)
   const debouncedSearch = useDebounce(searchInput, 500)
-  const { page, perPage, setPage, handlePageChange, handlePerPageChange } =
+  const { page, perPage, handlePageChange, handlePerPageChange } =
     usePagination(10)
 
   const { data, isLoading, isError, isFetching } = FetchAntrian({

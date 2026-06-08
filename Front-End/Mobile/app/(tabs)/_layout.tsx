@@ -11,11 +11,10 @@ import React from 'react';
 
 import { Text } from '@/components/ui/fragments/shadcn-ui/text';
 
-import HistoryIcon from '@/components/ui/fragments/svg/icons/board';
+import CalendarIcon from '@/components/ui/fragments/svg/icons/calendar';
 import HostpitalIcon from '@/components/ui/fragments/svg/icons/hostpital-icon';
-import UserIcon from '@/components/ui/fragments/svg/icons/user-icon';
+
 import SettingIcon from '@/components/ui/fragments/svg/icons/setting';
-import { View } from 'react-native';
 
 export default function TabsLayout() {
   const { colorScheme } = useColorScheme();
@@ -80,10 +79,10 @@ export default function TabsLayout() {
         />
 
         <Tabs.Screen
-          name="riwayat"
+          name="jadwal"
           options={{
             headerShown: false,
-            title: 'Riwayat',
+            title: 'Jadwal',
             tabBarLabel: ({ color, focused }) => (
               <Text
                 className={cn(
@@ -96,7 +95,7 @@ export default function TabsLayout() {
               </Text>
             ),
             tabBarIcon: ({ color, focused }) => (
-              <HistoryIcon opacity={focused ? 1 : 0.6} fill={color} />
+              <CalendarIcon opacity={focused ? 1 : 0.6} fill={color} />
             ),
           }}
         />

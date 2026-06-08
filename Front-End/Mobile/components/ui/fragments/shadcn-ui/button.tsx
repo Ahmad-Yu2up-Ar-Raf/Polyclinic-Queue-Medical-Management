@@ -25,7 +25,7 @@ const buttonVariants = cva(
           })
         ),
         outline: cn(
-          '0 border border-border bg-background shadow-sm shadow-black/5 active:bg-accent dark:border-input',
+          '0 border border-border bg-background shadow-sm shadow-black/5 active:bg-accent  ',
           Platform.select({
             web: 'hover:bg-accent dark:hover:bg-input/50',
           })

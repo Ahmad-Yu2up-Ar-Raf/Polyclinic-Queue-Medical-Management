@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
-import { FetchAntreanDetail } from '@/hooks/app/use-antrian';
+import { FetchAntreanDetail } from '@/components/ui/core/block/jadwal/hooks/use-jadwal';
 import LoadingIndicator from '@/components/ui/core/loading-indicator';
 import SuccesBlock from '@/components/ui/core/block/detail/succes-block';
 

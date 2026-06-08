@@ -30,7 +30,7 @@ export default function MenuCard({
   return (
     <Card
       className={cn(
-        'm-auto h-fit w-full content-start items-start justify-start overflow-hidden rounded-xl border-0 p-2 shadow-none',
+        'm-auto h-fit w-full content-start items-start justify-start overflow-hidden rounded-xl border-0 bg-card p-2 shadow-none',
         className
       )}>
       <CardContent className="w-full overflow-hidden p-0">
@@ -50,7 +50,7 @@ export default function MenuCard({
                 )}>
                 <View className="flex-row items-center gap-5">
                   {detail.icon && (
-                    <View className="rounded-xl bg-primary/10 p-2">
+                    <View className="rounded-xl border border-border p-2">
                       <Icon
                         color={THEME.light.primary}
                         icon={detail.icon}
@@ -88,7 +88,7 @@ export default function MenuCard({
             buttonClassName
           )}>
           <View className="flex-row items-center gap-5">
-            <View className="rounded-xl bg-destructive/10 p-2">
+            <View className="rounded-xl border border-destructive/10 p-2">
               <Icon
                 icon={LogOut}
                 color={THEME.light.destructive}

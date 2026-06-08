@@ -17,7 +17,7 @@ import Animated, { type SharedValue } from 'react-native-reanimated';
 
 import { IconSvgElement } from '@hugeicons/react-native';
 
-import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { useScrollAnimation } from '@/hooks/use-scroll-animations';
 
 export interface ScreenOptionsParams {
   title?: string;

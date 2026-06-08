@@ -1,7 +1,7 @@
 import { Href, Stack, usePathname } from 'expo-router';
 import * as React from 'react';
 
-export default function HomeLayout() {
+export default function PageLayout() {
   return (
     <Stack
       screenOptions={{

@@ -2,7 +2,7 @@ import { View } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Antrean } from '@/types/antrian-types';
+import { Antrean } from '@/components/ui/core/block/jadwal/types/jadwal-types';
 
 import {
   Card,
@@ -50,7 +50,7 @@ export default function SuccesBlock({ Antrean }: componentProps) {
   return (
     <SafeAreaView
       edges={['bottom', 'top', 'left', 'right']}
-      className="h-full content-start items-start justify-center pt-3 bg-card px-12 sm:flex-1">
+      className="h-full content-start items-start justify-center bg-card px-12 pt-3 sm:flex-1">
       <View className="flex w-full flex-col items-center justify-center gap-2">
         <View className="size-fit rounded-full bg-primary/5 p-1">
           <Icon
@@ -90,7 +90,7 @@ export default function SuccesBlock({ Antrean }: componentProps) {
           <View className="gap-2">
             <Text className="font-figtree_regular text-xs text-primary-foreground/80">DOKTER</Text>
             <Text className="font-figtree_semibold text-lg text-primary-foreground">
-              dr. {Antrean.dokter.nama}
+              {Antrean.dokter.nama}
             </Text>
           </View>
         </CardContent>
@@ -116,16 +116,14 @@ export default function SuccesBlock({ Antrean }: componentProps) {
       </Card>
       <View className="w-full gap-4">
         <Button
-          onPress={() => router.push('/(tabs)/riwayat')}
+          onPress={() => router.push('/(tabs)/jadwal')}
           className="w-full"
           variant="default"
-          size={"lg"}>
-          <Text className="font-figtree_semibold  text-primary-foreground">
-            Lihat Riwayat
-          </Text>
+          size={'lg'}>
+          <Text className="font-figtree_semibold text-primary-foreground">Lihat Riwayat</Text>
         </Button>
-        <Button onPress={() => router.push('/')} className="w-full" variant="outline" size={"lg"}>
-          <Text className="font-figtree_semibold  text-secondary-foreground/60">
+        <Button onPress={() => router.push('/')} className="w-full" variant="outline" size={'lg'}>
+          <Text className="font-figtree_semibold text-secondary-foreground/60">
             Kembali ke Beranda
           </Text>
         </Button>

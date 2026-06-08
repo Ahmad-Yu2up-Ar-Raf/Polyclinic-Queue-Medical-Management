@@ -13,7 +13,7 @@ import { Figtree_600SemiBold } from '@expo-google-fonts/figtree/600SemiBold';
 import { Figtree_700Bold } from '@expo-google-fonts/figtree/700Bold';
 import { Figtree_800ExtraBold } from '@expo-google-fonts/figtree/800ExtraBold';
 import { Figtree_900Black } from '@expo-google-fonts/figtree/900Black';
-import { useAuthStore } from '@/store/auth-store';
+import { useAuthStore } from '@/components/ui/core/block/auth/store/auth-store';
 import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 export { ErrorBoundary } from 'expo-router';
 
@@ -72,7 +72,7 @@ function AppBootstrap() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="daftar" options={{ headerShown: false }} />
         <Stack.Screen name="dokter" options={{ headerShown: false }} />
-        <Stack.Screen name="monitor" options={{ headerShown: false }} />
+
         {/* Halaman poliklinik dkk kamu bisa taruh di bawah sini bro */}
       </Stack.Protected>
     </Stack>

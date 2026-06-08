@@ -34,7 +34,7 @@ export default function AntrianLamaForm({
   const { data: pasienOptions = [] } = useQuery({
     queryKey: ["pasien", "select"],
     queryFn: async () => {
-      const res = await api.get("pasien").json<{ data: Pasien[] }>()
+      const res = await api.get("pasien/select").json<{ data: Pasien[] }>()
       return res.data.map((pasien) => ({
         label: `${pasien.nama} - ${pasien.nik}`,
         value: pasien.id,

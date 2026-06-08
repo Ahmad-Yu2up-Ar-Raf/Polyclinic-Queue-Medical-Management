@@ -123,6 +123,9 @@ Route::prefix('v1')->group(function () {
     Route::prefix('pasien')->group(function () {
         Route::get('/', [PasienController::class, 'index'])
             ->name('pasien.index');
+        Route::get('/select', [PasienController::class, 'select'])
+            ->middleware(['auth:sanctum', 'role:pasien|admin'])
+            ->name('pasien.select');
 
         Route::get('/{pasien}', [PasienController::class, 'show'])
             ->name('pasien.show');

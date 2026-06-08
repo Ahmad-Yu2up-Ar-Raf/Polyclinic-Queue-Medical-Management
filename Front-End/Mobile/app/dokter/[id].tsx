@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 import { Redirect, Stack, useLocalSearchParams } from 'expo-router';
-import { Dokter, FetchDokterDetail } from '@/hooks/app/use-dokter';
+import { Dokter, FetchDokterDetail } from '@/components/ui/core/block/dokter/hooks/use-dokter';
 import LoadingIndicator from '@/components/ui/core/loading-indicator';
 
 import DokterDetailBlock from '@/components/ui/core/block/detail/dokter-detai-block';

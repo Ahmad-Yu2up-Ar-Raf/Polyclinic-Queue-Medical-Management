@@ -10,7 +10,7 @@ import { Icon } from '../../fragments/shadcn-ui/icon';
 import { useColorScheme } from 'nativewind';
 import { THEME } from '@/lib/theme';
 import { Text } from '../../fragments/shadcn-ui/text';
-import { cn } from '@/lib/utils';
+
 import { MenuDetail } from '@/types';
 import { Switch } from '../../fragments/shadcn-ui/switch';
 import MenuCard from '../../fragments/custom-ui/card/feature-menu';
@@ -18,14 +18,16 @@ import {
   Bell,
   Bookmark01FreeIcons,
   ChevronLeft,
+  Moon,
+  Moon02FreeIcons,
   Pen01FreeIcons,
   Pencil,
   Setting07FreeIcons,
 } from '@hugeicons/core-free-icons';
-import { useAuth } from '@/hooks/app/use-auth';
+import { useAuth } from '@/components/ui/core/block/auth/hooks/use-auth';
 import UserAvatar from '../../fragments/avatar/user-avatar';
 import { batasiKata } from '@/hooks/use-word';
-import { useAuthStore } from '@/store/auth-store';
+import { useAuthStore } from '@/components/ui/core/block/auth/store/auth-store';
 export default function SettingsBlock() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const menuDetails2: MenuDetail[] = [
@@ -33,25 +35,21 @@ export default function SettingsBlock() {
       Label: 'Tersimpan',
       icon: Bookmark01FreeIcons,
     },
+
     {
-      Label: 'Settings',
-      icon: Setting07FreeIcons,
+      Label: 'Dark Mode',
+      icon: Moon02FreeIcons,
+      rigthComponent: (
+        <Switch
+          checked={colorScheme === 'dark'}
+          onCheckedChange={toggleColorScheme}
+          id="toggle-dark-mode"
+          nativeID="toggle-dark-mode"
+        />
+      ),
+
+      onPress: toggleColorScheme,
     },
-
-    // {
-    //   Label: 'Dark Mode',
-    //   icon: Moon,
-    //   rigthComponent: (
-    //     <Switch
-    //       checked={colorScheme === 'dark'}
-    //       onCheckedChange={toggleColorScheme}
-    //       id="toggle-dark-mode"
-    //       nativeID="toggle-dark-mode"
-    //     />
-    //   ),
-
-    //   onPress: toggleColorScheme,
-    // },
 
     {
       Label: 'Notifikasi',
