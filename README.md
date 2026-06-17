@@ -1,8 +1,4 @@
-<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-  <img src="Assets/logo/favicon.ico" alt="App Logo" width="50">
-  <h1 style="margin: 0; font-size: 2.5em;">LiveUp</h1>
-</div>
-
+# LiveUp 
 
 > Sistem Manajemen Antrian Poliklinik Digital yang Cerdas dan Efisien
 
