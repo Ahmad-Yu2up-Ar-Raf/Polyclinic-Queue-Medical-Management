@@ -4,10 +4,9 @@ on:
   push:
     branches: [main]
     paths:
-    - "Back-End/**"
+      - "Back-End/**"
+  workflow_dispatch: # 🚀 INI ATURAN AGAR TOMBOL DEPLOY MANUAL NYA MUNCUL!
 
-
-    
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -22,18 +21,27 @@ jobs:
       - name: Masuk ke Proxmox via SSH & Deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.HOST }} # Ini otomatis membaca IP Tailscale 100.xx
+          host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
+            # 1. Masuk ke root folder git dan tarik code terbaru
             cd /var/www/poliklinik
             git pull origin main
+
+            # 2. MASUK KE FOLDER BACK-END (Karena ini Monorepo!)
+            cd Back-End
+
+            # 3. Jalankan composer & optimasi Laravel dengan urutan yang benar
             php8.4 /usr/local/bin/composer install --no-dev --optimize-autoloader
-            php8.4 artisan config:cache
-            php8.4 artisan route:cache
-            php8.4 artisan view:cache
+            
+            # Kita bersihkan cache lama dulu, baru buat cache baru
             php8.4 artisan optimize:clear
+            php8.4 artisan optimize
+
+            # 4. Restart service server
             sudo systemctl restart php8.4-fpm
             sudo systemctl restart nginx
+            
             echo "Deployment Selesai!"
