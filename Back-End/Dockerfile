@@ -1,8 +1,8 @@
-# UPGRADE: Pakai image resmi FrankenPHP dengan PHP 8.4 Alpine
+# Pakai image resmi FrankenPHP dengan PHP 8.4 Alpine
 FROM dunglas/frankenphp:php8.4-alpine
 
-# Install ekstensi PHP & Opcache
-RUN install-php-extensions pdo pdo_pgsql bcmath opcache
+# Install ekstensi PHP, Opcache, dan PCNTL (Wajib untuk Octane!)
+RUN install-php-extensions pdo pdo_pgsql bcmath opcache pcntl
 
 # Copy composer terbaru
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -12,13 +12,13 @@ WORKDIR /app
 # Copy seluruh source code aplikasi
 COPY . .
 
-# Bypass peringatan root session composer demi kelancaran non-interactive build
+# Bypass peringatan root session composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-# Install dependencies (Production Optimized)
+# Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Atur permission storage agar tidak macet saat generate log/cache
+# Atur permission storage
 RUN chmod -R 777 storage bootstrap/cache
 
 # Konfigurasi FrankenPHP Worker Mode untuk Laravel
