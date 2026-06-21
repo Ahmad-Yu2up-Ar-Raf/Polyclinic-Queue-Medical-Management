@@ -16,7 +16,7 @@ COPY . .
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Install dependencies
-RUN composer install --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader
 
 # Atur permission storage
 RUN chmod -R 777 storage bootstrap/cache
@@ -25,4 +25,4 @@ RUN chmod -R 777 storage bootstrap/cache
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
 
 # Jalankan Laravel Octane dengan Engine FrankenPHP, Port 80, dan Admin Port 2019
-ENTRYPOINT ["sh", "-c", "php artisan migrate:fresh --force --seed && php artisan octane:start --server=frankenphp --host=0.0.0.0 --port=80 --admin-port=2019"]
+ENTRYPOINT ["php", "artisan", "octane:start", "--server=frankenphp", "--host=0.0.0.0", "--port=80", "--admin-port=2019"]
