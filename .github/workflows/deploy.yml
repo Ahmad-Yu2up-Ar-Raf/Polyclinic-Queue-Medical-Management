@@ -2,7 +2,7 @@ name: Sync Subfolder to Hugging Face Spaces
 
 on:
   push:
-    branches: [ main ] # Akan jalan otomatis setiap lu push ke branch main
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -15,17 +15,13 @@ jobs:
 
     - name: Push Back-End Subfolder to Hugging Face
       run: |
-        # Masuk ke subfolder Back-End
         cd Back-End
         
-        # Inisialisasi git lokal khusus di dalam folder Back-End
-        git init
+        git init -b main
         git config user.name "GitHub Action"
         git config user.email "actions@github.com"
         
-        # Tambahkan semua file yang ada di dalam Back-End
         git add .
         git commit -m "Deploy Backend from Monorepo"
         
-        # Paksa push langsung ke Git repository milik Hugging Face Space lu
         git push --force https://AyusufAR:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/AyusufAR/liveup main
