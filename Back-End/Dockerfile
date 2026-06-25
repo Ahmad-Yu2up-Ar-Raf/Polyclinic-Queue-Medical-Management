@@ -1,38 +1,35 @@
-# Menggunakan image resmi FrankenPHP (Berbasis Debian Bookworm)
+# 1. Base Image Resmi FrankenPHP (Debian Bookworm)
 FROM dunglas/frankenphp:php8.4-bookworm
 
-# 1. Install utility 'unzip' bawaan Linux OS (Wajib banget buat Composer)
+# 2. Install utility OS yang dibutuhkan
 RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Install ekstensi PHP bawaan FrankenPHP (Ditambahkan 'zip')
+# 3. Install ekstensi PHP (Wajib ada pcntl untuk Octane & zip untuk Composer)
 RUN install-php-extensions pdo pdo_pgsql bcmath opcache pcntl zip
 
-# Ambil Composer terbaru
+# 4. Ambil Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy seluruh file project
+# 5. Copy seluruh codebase
 COPY . .
 
-# Bypass peringatan root session composer
+# 6. Install dependensi Production
 ENV COMPOSER_ALLOW_SUPERUSER=1
-
-# Install dependensi Laravel (Optimized untuk Production)
 RUN composer install --no-dev --optimize-autoloader
 
-# PENTING: Kunci cache konfigurasi & route Laravel di dalam image
-RUN php artisan config:cache && \
-    php artisan route:cache && \
+# 7. Kunci Cache Route & View (JANGAN masukkan config:cache di sini!)
+RUN php artisan route:cache && \
     php artisan view:cache
 
-# Atur permission
+# 8. Set Permission Storage
 RUN chmod -R 777 storage bootstrap/cache
 
-# Wajib untuk Hugging Face
+# 9. Buka Port untuk Hugging Face
 EXPOSE 7860
 
-# Jalankan server
-ENTRYPOINT ["frankenphp", "php-server", "--listen", ":7860", "--root", "./public"]
+# 10. ENTRYPOINT: Jalankan Laravel Octane dengan server FrankenPHP
+ENTRYPOINT ["php", "artisan", "octane:start", "--server=frankenphp", "--host=0.0.0.0", "--port=7860"]
