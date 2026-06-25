@@ -25,4 +25,4 @@ RUN chmod -R 777 storage bootstrap/cache
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
 
 # Jalankan Laravel Octane dengan Engine FrankenPHP, Port 80, dan Admin Port 2019
-ENTRYPOINT ["php", "artisan", "octane:start", "--server=frankenphp", "--host=0.0.0.0", "--port=80", "--admin-port=2019"]
+ENTRYPOINT ["php", "artisan", "octane:start", "--server=frankenphp", "--host=0.0.0.0", "--port=7860", "--admin-port=2019"]
