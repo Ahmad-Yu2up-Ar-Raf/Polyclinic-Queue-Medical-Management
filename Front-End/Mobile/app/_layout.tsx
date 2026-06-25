@@ -59,7 +59,7 @@ function AppBootstrap() {
 
   // 4. Struktur pembagian halaman berdasarkan status login
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack  screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       {/* 🛑 GRUP PENGUNJUNG: Akses halaman jika BELUM login */}
       <Stack.Protected guard={!isAuthenticated}>
         <Stack.Screen name="(auth)/welcome" options={SIGN_IN_SCREEN_OPTIONS} />
