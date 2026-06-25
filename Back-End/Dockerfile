@@ -1,8 +1,13 @@
-# Menggunakan image resmi FrankenPHP (Berbasis Debian Bookworm agar DNS stabil)
+# Menggunakan image resmi FrankenPHP (Berbasis Debian Bookworm)
 FROM dunglas/frankenphp:php8.4-bookworm
 
-# Install ekstensi PHP dengan script bawaan FrankenPHP
-RUN install-php-extensions pdo pdo_pgsql bcmath opcache pcntl
+# 1. Install utility 'unzip' bawaan Linux OS (Wajib banget buat Composer)
+RUN apt-get update && apt-get install -y \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# 2. Install ekstensi PHP bawaan FrankenPHP (Ditambahkan 'zip')
+RUN install-php-extensions pdo pdo_pgsql bcmath opcache pcntl zip
 
 # Ambil Composer terbaru
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
