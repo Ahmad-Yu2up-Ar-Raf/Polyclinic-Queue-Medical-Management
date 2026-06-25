@@ -1,8 +1,8 @@
 # Pakai image resmi FrankenPHP dengan PHP 8.4 Alpine
 FROM dunglas/frankenphp:php8.4-alpine
 
-# Install ekstensi PHP, Opcache, dan PCNTL (Wajib untuk Octane!)
-RUN install-php-extensions pdo pdo_pgsql bcmath opcache pcntl
+# KODE BARU (Hanya install yang belum ada)
+RUN install-php-extensions pdo_pgsql bcmath pcntl
 
 # Copy composer terbaru
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
