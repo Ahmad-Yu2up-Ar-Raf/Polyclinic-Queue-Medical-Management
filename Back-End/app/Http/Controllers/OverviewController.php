@@ -16,7 +16,7 @@ class OverviewController extends Controller
      */
     public function index()
     {
-        // 1. Ambil semua angka lewat Query Aggregate (Jauh lebih hemat RAM)
+        // 1. Ambil Total Keseluruhan (Sangat Ringan, Langsung Hitung di DB)
         $totals = [
             'totalDokter'  => Dokter::count(),
             'totalPasien'  => Pasien::count(),
@@ -24,57 +24,62 @@ class OverviewController extends Controller
             'totalPoli'    => Poli::count(),
         ];
 
-        // 2. Gunakan pluck() untuk grouping langsung di Database
-        // Ini mengembalikan array: ['aktif' => 10, 'nonaktif' => 2]
-        $dokterStatusCount = Dokter::select('status', DB::raw('count(*) as count'))
+        // 2. Grouping & Counting Langsung via SQL menggunakan pluck()
+        $dokterStatusCount = Dokter::selectRaw('status, count(*) as count')
             ->groupBy('status')
             ->pluck('count', 'status');
 
-        $jenisKelaminDokter = Dokter::select('jenis_kelamin', DB::raw('count(*) as count'))
+        $jenisKelaminDokter = Dokter::selectRaw('jenis_kelamin, count(*) as count')
             ->groupBy('jenis_kelamin')
             ->pluck('count', 'jenis_kelamin');
 
-        $jenisKelaminPasien = Pasien::select('jenis_kelamin', DB::raw('count(*) as count'))
+        $jenisKelaminPasien = Pasien::selectRaw('jenis_kelamin, count(*) as count')
             ->groupBy('jenis_kelamin')
             ->pluck('count', 'jenis_kelamin');
 
-        $antrianStatusCount = Antrian::select('status', DB::raw('count(*) as count'))
+        $antrianStatusCount = Antrian::selectRaw('status, count(*) as count')
             ->groupBy('status')
             ->pluck('count', 'status');
 
-        // 3. Top Dokter (Tetap pakai withCount, ini sudah benar)
+        // 3. Ambil Top 5 Dokter (Sudah Benar)
         $topDokter = Dokter::select('id', 'nama')
             ->withCount('antrian')
             ->orderByDesc('antrian_count')
             ->take(5)
             ->get();
 
-        // 4. Data per Tanggal (Optimasi Query)
-        // Kita ambil data sekaligus tanpa memuat objek Model
-        $dokterCounts = Dokter::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+        // 4. Data Statistik per Tanggal (Pakai selectRaw agar lebih bersih)
+        $pasienDates = Pasien::selectRaw('DATE(created_at) as date, count(*) as count')
             ->groupBy('date')->pluck('count', 'date');
 
-        $pasienCounts = Pasien::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+        $antrianDates = Antrian::selectRaw('DATE(created_at) as date, count(*) as count')
             ->groupBy('date')->pluck('count', 'date');
 
-        $antrianCounts = Antrian::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+        $dokterDates = Dokter::selectRaw('DATE(created_at) as date, count(*) as count')
             ->groupBy('date')->pluck('count', 'date');
 
-        // Gabungkan tanggal unik
-        $allDates = $dokterCounts->keys()
-            ->merge($pasienCounts->keys())
-            ->merge($antrianCounts->keys())
+        $poliDates = Poli::selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')->pluck('count', 'date');
+
+        // 5. Menggabungkan Tanggal Unik Secara Efisien
+        $allDates = collect([])
+            ->merge($pasienDates->keys())
+            ->merge($antrianDates->keys())
+            ->merge($dokterDates->keys())
+            ->merge($poliDates->keys())
             ->unique()
             ->sort();
 
-        $counts = $allDates->map(function ($date) use ($pasienCounts, $antrianCounts) {
+        // 6. Mapping Data Statistik
+        $countsByDate = $allDates->map(function ($date) use ($pasienDates, $antrianDates) {
             return [
                 'date'    => $date,
-                'pasien'  => $pasienCounts->get($date, 0),
-                'antrian' => $antrianCounts->get($date, 0),
+                'pasien'  => $pasienDates->get($date, 0),
+                'antrian' => $antrianDates->get($date, 0),
             ];
         })->values();
 
+        // 7. Kembalikan Response
         return response()->json([
             'reports' => array_merge($totals, [
                 'topDokter'               => $topDokter,
@@ -82,7 +87,7 @@ class OverviewController extends Controller
                 'DokterstatusCount'       => $dokterStatusCount,
                 'JenisKelaminPasienCount' => $jenisKelaminPasien,
                 'JenisKelaminDokterCount' => $jenisKelaminDokter,
-                'countsByDate'            => $counts,
+                'countsByDate'            => $countsByDate,
             ]),
         ]);
     }
