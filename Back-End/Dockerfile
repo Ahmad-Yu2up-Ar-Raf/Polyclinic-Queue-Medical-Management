@@ -5,7 +5,7 @@ FROM php:8.4-cli-bookworm AS base
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     unzip \
-    &>& docker-php-ext-install pdo pdo_pgsql bcmath opcache
+    && docker-php-ext-install pdo pdo_pgsql bcmath opcache
 
 # Ambil binary FrankenPHP resmi & Composer
 COPY --from=dunglas/frankenphp:latest /usr/local/bin/frankenphp /usr/local/bin/frankenphp
