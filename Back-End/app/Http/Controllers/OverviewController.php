@@ -16,87 +16,74 @@ class OverviewController extends Controller
      */
     public function index()
     {
-        $recordDokter = Dokter::all();
+        // 1. Ambil semua angka lewat Query Aggregate (Jauh lebih hemat RAM)
+        $totals = [
+            'totalDokter'  => Dokter::count(),
+            'totalPasien'  => Pasien::count(),
+            'totalAntrian' => Antrian::count(),
+            'totalPoli'    => Poli::count(),
+        ];
 
+        // 2. Gunakan pluck() untuk grouping langsung di Database
+        // Ini mengembalikan array: ['aktif' => 10, 'nonaktif' => 2]
+        $dokterStatusCount = Dokter::select('status', DB::raw('count(*) as count'))
+            ->groupBy('status')
+            ->pluck('count', 'status');
 
-        $recordPasien = Pasien::all();
-        $recordAntrian = Antrian::all();
-        $recordPoli = Poli::all();
+        $jenisKelaminDokter = Dokter::select('jenis_kelamin', DB::raw('count(*) as count'))
+            ->groupBy('jenis_kelamin')
+            ->pluck('count', 'jenis_kelamin');
 
-        $dokterCounts = Dokter::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as dokter'))
-            ->groupBy(DB::raw('DATE(created_at)'))
-            ->get()
-            ->keyBy('date');
-        $antrianCounts = Antrian::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as antrian'))
-            ->groupBy(DB::raw('DATE(created_at)'))
-            ->get()
-            ->keyBy('date');
+        $jenisKelaminPasien = Pasien::select('jenis_kelamin', DB::raw('count(*) as count'))
+            ->groupBy('jenis_kelamin')
+            ->pluck('count', 'jenis_kelamin');
 
-        $pasienCounts = Pasien::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as pasien'))
-            ->groupBy(DB::raw('DATE(created_at)'))
-            ->get()
-            ->keyBy('date');
-        $poliCounts = Poli::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as poli'))
-            ->groupBy(DB::raw('DATE(created_at)'))
-            ->get()
-            ->keyBy('date');
+        $antrianStatusCount = Antrian::select('status', DB::raw('count(*) as count'))
+            ->groupBy('status')
+            ->pluck('count', 'status');
 
-        $topDokter = Dokter::select('nama')
+        // 3. Top Dokter (Tetap pakai withCount, ini sudah benar)
+        $topDokter = Dokter::select('id', 'nama')
             ->withCount('antrian')
             ->orderByDesc('antrian_count')
             ->take(5)
             ->get();
 
+        // 4. Data per Tanggal (Optimasi Query)
+        // Kita ambil data sekaligus tanpa memuat objek Model
+        $dokterCounts = Dokter::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+            ->groupBy('date')->pluck('count', 'date');
 
-        // Gabungkan data dokter dan pasien berdasarkan tanggal
-        $allDates = collect($dokterCounts->keys())->merge($pasienCounts->keys())->merge($antrianCounts->keys())->merge($poliCounts->keys())->unique();
+        $pasienCounts = Pasien::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+            ->groupBy('date')->pluck('count', 'date');
 
-        $counts = $allDates->map(function ($date) use ($dokterCounts, $pasienCounts, $antrianCounts, $poliCounts) {
+        $antrianCounts = Antrian::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+            ->groupBy('date')->pluck('count', 'date');
+
+        // Gabungkan tanggal unik
+        $allDates = $dokterCounts->keys()
+            ->merge($pasienCounts->keys())
+            ->merge($antrianCounts->keys())
+            ->unique()
+            ->sort();
+
+        $counts = $allDates->map(function ($date) use ($pasienCounts, $antrianCounts) {
             return [
-                'date' => $date,
-
-                'pasien' => $pasienCounts->get($date)->pasien ?? 0,
-                'antrian' => $antrianCounts->get($date)->antrian ?? 0,
-
-
+                'date'    => $date,
+                'pasien'  => $pasienCounts->get($date, 0),
+                'antrian' => $antrianCounts->get($date, 0),
             ];
         })->values();
 
-
-
-
-        $dokterStatusCount = $recordDokter->groupBy('status')->map(function ($group) {
-            return $group->count();
-        });
-        $jenisKelaminDokter = $recordDokter->groupBy('jenis_kelamin')->map(function ($group) {
-            return $group->count();
-        });
-        $jenisKelaminPasien = $recordPasien->groupBy('jenis_kelamin')->map(function ($group) {
-            return $group->count();
-        });
-        $antrianCounts = $recordAntrian->groupBy('status')->map(function ($group) {
-            return $group->count();
-        });
-
-
-
-
-
-        return  response()->json([
-            'reports' => [
-                'totalDokter' => $recordDokter->count(),
-                'totalPasien' => $recordPasien->count(),
-                'totalAntrian' => $recordAntrian->count(),
-                'totalPoli' => $recordPoli->count(),
-
-                'topDokter' => $topDokter,
-
-                'AntrianstatusCount' => $antrianCounts,
-                'DokterstatusCount' => $dokterStatusCount,
+        return response()->json([
+            'reports' => array_merge($totals, [
+                'topDokter'               => $topDokter,
+                'AntrianstatusCount'      => $antrianStatusCount,
+                'DokterstatusCount'       => $dokterStatusCount,
                 'JenisKelaminPasienCount' => $jenisKelaminPasien,
                 'JenisKelaminDokterCount' => $jenisKelaminDokter,
-                'countsByDate' => $counts,
-            ],
+                'countsByDate'            => $counts,
+            ]),
         ]);
     }
     /**

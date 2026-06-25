@@ -17,6 +17,11 @@ return new class extends Migration
             $table->string('nama')->unique();
             $table->string('kode', 10)->unique();
             $table->string('ruangan')->unique();
+
+
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('nama');
         });
     }
 

@@ -22,6 +22,13 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->string('nik', 16)->unique();
             $table->longText('alamat')->nullable();
+
+
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('nama');
+            $table->index('nik');
+            $table->index('alamat');
         });
     }
 

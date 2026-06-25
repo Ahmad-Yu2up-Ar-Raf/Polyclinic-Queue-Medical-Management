@@ -25,6 +25,14 @@ return new class extends Migration
             $table->longText('deskripsi')->nullable();
             $table->string('spesialisasi');
             $table->string('foto')->nullable();
+
+
+
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('nama');
+            $table->index('spesialisasi');
+            $table->index('deskripsi');
         });
     }
 

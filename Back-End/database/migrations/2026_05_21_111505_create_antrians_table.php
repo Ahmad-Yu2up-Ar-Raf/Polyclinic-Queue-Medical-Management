@@ -27,6 +27,12 @@ return new class extends Migration
 
             $table->enum("status", AntrianStatusEnum::cases())->nullable()->default(AntrianStatusEnum::MENUNGGU->value);
             $table->enum("metode_pembayaran", MetodePembayaranEnum::cases())->nullable()->default(MetodePembayaranEnum::BPJS->value);
+
+
+
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('nomor_antrian');
         });
     }
 

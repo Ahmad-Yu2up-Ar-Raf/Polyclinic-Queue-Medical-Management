@@ -19,6 +19,10 @@ return new class extends Migration
             $table->enum('hari', HariEnum::cases());
             $table->time('jam_mulai');
             $table->time('jam_selesai');
+
+
+            $table->index('created_at');
+            $table->index('nama');
         });
     }
 

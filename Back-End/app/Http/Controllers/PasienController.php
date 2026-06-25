@@ -33,7 +33,6 @@ class PasienController extends Controller
                 $q->whereRaw('LOWER(nama) LIKE ?', ["%{$searchLower}%"])
                     ->orWhereRaw('LOWER(nik) LIKE ?', ["%{$searchLower}%"])
                     ->orWhereRaw('LOWER(alamat) LIKE ?', ["%{$searchLower}%"])
-                    ->orWhereRaw('LOWER(jenis_kelamin) LIKE ?', ["%{$searchLower}%"])
                 ;
             });
         }
@@ -110,7 +109,7 @@ class PasienController extends Controller
 
         $isPasien = $user->hasRole(RoleEnum::PASIEN->value);
         $query = Pasien::select('id', 'nama', 'nik');
-    
+
         if ($isPasien) {
             $query->where('user_id', $userId);
         }
