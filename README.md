@@ -1,4 +1,4 @@
-# LiveUp 
+# Sembuh 
 
 > Sistem Manajemen Antrian Poliklinik Digital yang Cerdas dan Efisien
 
@@ -29,9 +29,9 @@
 
 ## 🎯 Overview
 
-**LiveUp** adalah sistem manajemen antrian poliklinik/klinik modern berbasis web dan mobile yang dirancang dengan pendekatan microservice. Sistem ini menghadirkan pengalaman antrian digital yang lebih rapi, cepat, dan informatif dibandingkan sistem antrian tradisional.
+**Sembuh** adalah sistem manajemen antrian poliklinik/klinik modern berbasis web dan mobile yang dirancang dengan pendekatan microservice. Sistem ini menghadirkan pengalaman antrian digital yang lebih rapi, cepat, dan informatif dibandingkan sistem antrian tradisional.
 
-Dengan LiveUp, poliklinik dapat mengelola antrian pasien secara real-time, memantau status dokter, dan memberikan pengalaman terbaik kepada pasien dengan:
+Dengan Sembuh, poliklinik dapat mengelola antrian pasien secara real-time, memantau status dokter, dan memberikan pengalaman terbaik kepada pasien dengan:
 
 - 📊 Dashboard analytics yang comprehensive
 - 📱 Aplikasi mobile untuk pasien dan operator
@@ -65,7 +65,7 @@ Dengan LiveUp, poliklinik dapat mengelola antrian pasien secara real-time, meman
    - Sulit mengidentifikasi bottleneck dalam proses
    - Tidak ada metrik untuk improvement
 
-### Solusi LiveUp:
+### Solusi Sembuh:
 
 ✅ **Real-Time Queue Status** - Pasien dapat melihat nomor antrian dan estimasi waktu tunggu
 ✅ **Sistem Multi-Role** - Admin, Operator, Dokter, dan Pasien memiliki fitur sesuai peran
@@ -151,7 +151,7 @@ Dengan LiveUp, poliklinik dapat mengelola antrian pasien secara real-time, meman
 
 ## 🏗️ Arsitektur Sistem
 
-LiveUp menggunakan arsitektur **modern microservice-oriented** dengan pemisahan yang jelas antara backend API dan frontend clients.
+Sembuh menggunakan arsitektur **modern microservice-oriented** dengan pemisahan yang jelas antara backend API dan frontend clients.
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -212,7 +212,7 @@ Dokter Login → View Schedule → See Queue → Update Status
 ## 📁 Struktur Repository
 
 ```
-LiveUp/
+Sembuh/
 ├── Back-End/                    # Backend Laravel API
 │   ├── app/
 │   │   ├── Enums/              # Status & role enums
@@ -360,7 +360,7 @@ LiveUp/
 
 ### Base URL
 ```
-http://liveup.smkpesat.id/api/v1/
+http://Sembuh.smkpesat.id/api/v1/
 # atau untuk local development:
 http://localhost:8000/api/v1/
 ```
@@ -599,7 +599,7 @@ Pastikan sudah terinstall:
 #### 1️⃣ Clone Repository
 ```bash
 git clone https://github.com/Ahmad-Yu2up-Ar-Raf/Polyclinic-Queue-Medical-Management.git
-cd LiveUp
+cd Sembuh
 ```
 
 #### 2️⃣ Setup Backend (Laravel API)
@@ -630,7 +630,7 @@ php artisan storage:link
 DB_CONNECTION=pgsql
 DB_HOST=localhost
 DB_PORT=5432
-DB_DATABASE=liveup_db
+DB_DATABASE=Sembuh_db
 DB_USERNAME=postgres
 DB_PASSWORD=your_password
 ```
@@ -653,7 +653,7 @@ npm run build:css
 ```env
 VITE_API_URL=http://localhost:8000/api/v1/
 # untuk production:
-VITE_API_URL=http://liveup.smkpesat.id/api/v1/
+VITE_API_URL=http://Sembuh.smkpesat.id/api/v1/
 ```
 
 #### 4️⃣ Setup Mobile App (Opsional)
@@ -680,7 +680,7 @@ npx expo start --ios
 ### Backend (.env)
 ```env
 # App Configuration
-APP_NAME=LiveUp
+APP_NAME=Sembuh
 APP_ENV=local
 APP_DEBUG=true
 APP_URL=http://localhost:8000
@@ -691,7 +691,7 @@ APP_TIMEZONE=Asia/Jakarta
 DB_CONNECTION=pgsql
 DB_HOST=localhost
 DB_PORT=5432
-DB_DATABASE=liveup_db
+DB_DATABASE=Sembuh_db
 DB_USERNAME=postgres
 DB_PASSWORD=your_secure_password
 DB_SSLMODE=require
@@ -708,7 +708,7 @@ MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=587
 MAIL_USERNAME=your_username
 MAIL_PASSWORD=your_password
-MAIL_FROM_ADDRESS=noreply@liveup.com
+MAIL_FROM_ADDRESS=noreply@Sembuh.com
 MAIL_FROM_NAME="${APP_NAME}"
 
 # Sanctum (API Token)
@@ -717,10 +717,10 @@ SANCTUM_STATEFUL_DOMAINS=localhost:3000,localhost:8000
 
 ### Frontend Web (.env)
 ```env
-VITE_APP_NAME=LiveUp
+VITE_APP_NAME=Sembuh
 VITE_API_URL=http://localhost:8000/api/v1/
 # untuk production
-VITE_API_URL=http://liveup.smkpesat.id/api/v1/
+VITE_API_URL=http://Sembuh.smkpesat.id/api/v1/
 ```
 
 ### Mobile App (.env atau app.json)
@@ -730,7 +730,7 @@ EXPO_PUBLIC_API_URL=http://localhost:8000/api/v1/
 {
   "expo": {
     "extra": {
-      "apiUrl": "http://liveup.smkpesat.id/api/v1/"
+      "apiUrl": "http://Sembuh.smkpesat.id/api/v1/"
     }
   }
 }
@@ -897,20 +897,20 @@ Login/Register →
 ## 🔗 Demo Online
 
 ### 🌐 Web Demo
-**URL:** http://liveup.smkpesat.id/
+**URL:** http://Sembuh.smkpesat.id/
 
 **Test Account:**
 ```
 Admin:
-Email: admin@liveup.com
+Email: admin@Sembuh.com
 Password: [silahkan tanya developer]
 
 Pasien:
-Email: pasien@liveup.com
+Email: pasien@Sembuh.com
 Password: [silahkan tanya developer]
 
 Operator:
-Email: operator@liveup.com
+Email: operator@Sembuh.com
 Password: [silahkan tanya developer]
 ```
 
@@ -1041,7 +1041,7 @@ sessions              -- Session management
 ## 📞 Support & Contact
 
 ### Need Help?
-- 📧 Email: contact@liveup.com
+- 📧 Email: contact@Sembuh.com
 - 🐛 Issues: GitHub Issues
 - 💬 Discussion: GitHub Discussions
 
@@ -1076,7 +1076,7 @@ Sistem ini dirancang untuk membantu klinik dan poliklinik mengelola antrian deng
 
 ```
 ┌─────────────────────────────────────────────────┐
-│ ⭐ LiveUp - Smart Queue Management System       │
+│ ⭐ Sembuh - Smart Queue Management System       │
 ├─────────────────────────────────────────────────┤
 │                                                 │
 │ 🎯 Real-time Queue Status                       │
