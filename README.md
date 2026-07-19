@@ -1,6 +1,6 @@
-# Sembuh 
+# Sembuh
 
-> Sistem Manajemen Antrian Poliklinik Digital yang Cerdas dan Efisien
+> A Smart and Efficient Digital Clinic Queue Management System
 
 ![Build Status](https://img.shields.io/badge/status-active-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -8,121 +8,121 @@
 
 ---
 
-## 📋 Daftar Isi
+## 📋 Table of Contents
 
 - [Overview](#-overview)
-- [Masalah yang Diselesaikan](#-masalah-yang-diselesaikan)
-- [Fitur Utama](#-fitur-utama)
+- [Problems Solved](#-problems-solved)
+- [Key Features](#-key-features)
 - [Tech Stack](#-tech-stack)
-- [Arsitektur Sistem](#-arsitektur-sistem)
-- [Struktur Repository](#-struktur-repository)
-- [API Backend](#-api-backend)
-- [Preview UI](#-preview-ui)
-- [Instalasi & Setup](#-instalasi--setup)
+- [System Architecture](#-system-architecture)
+- [Repository Structure](#-repository-structure)
+- [Backend API](#-backend-api)
+- [UI Preview](#-ui-preview)
+- [Installation & Setup](#-installation--setup)
 - [Environment Variables](#-environment-variables)
-- [Menjalankan Aplikasi](#-menjalankan-aplikasi)
-- [Role & Alur Pengguna](#-role--alur-pengguna)
-- [Demo Online](#-demo-online)
-- [Kontributor](#-kontributor)
+- [Running the App](#-running-the-app)
+- [Roles & User Flows](#-roles--user-flows)
+- [Online Demo](#-online-demo)
+- [Contributors](#-contributors)
 
 ---
 
 ## 🎯 Overview
 
-**Sembuh** adalah sistem manajemen antrian poliklinik/klinik modern berbasis web dan mobile yang dirancang dengan pendekatan microservice. Sistem ini menghadirkan pengalaman antrian digital yang lebih rapi, cepat, dan informatif dibandingkan sistem antrian tradisional.
+**Sembuh** ("Recovered/Healed" in Indonesian) is a modern web- and mobile-based clinic/polyclinic queue management system built with a microservice approach. It delivers a digital queueing experience that's tidier, faster, and more informative than traditional queue systems.
 
-Dengan Sembuh, poliklinik dapat mengelola antrian pasien secara real-time, memantau status dokter, dan memberikan pengalaman terbaik kepada pasien dengan:
+With Sembuh, clinics can manage patient queues in real time, monitor doctor status, and give patients the best possible experience through:
 
-- 📊 Dashboard analytics yang comprehensive
-- 📱 Aplikasi mobile untuk pasien dan operator
-- 🌐 Interface web yang user-friendly dan responsif
-- 🔐 Sistem autentikasi berbasis role yang aman
-- ⚡ API REST yang scalable dan dokumentasi lengkap
-
----
-
-## 🤔 Masalah yang Diselesaikan
-
-### Tantangan Sistem Antrian Tradisional:
-
-1. **Informasi Tidak Real-Time**
-   - Pasien tidak tahu status antrian mereka secara akurat
-   - Tidak ada notifikasi kapan giliran dipanggil
-   - Menimbulkan kebingungan dan kecemasan pasien
-
-2. **Inefisiensi Operasional**
-   - Operator kesulitan mengelola antrian manual
-   - Tidak ada data historis untuk analisis
-   - Alur kerja yang lamban dan rawan kesalahan
-
-3. **Pengalaman Pasien yang Buruk**
-   - Pasien harus menunggu lama tanpa informasi jelas
-   - Kesulitan registrasi dan pendaftaran antrian
-   - Tidak ada cara mudah untuk memonitor status
-
-4. **Kurangnya Insights Bisnis**
-   - Tidak ada data untuk analisis kinerja dokter
-   - Sulit mengidentifikasi bottleneck dalam proses
-   - Tidak ada metrik untuk improvement
-
-### Solusi Sembuh:
-
-✅ **Real-Time Queue Status** - Pasien dapat melihat nomor antrian dan estimasi waktu tunggu
-✅ **Sistem Multi-Role** - Admin, Operator, Dokter, dan Pasien memiliki fitur sesuai peran
-✅ **Dashboard Analytics** - Admin dan operator dapat memonitor metrik penting
-✅ **Mobile App** - Akses mudah dari smartphone untuk registrasi dan cek status
-✅ **Public Monitor Display** - Layar publik di klinik menampilkan status antrian
-✅ **Smart Queue Management** - Sistem otomatis untuk pengelolaan nomor antrian
+- 📊 A comprehensive analytics dashboard
+- 📱 A mobile app for patients and operators
+- 🌐 A user-friendly, responsive web interface
+- 🔐 A secure role-based authentication system
+- ⚡ A scalable REST API with full documentation
 
 ---
 
-## ✨ Fitur Utama
+## 🤔 Problems Solved
 
-### 👤 Untuk Pasien
-- ✅ Registrasi dan login account
-- ✅ Pilih poli dan jadwal kunjungan
-- ✅ Daftar antrian dengan metode pembayaran (BPJS/Mandiri)
-- ✅ Cek status antrian real-time
-- ✅ Lihat informasi dokter dan jadwal praktik
-- ✅ Riwayat kunjungan dan antrian
+### Challenges of Traditional Queue Systems:
 
-### 👨‍💼 Untuk Operator/Admin
-- ✅ Dashboard overview dengan analytics
-- ✅ Manajemen data poli (clinic unit/department)
-- ✅ Manajemen data dokter dan jadwal praktik
-- ✅ Manajemen data pasien
-- ✅ Kontrol antrian (panggil, lewati, selesai)
-- ✅ Laporan dan statistik kunjungan
-- ✅ Sistem manajemen role dan permission
+1. **No Real-Time Information**
+   - Patients don't accurately know their queue status
+   - No notification for when their turn is called
+   - Creates confusion and anxiety for patients
+
+2. **Operational Inefficiency**
+   - Operators struggle to manage queues manually
+   - No historical data available for analysis
+   - Slow, error-prone workflows
+
+3. **Poor Patient Experience**
+   - Patients wait a long time without clear information
+   - Difficulty registering and joining the queue
+   - No easy way to monitor status
+
+4. **Lack of Business Insight**
+   - No data for analyzing doctor performance
+   - Hard to identify bottlenecks in the process
+   - No metrics for improvement
+
+### Sembuh's Solution:
+
+✅ **Real-Time Queue Status** — Patients can see their queue number and estimated wait time
+✅ **Multi-Role System** — Admin, Operator, Doctor, and Patient each get role-appropriate features
+✅ **Analytics Dashboard** — Admins and operators can monitor key metrics
+✅ **Mobile App** — Easy access from a smartphone to register and check status
+✅ **Public Monitor Display** — A public screen at the clinic showing queue status
+✅ **Smart Queue Management** — An automated system for managing queue numbers
+
+---
+
+## ✨ Key Features
+
+### 👤 For Patients
+- ✅ Account registration and login
+- ✅ Choose a department (poli) and visit schedule
+- ✅ Join the queue with a payment method (BPJS national insurance / self-pay)
+- ✅ Check real-time queue status
+- ✅ View doctor information and practice schedules
+- ✅ Visit and queue history
+
+### 👨‍💼 For Operators/Admins
+- ✅ Dashboard overview with analytics
+- ✅ Department (poli / clinic unit) data management
+- ✅ Doctor data and practice schedule management
+- ✅ Patient data management
+- ✅ Queue control (call, skip, complete)
+- ✅ Visit reports and statistics
+- ✅ Role and permission management system
 
 ### 🖥️ Public Monitor
-- ✅ Tampilan layar publik untuk menampilkan antrian
-- ✅ Informasi nomor antrian yang sedang dilayani
-- ✅ Estimasi waktu tunggu
-- ✅ Informasi dokter yang sedang praktek
+- ✅ Public screen display showing the queue
+- ✅ Current queue number being served
+- ✅ Estimated wait time
+- ✅ Info on the doctor currently practicing
 
 ### 📊 Analytics & Reporting
-- ✅ Visualisasi data dengan chart (pasien, dokter, antrian, poli)
-- ✅ Tracking pertumbuhan kunjungan harian
-- ✅ Top doctors berdasarkan jumlah pasien
-- ✅ Status antrian breakdown (dipanggil, menunggu, selesai)
+- ✅ Data visualization with charts (patients, doctors, queues, departments)
+- ✅ Daily visit growth tracking
+- ✅ Top doctors by patient count
+- ✅ Queue status breakdown (called, waiting, completed)
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Backend API
-| Teknologi | Versi | Fungsi |
+| Technology | Version | Purpose |
 |-----------|-------|--------|
-| **Laravel Framework** | ^13.8 | Web framework utama |
+| **Laravel Framework** | ^13.8 | Main web framework |
 | **Laravel Sanctum** | ^4.0 | API authentication & tokens |
 | **Laravel Breeze** | ^2.4 | Authentication scaffolding |
 | **Spatie Permission** | ^7.4 | Role & permission management |
 | **PHP** | ^8.3 | Server-side language |
-| **PostgreSQL** | Latest | Database primary |
+| **PostgreSQL** | Latest | Primary database |
 
 ### Frontend Web
-| Teknologi | Versi | Fungsi |
+| Technology | Version | Purpose |
 |-----------|-------|--------|
 | **React** | ^19.2.4 | UI library |
 | **TypeScript** | Latest | Type safety |
@@ -136,7 +136,7 @@ Dengan Sembuh, poliklinik dapat mengelola antrian pasien secara real-time, meman
 | **Ky** | ^2.0.2 | HTTP client |
 
 ### Frontend Mobile
-| Teknologi | Versi | Fungsi |
+| Technology | Version | Purpose |
 |-----------|-------|--------|
 | **Expo** | Latest | React Native framework |
 | **React Native** | Latest | Native mobile development |
@@ -149,18 +149,18 @@ Dengan Sembuh, poliklinik dapat mengelola antrian pasien secara real-time, meman
 
 ---
 
-## 🏗️ Arsitektur Sistem
+## 🏗️ System Architecture
 
-Sembuh menggunakan arsitektur **modern microservice-oriented** dengan pemisahan yang jelas antara backend API dan frontend clients.
+Sembuh uses a **modern, microservice-oriented architecture** with a clear separation between the backend API and the frontend clients.
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │                   PRESENTATION LAYER                │
 ├─────────────────────────────────────────────────────┤
 │  Web Frontend (React/Vite)  │  Mobile (Expo/RN)    │
-│  - Dashboard Admin/Operator │ - Patient App        │
+│  - Admin/Operator Dashboard │ - Patient App        │
 │  - Queue Management         │ - Doctor App         │
-│  - Analytics               │ - Queue Status       │
+│  - Analytics               │ - Queue Status        │
 └──────────────┬──────────────────────────────────┬──┘
                │              REST API             │
                │         (JSON over HTTP)          │
@@ -183,8 +183,8 @@ Sembuh menggunakan arsitektur **modern microservice-oriented** dengan pemisahan 
 ├─────────────────────────────────────────────────────┤
 │  Models (Eloquent ORM):                             │
 │  - User          - Poli (Department)               │
-│  - Pasien        - Jadwal (Schedule)                │
-│  - Dokter        - Antrian (Queue)                  │
+│  - Pasien (Patient)  - Jadwal (Schedule)            │
+│  - Dokter (Doctor)   - Antrian (Queue)              │
 └─────────────────┬────────────────────────────────┬──┘
                   │                                │
                   ▼                                ▼
@@ -194,38 +194,38 @@ Sembuh menggunakan arsitektur **modern microservice-oriented** dengan pemisahan 
          └──────────────┘              └──────────────┘
 ```
 
-### Alur Data Sistem
+### System Data Flow
 
 ```
 Patient Flow:
-Pasien Login → Register Antrian → Queue Status Check → Dokter Call → Konsultasi
+Patient Login → Register for Queue → Check Queue Status → Doctor Calls → Consultation
 
 Operator Flow:
-Admin Login → View Queue → Call Patient → Mark Status → Generate Report
+Admin Login → View Queue → Call Patient → Update Status → Generate Report
 
 Doctor Flow:
-Dokter Login → View Schedule → See Queue → Update Status
+Doctor Login → View Schedule → See Queue → Update Status
 ```
 
 ---
 
-## 📁 Struktur Repository
+## 📁 Repository Structure
 
 ```
 Sembuh/
 ├── Back-End/                    # Backend Laravel API
 │   ├── app/
 │   │   ├── Enums/              # Status & role enums
-│   │   │   ├── RoleEnum.php               (admin, operator, dokter, pasien)
-│   │   │   ├── AntrianStatusEnum.php      (dipanggil, menunggu, selesai, dilewati)
-│   │   │   ├── DokterStatusEnum.php       (aktif, tidak aktif)
-│   │   │   ├── MetodePembayaranEnum.php   (BPJS, mandiri)
-│   │   │   ├── HariEnum.php               (Senin-Minggu)
-│   │   │   └── JenisKelaminEnum.php
+│   │   │   ├── RoleEnum.php               (admin, operator, doctor, patient)
+│   │   │   ├── AntrianStatusEnum.php      (called, waiting, completed, skipped)
+│   │   │   ├── DokterStatusEnum.php       (active, inactive)
+│   │   │   ├── MetodePembayaranEnum.php   (BPJS national insurance, self-pay)
+│   │   │   ├── HariEnum.php               (Monday–Sunday)
+│   │   │   └── JenisKelaminEnum.php       (gender)
 │   │   ├── Models/              # Eloquent Models
-│   │   │   ├── User.php                   (dengan role & permission)
+│   │   │   ├── User.php                   (with role & permission)
 │   │   │   ├── Poli.php                   (clinic unit/department)
-│   │   │   ├── Jadwal.php                 (schedule dokter)
+│   │   │   ├── Jadwal.php                 (doctor schedule)
 │   │   │   ├── Dokter.php                 (doctor profile)
 │   │   │   ├── Pasien.php                 (patient profile)
 │   │   │   └── Antrian.php                (queue management)
@@ -266,7 +266,7 @@ Sembuh/
 │   │   ├── src/
 │   │   │   ├── pages/          # Route pages
 │   │   │   │   ├── auth/                  (login, register)
-│   │   │   │   ├── dashboard/             (antrian, poli, dokter, pasien)
+│   │   │   │   ├── dashboard/             (queue, department, doctor, patient)
 │   │   │   │   ├── operator/              (queue management)
 │   │   │   │   ├── monitor.tsx            (public display)
 │   │   │   │   └── welcome.tsx
@@ -280,7 +280,7 @@ Sembuh/
 │   │   │   ├── store/          # Zustand stores
 │   │   │   │   └── auth-store.ts
 │   │   │   ├── router/         # Route configuration
-│   │   │   │   └── index.tsx   (all routes defined)
+│   │   │   │   └── index.tsx   (all routes defined here)
 │   │   │   ├── hooks/          # Custom React hooks
 │   │   │   ├── types/          # TypeScript types
 │   │   │   ├── config/         # App configuration
@@ -301,7 +301,7 @@ Sembuh/
 │       │   │   ├── login.tsx
 │       │   │   ├── register.tsx
 │       │   │   └── welcome.tsx
-│       │   ├── daftar/         (register new)
+│       │   ├── daftar/         (new registration)
 │       │   └── _layout.tsx     (root layout)
 │       ├── components/         # Reusable components
 │       ├── api/                # API integration
@@ -356,23 +356,23 @@ Sembuh/
 
 ---
 
-## 📡 API Backend
+## 📡 Backend API
 
 ### Base URL
 ```
 http://Sembuh.smkpesat.id/api/v1/
-# atau untuk local development:
+# or for local development:
 http://localhost:8000/api/v1/
 ```
 
 ### Authentication
-Semua endpoint yang dilindungi menggunakan **Bearer Token** dari Laravel Sanctum:
+All protected endpoints use a **Bearer Token** issued by Laravel Sanctum:
 ```
 Authorization: Bearer {token}
 ```
 
 ### Response Format
-Semua response dalam format JSON dengan struktur konsisten:
+All responses use a consistent JSON structure:
 ```json
 {
   "status": true,
@@ -384,23 +384,23 @@ Semua response dalam format JSON dengan struktur konsisten:
 ### API Endpoints
 
 #### 🔐 Authentication
-| Method | Endpoint | Auth | Deskripsi |
+| Method | Endpoint | Auth | Description |
 |--------|----------|------|-----------|
-| POST | `/auth/register` | ❌ | Register user baru (role: pasien) |
-| POST | `/auth/login` | ❌ | Login & dapatkan token |
-| POST | `/auth/logout` | ✅ | Logout session |
-| POST | `/auth/forgot-password` | ❌ | Request reset password |
-| POST | `/auth/reset-password` | ❌ | Reset password dengan token |
+| POST | `/auth/register` | ❌ | Register a new user (role: patient) |
+| POST | `/auth/login` | ❌ | Log in & obtain a token |
+| POST | `/auth/logout` | ✅ | Log out of the session |
+| POST | `/auth/forgot-password` | ❌ | Request a password reset |
+| POST | `/auth/reset-password` | ❌ | Reset password using a token |
 
 #### 🏥 Poli (Clinic Unit/Department)
-| Method | Endpoint | Auth | Role | Deskripsi |
+| Method | Endpoint | Auth | Role | Description |
 |--------|----------|------|------|-----------|
-| GET | `/polis` | ❌ | - | Lihat semua poli |
-| GET | `/polis/select` | ✅ | pasien, admin | List poli untuk select |
-| GET | `/polis/{id}` | ❌ | - | Detail poli |
-| POST | `/polis` | ✅ | admin | Buat poli baru |
-| PUT | `/polis/{id}` | ✅ | admin | Update poli |
-| DELETE | `/polis/{id}` | ✅ | admin | Hapus poli |
+| GET | `/polis` | ❌ | - | View all departments |
+| GET | `/polis/select` | ✅ | patient, admin | Department list for a select input |
+| GET | `/polis/{id}` | ❌ | - | Department detail |
+| POST | `/polis` | ✅ | admin | Create a new department |
+| PUT | `/polis/{id}` | ✅ | admin | Update a department |
+| DELETE | `/polis/{id}` | ✅ | admin | Delete a department |
 
 **Sample Response:**
 ```json
@@ -419,14 +419,14 @@ Semua response dalam format JSON dengan struktur konsisten:
 ```
 
 #### 👨‍⚕️ Dokter (Doctor)
-| Method | Endpoint | Auth | Role | Deskripsi |
+| Method | Endpoint | Auth | Role | Description |
 |--------|----------|------|------|-----------|
-| GET | `/dokter` | ❌ | - | Lihat semua dokter aktif |
-| GET | `/dokter/{id}` | ❌ | - | Detail dokter |
-| GET | `/dokter/poli?poli_id={id}` | ❌ | - | Dokter berdasarkan poli |
-| POST | `/dokter` | ✅ | admin | Tambah dokter |
-| PUT | `/dokter/{id}` | ✅ | admin | Update dokter |
-| DELETE | `/dokter/{id}` | ✅ | admin | Hapus dokter |
+| GET | `/dokter` | ❌ | - | View all active doctors |
+| GET | `/dokter/{id}` | ❌ | - | Doctor detail |
+| GET | `/dokter/poli?poli_id={id}` | ❌ | - | Doctors filtered by department |
+| POST | `/dokter` | ✅ | admin | Add a doctor |
+| PUT | `/dokter/{id}` | ✅ | admin | Update a doctor |
+| DELETE | `/dokter/{id}` | ✅ | admin | Delete a doctor |
 
 **Sample Response:**
 ```json
@@ -443,14 +443,14 @@ Semua response dalam format JSON dengan struktur konsisten:
 ```
 
 #### 📅 Jadwal (Schedule)
-| Method | Endpoint | Auth | Role | Deskripsi |
+| Method | Endpoint | Auth | Role | Description |
 |--------|----------|------|------|-----------|
-| GET | `/jadwal` | ❌ | - | Lihat semua jadwal |
-| GET | `/jadwal/select` | ❌ | - | List jadwal untuk select |
-| GET | `/jadwal/{id}` | ❌ | - | Detail jadwal |
-| POST | `/jadwal` | ✅ | admin | Buat jadwal baru |
-| PUT | `/jadwal/{id}` | ✅ | admin | Update jadwal |
-| DELETE | `/jadwal/{id}` | ✅ | admin | Hapus jadwal |
+| GET | `/jadwal` | ❌ | - | View all schedules |
+| GET | `/jadwal/select` | ❌ | - | Schedule list for a select input |
+| GET | `/jadwal/{id}` | ❌ | - | Schedule detail |
+| POST | `/jadwal` | ✅ | admin | Create a new schedule |
+| PUT | `/jadwal/{id}` | ✅ | admin | Update a schedule |
+| DELETE | `/jadwal/{id}` | ✅ | admin | Delete a schedule |
 
 **Sample Response:**
 ```json
@@ -464,14 +464,14 @@ Semua response dalam format JSON dengan struktur konsisten:
 ```
 
 #### 👥 Pasien (Patient)
-| Method | Endpoint | Auth | Role | Deskripsi |
+| Method | Endpoint | Auth | Role | Description |
 |--------|----------|------|------|-----------|
-| GET | `/pasien` | ❌ | - | Lihat semua pasien |
-| GET | `/pasien/select` | ✅ | pasien, admin | List pasien untuk select |
-| GET | `/pasien/{id}` | ❌ | - | Detail pasien |
-| POST | `/pasien` | ✅ | admin, pasien | Buat pasien baru |
-| PUT | `/pasien/{id}` | ✅ | admin | Update pasien |
-| DELETE | `/pasien/{id}` | ✅ | admin | Hapus pasien |
+| GET | `/pasien` | ❌ | - | View all patients |
+| GET | `/pasien/select` | ✅ | patient, admin | Patient list for a select input |
+| GET | `/pasien/{id}` | ❌ | - | Patient detail |
+| POST | `/pasien` | ✅ | admin, patient | Create a new patient |
+| PUT | `/pasien/{id}` | ✅ | admin | Update a patient |
+| DELETE | `/pasien/{id}` | ✅ | admin | Delete a patient |
 
 **Sample Response:**
 ```json
@@ -487,17 +487,17 @@ Semua response dalam format JSON dengan struktur konsisten:
 ```
 
 #### 🎫 Antrian (Queue)
-| Method | Endpoint | Auth | Role | Deskripsi |
+| Method | Endpoint | Auth | Role | Description |
 |--------|----------|------|------|-----------|
-| GET | `/antrian` | ❌ | - | Lihat semua antrian |
-| GET | `/antrian/monitor` | ❌ | - | Data untuk public monitor |
-| GET | `/antrian/user` | ✅ | pasien | Antrian user saat ini |
-| GET | `/antrian/{id}` | ❌ | - | Detail antrian |
-| POST | `/antrian` | ✅ | admin, pasien | Buat antrian baru |
-| POST | `/antrian/pendaftaranBaru` | ✅ | admin, pasien | Registrasi baru + antrian |
-| POST | `/antrian/cek` | ✅ | pasien | Cek status antrian |
-| PUT | `/antrian/{id}` | ✅ | admin, pasien | Update status antrian |
-| DELETE | `/antrian/{id}` | ✅ | admin | Hapus antrian |
+| GET | `/antrian` | ❌ | - | View all queues |
+| GET | `/antrian/monitor` | ❌ | - | Data for the public monitor |
+| GET | `/antrian/user` | ✅ | patient | The current user's queue entry |
+| GET | `/antrian/{id}` | ❌ | - | Queue detail |
+| POST | `/antrian` | ✅ | admin, patient | Create a new queue entry |
+| POST | `/antrian/pendaftaranBaru` | ✅ | admin, patient | New registration + queue entry |
+| POST | `/antrian/cek` | ✅ | patient | Check queue status |
+| PUT | `/antrian/{id}` | ✅ | admin, patient | Update queue status |
+| DELETE | `/antrian/{id}` | ✅ | admin | Delete a queue entry |
 
 **Sample Response (Create Queue):**
 ```json
@@ -515,25 +515,25 @@ Semua response dalam format JSON dengan struktur konsisten:
 ```
 
 #### 👨‍💼 Operator (Queue Management)
-| Method | Endpoint | Auth | Role | Deskripsi |
+| Method | Endpoint | Auth | Role | Description |
 |--------|----------|------|------|-----------|
-| GET | `/operator/{poli_id}` | ✅ | admin, operator | Lihat antrian poli |
-| GET | `/operator/{poli_id}/{status}` | ✅ | admin, operator | Filter antrian by status |
-| POST | `/operator/{status}/{id}` | ✅ | admin, operator | Ubah status antrian |
+| GET | `/operator/{poli_id}` | ✅ | admin, operator | View a department's queue |
+| GET | `/operator/{poli_id}/{status}` | ✅ | admin, operator | Filter queue by status |
+| POST | `/operator/{status}/{id}` | ✅ | admin, operator | Change a queue entry's status |
 
 #### 📊 Overview & Analytics
-| Method | Endpoint | Auth | Role | Deskripsi |
+| Method | Endpoint | Auth | Role | Description |
 |--------|----------|------|------|-----------|
-| GET | `/overview` | ✅ | admin, operator | Dashboard admin analytics |
-| GET | `/overview/pasien` | ✅ | pasien | Dashboard pasien |
+| GET | `/overview` | ✅ | admin, operator | Admin analytics dashboard |
+| GET | `/overview/pasien` | ✅ | patient | Patient dashboard |
 
-**Analytics Response includes:**
-- Total dokter, pasien, antrian, poli
-- Grafik pertumbuhan harian
-- Top dokter berdasarkan kunjungan
-- Status breakdown antrian
+**The analytics response includes:**
+- Total doctors, patients, queue entries, departments
+- Daily growth chart
+- Top doctors by number of visits
+- Queue status breakdown
 
-#### Status Antrian (Queue Status)
+#### Queue Status Values
 ```
 - "menunggu" (waiting)
 - "dipanggil" (called)
@@ -543,56 +543,56 @@ Semua response dalam format JSON dengan struktur konsisten:
 
 ---
 
-## 🎨 Preview UI
+## 🎨 UI Preview
 
 ### Web Interface
 
-#### 1. Dashboard Pasien
-![Dashboard Pasien](Assets/web/overview.png)
+#### 1. Patient Dashboard
+![Patient Dashboard](Assets/web/overview.png)
 
 #### 2. Login & Register
 ![Login](Assets/web/login.png)
-![Pilih Poli](Assets/web/pilih-poli.png)
+![Choose Department](Assets/web/pilih-poli.png)
 
-#### 3. Manajemen Antrian
-![Antrian](Assets/web/antrian.png)
+#### 3. Queue Management
+![Queue](Assets/web/antrian.png)
 ![Operator](Assets/web/operator.png)
 
-#### 4. Manajemen Master Data
-![Dokter](Assets/web/dokter.png)
-![Pasien](Assets/web/pasien.png)
-![Poli](Assets/web/poli.png)
+#### 4. Master Data Management
+![Doctor](Assets/web/dokter.png)
+![Patient](Assets/web/pasien.png)
+![Department](Assets/web/poli.png)
 
 #### 5. Public Monitor Display
 ![Monitor](Assets/web/monitor.png)
 
 ### Mobile Interface
 
-#### Screens Utama
+#### Main Screens
 | Splash | Onboarding | Login | Register |
 |--------|-----------|-------|----------|
 | ![Splash](Assets/mobile/splash-screen.png) | ![Onboarding](Assets/mobile/onboarding.png) | ![Login](Assets/mobile/login.png) | ![Register](Assets/mobile/register.png) |
 
-| Home | Home Alt | Dokter | Detail Dokter |
+| Home | Home Alt | Doctor | Doctor Detail |
 |------|----------|--------|---------------|
-| ![Home](Assets/mobile/home-1.png) | ![Home2](Assets/mobile/home-2.png) | ![Dokter](Assets/mobile/dokter.png) | ![DetailDokter](Assets/mobile/detail-dokter.png) |
+| ![Home](Assets/mobile/home-1.png) | ![Home2](Assets/mobile/home-2.png) | ![Doctor](Assets/mobile/dokter.png) | ![DoctorDetail](Assets/mobile/detail-dokter.png) |
 
-| Jadwal | Tinjau | Sukses | Setting |
+| Schedule | Review | Success | Settings |
 |--------|--------|--------|---------|
-| ![Jadwal](Assets/mobile/jadwal.png) | ![Tinjau](Assets/mobile/tinjau-1.png) | ![Sukses](Assets/mobile/sukses.png) | ![Setting](Assets/mobile/setting.png) |
+| ![Schedule](Assets/mobile/jadwal.png) | ![Review](Assets/mobile/tinjau-1.png) | ![Success](Assets/mobile/sukses.png) | ![Settings](Assets/mobile/setting.png) |
 
 ---
 
-## 🚀 Instalasi & Setup
+## 🚀 Installation & Setup
 
 ### Prerequisites
-Pastikan sudah terinstall:
+Make sure the following are installed:
 - **Git** v2.0+
 - **PHP** v8.3+
-- **Composer** (untuk backend)
-- **Node.js** v18+ dan **npm** (untuk frontend)
+- **Composer** (for the backend)
+- **Node.js** v18+ and **npm** (for the frontend)
 - **PostgreSQL** v12+ (database)
-- **Expo CLI** (untuk mobile development)
+- **Expo CLI** (for mobile development)
 
 ### Step-by-Step Installation
 
@@ -602,11 +602,11 @@ git clone https://github.com/Ahmad-Yu2up-Ar-Raf/Polyclinic-Queue-Medical-Managem
 cd Sembuh
 ```
 
-#### 2️⃣ Setup Backend (Laravel API)
+#### 2️⃣ Set Up Backend (Laravel API)
 ```bash
 cd Back-End
 
-# Copy environment file
+# Copy the environment file
 cp .env.example .env
 
 # Install dependencies
@@ -615,17 +615,17 @@ composer install
 # Generate app key
 php artisan key:generate
 
-# Migrate database
+# Migrate the database
 php artisan migrate --force
 
-# Seed database (optional - untuk data dummy)
+# Seed the database (optional — for dummy data)
 php artisan db:seed
 
-# Buat symbolic link untuk storage
+# Create a symbolic link for storage
 php artisan storage:link
 ```
 
-**Edit `.env` untuk database:**
+**Edit `.env` for your database:**
 ```env
 DB_CONNECTION=pgsql
 DB_HOST=localhost
@@ -635,7 +635,7 @@ DB_USERNAME=postgres
 DB_PASSWORD=your_password
 ```
 
-#### 3️⃣ Setup Frontend Web
+#### 3️⃣ Set Up the Web Frontend
 ```bash
 cd ../Front-End/Web
 
@@ -645,31 +645,31 @@ npm install
 # Copy env file
 cp .env.example .env
 
-# Build Tailwind jika diperlukan
+# Rebuild Tailwind CSS if needed
 npm run build:css
 ```
 
-**Edit `.env` atau ubah config API:**
+**Edit `.env`, or update the API config:**
 ```env
 VITE_API_URL=http://localhost:8000/api/v1/
-# untuk production:
+# for production:
 VITE_API_URL=http://Sembuh.smkpesat.id/api/v1/
 ```
 
-#### 4️⃣ Setup Mobile App (Opsional)
+#### 4️⃣ Set Up the Mobile App (Optional)
 ```bash
 cd ../Mobile
 
 # Install dependencies
 npm install
 
-# Untuk testing di web
+# For testing on web
 npx expo start --web
 
-# Untuk testing di Android
+# For testing on Android
 npx expo start --android
 
-# Untuk testing di iOS (MacOS only)
+# For testing on iOS (macOS only)
 npx expo start --ios
 ```
 
@@ -702,7 +702,7 @@ SESSION_DRIVER=database
 SESSION_LIFETIME=120
 QUEUE_CONNECTION=database
 
-# Mail Configuration (opsional)
+# Mail Configuration (optional)
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=587
@@ -719,14 +719,14 @@ SANCTUM_STATEFUL_DOMAINS=localhost:3000,localhost:8000
 ```env
 VITE_APP_NAME=Sembuh
 VITE_API_URL=http://localhost:8000/api/v1/
-# untuk production
+# for production
 VITE_API_URL=http://Sembuh.smkpesat.id/api/v1/
 ```
 
-### Mobile App (.env atau app.json)
+### Mobile App (.env or app.json)
 ```env
 EXPO_PUBLIC_API_URL=http://localhost:8000/api/v1/
-# atau di app.json:
+# or in app.json:
 {
   "expo": {
     "extra": {
@@ -738,50 +738,50 @@ EXPO_PUBLIC_API_URL=http://localhost:8000/api/v1/
 
 ---
 
-## ▶️ Menjalankan Aplikasi
+## ▶️ Running the App
 
-### 🔙 Jalankan Backend API
+### 🔙 Run the Backend API
 ```bash
 cd Back-End
 
-# Development mode dengan Artisan
+# Development mode via Artisan
 php artisan serve
 
-# Server akan berjalan di: http://localhost:8000
+# Server will run at: http://localhost:8000
 ```
 
-### 🌐 Jalankan Frontend Web
+### 🌐 Run the Web Frontend
 ```bash
 cd Front-End/Web
 
 # Development mode
 npm run dev
 
-# Server akan berjalan di: http://localhost:5173
+# Server will run at: http://localhost:5173
 ```
 
-### 📱 Jalankan Mobile App (Development)
+### 📱 Run the Mobile App (Development)
 ```bash
 cd Front-End/Mobile
 
-# Start Expo dev server
+# Start the Expo dev server
 npm run dev
 
-# Atau untuk web preview
+# Or for web preview
 npm run web
 
-# Atau untuk Android emulator
+# Or for the Android emulator
 npm run android
 
-# Atau untuk iOS simulator (MacOS only)
+# Or for the iOS simulator (macOS only)
 npm run ios
 ```
 
-### 🏗️ Build untuk Production
+### 🏗️ Building for Production
 
-#### Backend (tidak perlu build, deploy folder to server)
+#### Backend (no build step needed — just deploy the folder to the server)
 ```bash
-# Just push code to server dengan proper .env configuration
+# Just push the code to the server with the proper .env configuration
 ```
 
 #### Web Build
@@ -790,138 +790,138 @@ cd Front-End/Web
 npm run build
 
 # Output: dist/
-# Deploy folder 'dist' ke web server
+# Deploy the 'dist' folder to your web server
 ```
 
 #### Mobile Build (EAS Build)
 ```bash
 cd Front-End/Mobile
 
-# Login ke Expo
+# Log in to Expo
 eas login
 
-# Build untuk Android
+# Build for Android
 eas build --platform android
 
-# Build untuk iOS
+# Build for iOS
 eas build --platform ios
 ```
 
 ---
 
-## 👥 Role & Alur Pengguna
+## 👥 Roles & User Flows
 
 ### 1️⃣ Admin (Superuser)
-**Akses:** Dashboard penuh sistem
+**Access:** Full system dashboard
 
-**Fitur:**
-- ✅ Lihat analytics dashboard lengkap
-- ✅ Kelola semua master data (poli, dokter, pasien, jadwal)
-- ✅ Kontrol antrian di semua poli
-- ✅ Kelola user dan role permission
-- ✅ Generate laporan & export data
-- ✅ Konfigurasi sistem
+**Features:**
+- ✅ View the complete analytics dashboard
+- ✅ Manage all master data (departments, doctors, patients, schedules)
+- ✅ Control queues across all departments
+- ✅ Manage users and role permissions
+- ✅ Generate reports & export data
+- ✅ System configuration
 
-**Alur Khas:**
+**Typical Flow:**
 ```
-Login → Dashboard Overview → 
-  ├─ Kelola Poli → Kelola Dokter → Kelola Jadwal
-  ├─ Lihat Antrian → Update Status → Generate Report
-  └─ Manajemen User
+Login → Dashboard Overview →
+  ├─ Manage Departments → Manage Doctors → Manage Schedules
+  ├─ View Queue → Update Status → Generate Report
+  └─ User Management
 ```
 
 ### 2️⃣ Operator (Queue Manager)
-**Akses:** Manajemen antrian per poli
+**Access:** Per-department queue management
 
-**Fitur:**
-- ✅ Lihat antrian realtime per poli
-- ✅ Panggil pasien (update status)
-- ✅ Skip pasien jika perlu
-- ✅ Lihat informasi pasien & dokter
-- ✅ Cetak nomor antrian
+**Features:**
+- ✅ View real-time queues per department
+- ✅ Call patients (update status)
+- ✅ Skip patients if needed
+- ✅ View patient & doctor information
+- ✅ Print queue numbers
 
-**Alur Khas:**
+**Typical Flow:**
 ```
-Login → Pilih Poli → 
-  ├─ Lihat Daftar Antrian
-  ├─ Panggil Pasien (Dipanggil)
-  ├─ Dokter Check (Selesai)
-  └─ Next Pasien
+Login → Select Department →
+  ├─ View Queue List
+  ├─ Call Patient (Called)
+  ├─ Doctor Check (Completed)
+  └─ Next Patient
 ```
 
 ### 3️⃣ Dokter (Doctor)
-**Akses:** Lihat jadwal dan antrian mereka
+**Access:** View their schedule and queue
 
-**Fitur:** *[Sedang dikembangkan]*
-- ✅ Lihat jadwal praktik
-- ✅ Lihat antrian mereka hari ini
-- ✅ Update status konsultasi
-- ✅ Lihat riwayat pasien
+**Features:** *[Under development]*
+- ✅ View practice schedule
+- ✅ View today's queue
+- ✅ Update consultation status
+- ✅ View patient history
 
 ### 4️⃣ Pasien (Patient)
-**Akses:** Web dan Mobile App
+**Access:** Web and Mobile App
 
-**Fitur Web:**
-- ✅ Register dan login
-- ✅ Pilih poli dan dokter
-- ✅ Daftar antrian
-- ✅ Pilih metode pembayaran (BPJS/Mandiri)
-- ✅ Cek status antrian real-time
-- ✅ Lihat riwayat kunjungan
-- ✅ Edit profil
+**Web Features:**
+- ✅ Register and log in
+- ✅ Choose a department and doctor
+- ✅ Join the queue
+- ✅ Choose a payment method (BPJS / self-pay)
+- ✅ Check real-time queue status
+- ✅ View visit history
+- ✅ Edit profile
 
-**Fitur Mobile:**
-- ✅ Semua fitur web
-- ✅ Notifikasi ketika dipanggil
-- ✅ Interface mobile-optimized
-- ✅ Quick access ke dokter favorite
+**Mobile Features:**
+- ✅ All web features
+- ✅ Notification when called
+- ✅ Mobile-optimized interface
+- ✅ Quick access to favorite doctors
 
-**Alur Khas:**
+**Typical Flow:**
 ```
-Login/Register → 
-  ├─ Web: Dashboard → Daftar Antrian → Cek Status
-  └─ Mobile: Home → Lihat Dokter → Jadwal → Daftar → Track Status
+Login/Register →
+  ├─ Web: Dashboard → Join Queue → Check Status
+  └─ Mobile: Home → Browse Doctors → Schedule → Register → Track Status
 ```
 
-### 👁️ Public Monitor (Tidak Auth)
-**Akses:** Display publik di klinik
+### 👁️ Public Monitor (No Auth Required)
+**Access:** Public display at the clinic
 
-**Menampilkan:**
-- ✅ Nomor antrian yang sedang dilayani
-- ✅ Nomor berikutnya
-- ✅ Dokter dan poli info
-- ✅ Estimasi waktu tunggu
+**Displays:**
+- ✅ Queue number currently being served
+- ✅ Next number
+- ✅ Doctor and department info
+- ✅ Estimated wait time
 
 ---
 
-## 🔗 Demo Online
+## 🔗 Online Demo
 
 ### 🌐 Web Demo
 **URL:** http://Sembuh.smkpesat.id/
 
-**Test Account:**
+**Test Accounts:**
 ```
 Admin:
 Email: admin@Sembuh.com
-Password: [silahkan tanya developer]
+Password: [ask the developer]
 
-Pasien:
+Patient:
 Email: pasien@Sembuh.com
-Password: [silahkan tanya developer]
+Password: [ask the developer]
 
 Operator:
 Email: operator@Sembuh.com
-Password: [silahkan tanya developer]
+Password: [ask the developer]
 ```
 
-**atau daftar akun baru sebagai Pasien**
+**or register a new account as a Patient**
 
 ### 📱 Mobile Demo
-Aplikasi sudah tersedia di:
-- 🍎 **iOS**: Coming soon di App Store
-- 🤖 **Android**: Coming soon di Play Store
+The app will be available on:
+- 🍎 **iOS**: Coming soon on the App Store
+- 🤖 **Android**: Coming soon on the Play Store
 
-Untuk development, gunakan:
+For development, use:
 ```bash
 cd Front-End/Mobile
 npm run dev
@@ -935,20 +935,20 @@ npm run dev
 
 **Error: SQLSTATE[HY000]: General error**
 ```
-Solusi: Pastikan PostgreSQL service sudah running
+Fix: Make sure the PostgreSQL service is running
 sudo service postgresql start  # Linux
 ```
 
 **Error: "Composer require failed"**
 ```
-Solusi: Update composer dan clear cache
+Fix: Update Composer and clear the cache
 composer update
 composer clear-cache
 ```
 
 **Error: "App key missing"**
 ```
-Solusi: Generate app key
+Fix: Generate the app key
 php artisan key:generate
 ```
 
@@ -956,19 +956,19 @@ php artisan key:generate
 
 **Error: API connection refused**
 ```
-Solusi: Pastikan backend server running
+Fix: Make sure the backend server is running
 cd Back-End && php artisan serve
 ```
 
 **Error: "Module not found"**
 ```
-Solusi: Install dependencies
+Fix: Install dependencies
 npm install
 ```
 
-**Tailwind CSS tidak loading**
+**Tailwind CSS not loading**
 ```
-Solusi: Rebuild Tailwind CSS
+Fix: Rebuild Tailwind CSS
 npm run build
 ```
 
@@ -976,7 +976,7 @@ npm run build
 
 **Error: Expo development server not starting**
 ```
-Solusi: Clear cache dan rebuild
+Fix: Clear the cache and rebuild
 npm run clean
 npm install
 npm run dev
@@ -984,55 +984,55 @@ npm run dev
 
 ---
 
-## 📝 Catatan Tambahan
+## 📝 Additional Notes
 
 ### Known Limitations
-- Role "Dokter" masih dalam tahap development
-- Notifikasi push untuk mobile sedang diimplementasikan
-- Export/Import data belum tersedia di v1.0
+- The "Doctor" role is still under development
+- Push notifications for mobile are being implemented
+- Data export/import is not yet available in v1.0
 
-### Roadmap Fitur Mendatang
+### Upcoming Feature Roadmap
 - ✏️ Real-time notification system
-- ✏️ Email reminders untuk pasien
+- ✏️ Email reminders for patients
 - ✏️ SMS gateway integration
 - ✏️ Video consultation
 - ✏️ Payment gateway integration (Midtrans)
 - ✏️ Advanced analytics & reports
 - ✏️ Multi-language support
-- ✏️ Offline mode untuk mobile
+- ✏️ Offline mode for mobile
 
 ### Database Schema
 ```sql
 -- Main tables:
-users          -- Pengguna sistem
-pasiens        -- Data pasien
-dokters        -- Data dokter
-polis          -- Data poli/departemen
-jadwals        -- Jadwal praktik dokter
-jadwal_dokter  -- Many-to-many dokter & jadwal
-antrians       -- Data antrian pasien
+users          -- System users
+pasiens        -- Patient data
+dokters        -- Doctor data
+polis          -- Department/clinic-unit data
+jadwals        -- Doctor practice schedules
+jadwal_dokter  -- Many-to-many between doctors & schedules
+antrians       -- Patient queue data
 
 -- Supporting tables:
-model_has_roles        -- User role relationships
-role_has_permissions   -- Role permission relationships
+model_has_roles        -- User-role relationships
+role_has_permissions   -- Role-permission relationships
 sessions              -- Session management
 ```
 
 ### Performance Optimization
-- ✅ Database query optimization dengan eager loading
-- ✅ Caching untuk data master yang jarang berubah
-- ✅ Pagination untuk list data
-- ✅ Frontend code splitting dengan React Router
-- ✅ Image optimization dengan @unpic/react
-- ✅ CSS minification dengan Tailwind production build
+- ✅ Database query optimization with eager loading
+- ✅ Caching for infrequently-changed master data
+- ✅ Pagination for list data
+- ✅ Frontend code splitting with React Router
+- ✅ Image optimization with @unpic/react
+- ✅ CSS minification via Tailwind's production build
 
 ### Security Measures
-- ✅ CORS configuration untuk API
-- ✅ Rate limiting pada auth endpoints
+- ✅ CORS configuration for the API
+- ✅ Rate limiting on auth endpoints
 - ✅ CSRF protection
 - ✅ SQL injection prevention (Eloquent ORM)
-- ✅ XSS protection dengan React built-in sanitization
-- ✅ Password hashing dengan bcrypt
+- ✅ XSS protection via React's built-in sanitization
+- ✅ Password hashing with bcrypt
 - ✅ Token-based authentication (Sanctum)
 - ✅ Role-based access control (RBAC)
 
@@ -1047,32 +1047,32 @@ sessions              -- Session management
 
 ---
 
-## 👨‍💻 Kontributor
+## 👨‍💻 Contributors
 
-### Dikembangkan oleh:
+### Developed by:
 **Ahmad Yusuf Ar-rafi**
 - GitHub: [@Ahmad-Yu2up-Ar-Raf](https://github.com/Ahmad-Yu2up-Ar-Raf)
-- Lokasi: Indonesia
+- Location: Indonesia
 
-### Terima kasih kepada:
-- **Laravel Community** - Framework & ecosystem
-- **React Community** - UI library & tools
-- **Expo Team** - React Native platform
-- **Tailwind CSS** - Utility-first styling
-- **shadcn/ui** - Beautiful UI components
-
----
-
-## 📄 Lisensi
-
-Project ini dilisensikan di bawah **MIT License** - lihat file [LICENSE](LICENSE) untuk detail.
-
-### Gunakan Dengan Bijak
-Sistem ini dirancang untuk membantu klinik dan poliklinik mengelola antrian dengan lebih baik. Silakan gunakan, modify, dan deploy sesuai kebutuhan Anda.
+### Thanks to:
+- **Laravel Community** — Framework & ecosystem
+- **React Community** — UI library & tools
+- **Expo Team** — React Native platform
+- **Tailwind CSS** — Utility-first styling
+- **shadcn/ui** — Beautiful UI components
 
 ---
 
-## 🌟 Highlight Fitur
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+### Use Responsibly
+This system is designed to help clinics and polyclinics manage queues better. Feel free to use, modify, and deploy it to suit your needs.
+
+---
+
+## 🌟 Feature Highlights
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -1080,16 +1080,16 @@ Sistem ini dirancang untuk membantu klinik dan poliklinik mengelola antrian deng
 ├─────────────────────────────────────────────────┤
 │                                                 │
 │ 🎯 Real-time Queue Status                       │
-│    Pasien dapat melihat nomor antrian & durasi  │
+│    Patients can see their queue number & ETA    │
 │                                                 │
 │ 👥 Multi-Role System                            │
-│    Admin, Operator, Dokter, Pasien              │
+│    Admin, Operator, Doctor, Patient             │
 │                                                 │
 │ 📊 Advanced Analytics Dashboard                 │
-│    Visualisasi data & insights bisnis           │
+│    Data visualization & business insights       │
 │                                                 │
 │ 📱 Native Mobile App                            │
-│    iOS & Android dengan Expo + React Native     │
+│    iOS & Android with Expo + React Native       │
 │                                                 │
 │ 🌐 Responsive Web Interface                     │
 │    Desktop & tablet friendly                    │
@@ -1101,7 +1101,7 @@ Sistem ini dirancang untuk membantu klinik dan poliklinik mengelola antrian deng
 │    Microservice-oriented design                 │
 │                                                 │
 │ 🚀 Production Ready                             │
-│    Siap deploy ke production environment        │
+│    Ready to deploy to a production environment  │
 │                                                 │
 └─────────────────────────────────────────────────┘
 ```
@@ -1123,3 +1123,13 @@ Sistem ini dirancang untuk membantu klinik dan poliklinik mengelola antrian deng
 *Last Updated: June 2026*
 
 ---
+
+## 📝 Translator's notes
+
+A few things worth a second look beyond the translation itself:
+
+- **Table of Contents links are broken for two sections** — `[Overview](#-overview)` etc. use a single trailing hyphen before the emoji anchor, but GitHub's auto-generated anchors for headers starting with an emoji usually need testing case by case; worth clicking through each ToC link once to confirm they land correctly after translation, since anchor text changed (e.g. "Masalah yang Diselesaikan" → "Problems Solved").
+- **Repeated field**: `HariEnum.php` didn't have a description in the original — added "(gender)" was actually for `JenisKelaminEnum.php`; double-check I matched enums to descriptions correctly if you paste this back into the real repo.
+- **Clone URL mismatch**: the "Clone Repository" step clones `Polyclinic-Queue-Medical-Management.git` but then `cd Sembuh` — that mismatch exists in the original too and will break for anyone copy-pasting; worth fixing the repo name or the `cd` target.
+- **Credentials in a public README**: the demo test-account emails are fine, but consider not committing real passwords even placeholders like this if the repo is public — "[ask the developer]" is a reasonable placeholder, already handled well here.
+- Given how much is already documented (API tables, architecture diagram, troubleshooting), a short "Contributing" section (like Suasana's) would fit nicely, since right now this README documents usage in depth but says nothing about how outside contributors could submit changes.
