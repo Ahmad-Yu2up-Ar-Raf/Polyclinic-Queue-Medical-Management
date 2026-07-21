@@ -1,4 +1,4 @@
-# Sehat
+# KlikAntri
 
 > A Smart and Efficient Digital Clinic Queue Management System
 
@@ -29,9 +29,9 @@
 
 ## 🎯 Overview
 
-**Sehat** ("Recovered/Healed" in Indonesian) is a modern web- and mobile-based clinic/polyclinic queue management system built with a microservice approach. It delivers a digital queueing experience that's tidier, faster, and more informative than traditional queue systems.
+**KlikAntri** ("Recovered/Healed" in Indonesian) is a modern web- and mobile-based clinic/polyclinic queue management system built with a microservice approach. It delivers a digital queueing experience that's tidier, faster, and more informative than traditional queue systems.
 
-With Sehat, clinics can manage patient queues in real time, monitor doctor status, and give patients the best possible experience through:
+With KlikAntri, clinics can manage patient queues in real time, monitor doctor status, and give patients the best possible experience through:
 
 - 📊 A comprehensive analytics dashboard
 - 📱 A mobile app for patients and operators
@@ -65,7 +65,7 @@ With Sehat, clinics can manage patient queues in real time, monitor doctor statu
    - Hard to identify bottlenecks in the process
    - No metrics for improvement
 
-### Sehat's Solution:
+### KlikAntri's Solution:
 
 ✅ **Real-Time Queue Status** — Patients can see their queue number and estimated wait time
 ✅ **Multi-Role System** — Admin, Operator, Doctor, and Patient each get role-appropriate features
@@ -151,7 +151,7 @@ With Sehat, clinics can manage patient queues in real time, monitor doctor statu
 
 ## 🏗️ System Architecture
 
-Sehat uses a **modern, microservice-oriented architecture** with a clear separation between the backend API and the frontend clients.
+KlikAntri uses a **modern, microservice-oriented architecture** with a clear separation between the backend API and the frontend clients.
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -212,7 +212,7 @@ Doctor Login → View Schedule → See Queue → Update Status
 ## 📁 Repository Structure
 
 ```
-Sehat/
+KlikAntri/
 ├── Back-End/                    # Backend Laravel API
 │   ├── app/
 │   │   ├── Enums/              # Status & role enums
@@ -360,7 +360,7 @@ Sehat/
 
 ### Base URL
 ```
-http://Sehat.smkpesat.id/api/v1/
+http://KlikAntri.smkpesat.id/api/v1/
 # or for local development:
 http://localhost:8000/api/v1/
 ```
@@ -599,7 +599,7 @@ Make sure the following are installed:
 #### 1️⃣ Clone Repository
 ```bash
 git clone https://github.com/Ahmad-Yu2up-Ar-Raf/Polyclinic-Queue-Medical-Management.git
-cd Sehat
+cd KlikAntri
 ```
 
 #### 2️⃣ Set Up Backend (Laravel API)
@@ -630,7 +630,7 @@ php artisan storage:link
 DB_CONNECTION=pgsql
 DB_HOST=localhost
 DB_PORT=5432
-DB_DATABASE=Sehat_db
+DB_DATABASE=KlikAntri_db
 DB_USERNAME=postgres
 DB_PASSWORD=your_password
 ```
@@ -653,7 +653,7 @@ npm run build:css
 ```env
 VITE_API_URL=http://localhost:8000/api/v1/
 # for production:
-VITE_API_URL=http://Sehat.smkpesat.id/api/v1/
+VITE_API_URL=http://KlikAntri.smkpesat.id/api/v1/
 ```
 
 #### 4️⃣ Set Up the Mobile App (Optional)
@@ -680,7 +680,7 @@ npx expo start --ios
 ### Backend (.env)
 ```env
 # App Configuration
-APP_NAME=Sehat
+APP_NAME=KlikAntri
 APP_ENV=local
 APP_DEBUG=true
 APP_URL=http://localhost:8000
@@ -691,7 +691,7 @@ APP_TIMEZONE=Asia/Jakarta
 DB_CONNECTION=pgsql
 DB_HOST=localhost
 DB_PORT=5432
-DB_DATABASE=Sehat_db
+DB_DATABASE=KlikAntri_db
 DB_USERNAME=postgres
 DB_PASSWORD=your_secure_password
 DB_SSLMODE=require
@@ -708,7 +708,7 @@ MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=587
 MAIL_USERNAME=your_username
 MAIL_PASSWORD=your_password
-MAIL_FROM_ADDRESS=noreply@Sehat.com
+MAIL_FROM_ADDRESS=noreply@KlikAntri.com
 MAIL_FROM_NAME="${APP_NAME}"
 
 # Sanctum (API Token)
@@ -717,10 +717,10 @@ SANCTUM_STATEFUL_DOMAINS=localhost:3000,localhost:8000
 
 ### Frontend Web (.env)
 ```env
-VITE_APP_NAME=Sehat
+VITE_APP_NAME=KlikAntri
 VITE_API_URL=http://localhost:8000/api/v1/
 # for production
-VITE_API_URL=http://Sehat.smkpesat.id/api/v1/
+VITE_API_URL=http://KlikAntri.smkpesat.id/api/v1/
 ```
 
 ### Mobile App (.env or app.json)
@@ -730,7 +730,7 @@ EXPO_PUBLIC_API_URL=http://localhost:8000/api/v1/
 {
   "expo": {
     "extra": {
-      "apiUrl": "http://Sehat.smkpesat.id/api/v1/"
+      "apiUrl": "http://KlikAntri.smkpesat.id/api/v1/"
     }
   }
 }
@@ -897,20 +897,20 @@ Login/Register →
 ## 🔗 Online Demo
 
 ### 🌐 Web Demo
-**URL:** http://Sehat.smkpesat.id/
+**URL:** http://KlikAntri.smkpesat.id/
 
 **Test Accounts:**
 ```
 Admin:
-Email: admin@Sehat.com
+Email: admin@KlikAntri.com
 Password: [ask the developer]
 
 Patient:
-Email: pasien@Sehat.com
+Email: pasien@KlikAntri.com
 Password: [ask the developer]
 
 Operator:
-Email: operator@Sehat.com
+Email: operator@KlikAntri.com
 Password: [ask the developer]
 ```
 
@@ -1041,7 +1041,7 @@ sessions              -- Session management
 ## 📞 Support & Contact
 
 ### Need Help?
-- 📧 Email: contact@Sehat.com
+- 📧 Email: contact@KlikAntri.com
 - 🐛 Issues: GitHub Issues
 - 💬 Discussion: GitHub Discussions
 
@@ -1076,7 +1076,7 @@ This system is designed to help clinics and polyclinics manage queues better. Fe
 
 ```
 ┌─────────────────────────────────────────────────┐
-│ ⭐ Sehat - Smart Queue Management System       │
+│ ⭐ KlikAntri - Smart Queue Management System       │
 ├─────────────────────────────────────────────────┤
 │                                                 │
 │ 🎯 Real-time Queue Status                       │
@@ -1130,6 +1130,6 @@ A few things worth a second look beyond the translation itself:
 
 - **Table of Contents links are broken for two sections** — `[Overview](#-overview)` etc. use a single trailing hyphen before the emoji anchor, but GitHub's auto-generated anchors for headers starting with an emoji usually need testing case by case; worth clicking through each ToC link once to confirm they land correctly after translation, since anchor text changed (e.g. "Masalah yang Diselesaikan" → "Problems Solved").
 - **Repeated field**: `HariEnum.php` didn't have a description in the original — added "(gender)" was actually for `JenisKelaminEnum.php`; double-check I matched enums to descriptions correctly if you paste this back into the real repo.
-- **Clone URL mismatch**: the "Clone Repository" step clones `Polyclinic-Queue-Medical-Management.git` but then `cd Sehat` — that mismatch exists in the original too and will break for anyone copy-pasting; worth fixing the repo name or the `cd` target.
+- **Clone URL mismatch**: the "Clone Repository" step clones `Polyclinic-Queue-Medical-Management.git` but then `cd KlikAntri` — that mismatch exists in the original too and will break for anyone copy-pasting; worth fixing the repo name or the `cd` target.
 - **Credentials in a public README**: the demo test-account emails are fine, but consider not committing real passwords even placeholders like this if the repo is public — "[ask the developer]" is a reasonable placeholder, already handled well here.
 - Given how much is already documented (API tables, architecture diagram, troubleshooting), a short "Contributing" section (like Suasana's) would fit nicely, since right now this README documents usage in depth but says nothing about how outside contributors could submit changes.
